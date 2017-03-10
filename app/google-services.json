@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "604244947613",
+    "firebase_url": "https://discountstorage-1dade.firebaseio.com",
+    "project_id": "discountstorage-1dade",
+    "storage_bucket": "discountstorage-1dade.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604244947613:android:cbfe222993252bf1",
+        "android_client_info": {
+          "package_name": "com.stosh.discountstorage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604244947613-fto8nvcajhmsv7hdoj83p7b2d2ramifd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stosh.discountstorage",
+            "certificate_hash": "ff8729e5f7a02174b940e56ae9e186afd0fa1a28"
+          }
+        },
+        {
+          "client_id": "604244947613-u08o87gm32lrit3supjlalvsflqs35t7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6XOWo4xRuhmlTcV6Pw0LGE53eZKul8Bc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604244947613-u08o87gm32lrit3supjlalvsflqs35t7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
