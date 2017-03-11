@@ -7,7 +7,7 @@
     tools:context="com.stosh.discountstorage.Auth.Login">
 
     <LinearLayout
-        android:layout_width="368dp"
+        android:layout_width="344dp"
         android:layout_height="495dp"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
@@ -20,6 +20,15 @@
             android:layout_height="@dimen/image_singUp_w_h"
             android:layout_gravity="center"
             app:srcCompat="@android:drawable/btn_star_big_on" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/textView_Login"
+            android:textColor="@color/white"
+            android:textSize="40dp" />
 
         <EditText
             android:id="@+id/email_Login"
@@ -40,40 +49,40 @@
             android:maxLines="1" />
 
         <Button
-            android:id="@+id/button_Login"
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@color/yellow"
             android:layout_marginTop="@dimen/button_login_marginTop"
+            android:background="@color/yellow"
             android:gravity="center"
             android:text="@string/button_login" />
 
         <Button
-            android:id="@+id/button_forgot_password_activity_Login"
+            android:id="@+id/btn_reset_act"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_forgot_pass"
-            android:background="@null"
             android:layout_marginTop="@dimen/button_login_marginTop"
-            android:textColor="@color/yellow"
-            android:textAllCaps="false"/>
+            android:background="@null"
+            android:text="@string/button_forgot_pass"
+            android:textAllCaps="false"
+            android:textColor="@color/yellow" />
 
         <Button
-            android:id="@+id/button_SingUp_Activity_Login"
+            android:id="@+id/btn_singUp_act"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_singUp_activity"
-            android:background="@null"
             android:layout_marginTop="@dimen/button_login_marginTop"
-            android:textColor="@color/white"
-            android:textAllCaps="false"/>
+            android:background="@null"
+            android:text="@string/button_singUp_activity"
+            android:textAllCaps="false"
+            android:textColor="@color/white" />
 
         <ProgressBar
-            android:id="@+id/progressBar"
+            android:id="@+id/progressBar_login"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

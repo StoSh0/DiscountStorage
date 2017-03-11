@@ -46,14 +46,14 @@ public class Main extends AppCompatActivity {
         };
     }
 
-    @OnClick({R.id.button_Login_Activity_Main, R.id.button_SingUp_Activity_Main})
+    @OnClick({R.id.btn_login_act, R.id.btn_register_act})
     public void OnButtonClick(Button button){
         switch (button.getId()){
-            case R.id.button_Login_Activity_Main:
+            case R.id.btn_login_act:
                 startActivity(new Intent(this, Login.class));
                 break;
 
-            case R.id.button_SingUp_Activity_Main:
+            case R.id.btn_register_act:
                 startActivity(new Intent(this, SingUp.class));
                 break;
         }

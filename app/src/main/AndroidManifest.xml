@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Auth.Login" />
-        <activity android:name=".Auth.SingUp"></activity>
+        <activity android:name=".Auth.SingUp" />
+        <activity android:name=".Auth.ResetPassword"></activity>
     </application>
 
 </manifest>

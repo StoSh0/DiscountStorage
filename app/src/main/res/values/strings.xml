@@ -4,10 +4,15 @@
     <string name="password">Password</string>
     <string name="button_register">register</string>
     <string name="button_forgot_pass">Forgot your password?</string>
-    <string name="button_login_activity">Already registered. Login Me!</string>
+    <string name="button_login_activity">Already registered? Login Me!</string>
     <string name="auth_failed">Authentication failed, check your email and password or sign up
     </string>
     <string name="button_login">Login</string>
     <string name="button_singUp_activity">Not registered? SingUp Now!</string>
+    <string name="textView_Login">Sign In</string>
+    <string name="textView_SingAp">Sing Up</string>
+    <string name="textView_RorgotPass">We just your registered Email id to send you password reset
+        instruction</string>
+
 
 </resources>

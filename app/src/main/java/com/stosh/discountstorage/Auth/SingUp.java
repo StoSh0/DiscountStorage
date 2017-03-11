@@ -33,7 +33,7 @@ public class SingUp extends AppCompatActivity {
     EditText email_SingUp;
     @BindView(R.id.password_SingUp)
     EditText password_SingUp;
-    @BindView(R.id.progressBar)
+    @BindView(R.id.progressBar_singup)
     ProgressBar progressBar;
 
     @Override
@@ -46,11 +46,11 @@ public class SingUp extends AppCompatActivity {
 
 
 
-    @OnClick({R.id.button_SingUp, R.id.button_forgot_password_activity_SingUp, R.id.button_Login_Activity_SingUp})
+    @OnClick({R.id.btn_register, R.id.btn_resetPass_act, R.id.btn_singIn_act})
     public void onButtonClick(Button button) {
         switch (button.getId()) {
 
-            case R.id.button_SingUp:
+            case R.id.btn_register:
                 String email = email_SingUp.getText().toString();
                 String password = password_SingUp.getText().toString();
 
@@ -88,10 +88,10 @@ public class SingUp extends AppCompatActivity {
                             }
                         });
                 break;
-            case R.id.button_forgot_password_activity_SingUp:
+            case R.id.btn_resetPass_act:
                 break;
 
-            case R.id.button_Login_Activity_SingUp:
+            case R.id.btn_singIn_act:
                 startActivity(new Intent(this,Login.class));
                 finish();
                 break;

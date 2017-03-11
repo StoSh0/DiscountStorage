@@ -36,7 +36,7 @@ public class Login extends AppCompatActivity {
     EditText emailLogin;
     @BindView(password_Login)
     EditText passwordLogin;
-    @BindView(R.id.progressBar)
+    @BindView(R.id.progressBar_login)
     ProgressBar progressBar;
 
     @Override
@@ -47,11 +47,11 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
-    @OnClick({R.id.button_Login, R.id.button_forgot_password_activity_Login, R.id.button_SingUp_Activity_Login})
+    @OnClick({R.id.btn_login, R.id.btn_reset_act, R.id.btn_singUp_act})
     public void OnButtonClick(Button button) {
         switch (button.getId()) {
 
-            case R.id.button_Login:
+            case R.id.btn_login:
 
                 String email = emailLogin.getText().toString();
                 final String password = passwordLogin.getText().toString();
@@ -79,16 +79,15 @@ public class Login extends AppCompatActivity {
                                     Toast.makeText(Login.this, R.string.auth_failed,
                                             Toast.LENGTH_SHORT).show();
                                 }
-
-                                // ...
                             }
                         });
                 break;
 
-            case R.id.button_forgot_password_activity_Login:
+            case R.id.btn_reset_act:
+                startActivity(new Intent(this,ResetPassword.class));
                 break;
 
-            case R.id.button_SingUp_Activity_Login:
+            case R.id.btn_singUp_act:
                 startActivity(new Intent(this, SingUp.class));
                 finish();
         }
