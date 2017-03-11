@@ -4,5 +4,10 @@
     <string name="password">Password</string>
     <string name="button_register">register</string>
     <string name="button_forgot_pass">Forgot your password?</string>
-    <string name="button_login">Already registered. Login Me!</string>
+    <string name="button_login_activity">Already registered. Login Me!</string>
+    <string name="auth_failed">Authentication failed, check your email and password or sign up
+    </string>
+    <string name="button_login">Login</string>
+    <string name="button_singUp_activity">Not registered? SingUp Now!</string>
+
 </resources>

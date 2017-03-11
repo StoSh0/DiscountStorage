@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.stosh.discountstorage.Main">
+
+    <LinearLayout
+        android:layout_width="368dp"
+        android:layout_height="495dp"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="@dimen/image_singUp_w_h"
+            android:layout_height="@dimen/image_singUp_w_h"
+            android:layout_gravity="center"
+            app:srcCompat="@android:drawable/btn_star_big_on" />
+
+        <Button
+            android:id="@+id/button_Login_Activity_Main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_login"
+            android:background="@color/yellow"
+            android:layout_marginTop="@dimen/button_login_marginTop"/>
+
+        <Button
+            android:id="@+id/button_SingUp_Activity_Main"
+            android:layout_marginTop="@dimen/button_login_marginTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_register"
+            android:background="@color/yellow"/>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>
