@@ -36,7 +36,7 @@ public class Login extends AppCompatActivity {
     EditText editTextEmail;
     @BindView(editText_password_Login)
     EditText editTextPassword;
-    @BindView(R.id.progressBar_login)
+    @BindView(R.id.progressBar4)
     ProgressBar progressBar;
 
     @Override
@@ -75,11 +75,12 @@ public class Login extends AppCompatActivity {
         String email = editTextEmail.getText().toString();
         final String password = editTextPassword.getText().toString();
         if (TextUtils.isEmpty(email)) {
-            editTextEmail.setError(R.string.email_isEmpty + "");
+            editTextEmail.setError(getString(R.string.email_isEmpty));
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            editTextPassword.setError(R.string.password_isEmpty + "");
+            editTextPassword.setError(getString(R.string.password_isEmpty));
+            return;
         }
         progressBar.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(email, password)
@@ -94,12 +95,13 @@ public class Login extends AppCompatActivity {
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             if (password.length() < 6) {
-                                editTextPassword.setError(R.string.password_toShort + "");
+                                editTextPassword.setError(getString(R.string.password_toShort));
                             }
                             Toast.makeText(Login.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
+        progressBar.setVisibility(View.GONE);
     }
 }

@@ -33,7 +33,7 @@ public class SingUp extends AppCompatActivity {
     EditText editTextEmail;
     @BindView(R.id.editText_password_SingUp)
     EditText editTextPassword;
-    @BindView(R.id.progressBar_singUp)
+    @BindView(R.id.progressBar2)
     ProgressBar progressBar;
 
     @Override
@@ -74,15 +74,15 @@ public class SingUp extends AppCompatActivity {
         String password = editTextPassword.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
-            editTextEmail.setError(R.string.email_isEmpty + "");
+            editTextEmail.setError(getString(R.string.email_isEmpty ));
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            editTextEmail.setError(R.string.password_isEmpty + " ");
+            editTextEmail.setError(getString(R.string.password_isEmpty ));
             return;
         }
         if (password.length() < 6) {
-            editTextPassword.setError(R.string.password_toShort + "");
+            editTextPassword.setError(getString(R.string.password_toShort));
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
@@ -104,5 +104,6 @@ public class SingUp extends AppCompatActivity {
                         }
                     }
                 });
+        progressBar.setVisibility(View.GONE);
     }
 }

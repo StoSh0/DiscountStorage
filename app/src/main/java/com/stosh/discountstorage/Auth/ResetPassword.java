@@ -27,7 +27,7 @@ public class ResetPassword extends AppCompatActivity {
 
     @BindView(R.id.editText_email_Reset)
     EditText editTextEmailReset;
-    @BindView(R.id.progressBar_reset)
+    @BindView(R.id.progressBar3)
     ProgressBar progressBar;
 
     @Override
@@ -61,7 +61,7 @@ public class ResetPassword extends AppCompatActivity {
         String email = editTextEmailReset.getText().toString().trim();
 
         if (TextUtils.isEmpty(email)) {
-            editTextEmailReset.setError(R.string.email_isEmpty + "");
+            editTextEmailReset.setError(getString(R.string.email_isEmpty));
             return;
         }
 
@@ -78,6 +78,7 @@ public class ResetPassword extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                     }
                 });
+        progressBar.setVisibility(View.GONE);
     }
 }
 
