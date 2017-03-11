@@ -25,8 +25,8 @@ public class ResetPassword extends AppCompatActivity {
     private FirebaseAuth auth;
     private Unbinder unbinder;
 
-    @BindView(R.id.email_Reset)
-    EditText emailReset;
+    @BindView(R.id.editText_email_Reset)
+    EditText editTextEmailReset;
     @BindView(R.id.progressBar_reset)
     ProgressBar progressBar;
 
@@ -42,33 +42,42 @@ public class ResetPassword extends AppCompatActivity {
     public void OnButtonClick(Button button) {
         switch (button.getId()) {
             case R.id.btn_reset:
-                String email = emailReset.getText().toString().trim();
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                progressBar.setVisibility(View.VISIBLE);
-                auth.sendPasswordResetEmail(email)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(ResetPassword.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(ResetPassword.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
-                                }
-
-                                progressBar.setVisibility(View.GONE);
-                            }
-                        });
+                reset();
                 break;
 
             case R.id.btn_reset_back:
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
+
+    private void reset(){
+        String email = editTextEmailReset.getText().toString().trim();
+
+        if (TextUtils.isEmpty(email)) {
+            editTextEmailReset.setError(R.string.email_isEmpty + "");
+            return;
+        }
+
+        progressBar.setVisibility(View.VISIBLE);
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(ResetPassword.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(ResetPassword.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                        }
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
     }
 }
 

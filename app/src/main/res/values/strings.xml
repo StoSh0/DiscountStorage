@@ -1,18 +1,29 @@
 <resources>
     <string name="app_name">DiscountStorage</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="button_register">register</string>
-    <string name="button_forgot_pass">Forgot your password?</string>
-    <string name="button_login_activity">Already registered? Login Me!</string>
+
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Register</string>
+
+    <string name="tv_singIn">Sing In</string>
+    <string name="editText_email">Email</string>
+    <string name="editText_password">Password</string>
+    <string name="btn_forgotPass">Forgot your password?</string>
+    <string name="btn_notReg">Not registered? SingUp Now!</string>
+    <string name="tv_singUp">Sing Up</string>
+    <string name="btn_alreadyReg">Already registered? Login Me!</string>
+    <string name="tv_forgotPass">We just your registered Email id to send you password reset
+        instruction</string>
+    <string name="btn_reset">Reset</string>
+    <string name="btn_resetBack">Back</string>
+    <string name="btn_noReg">Not registered? SingUp Now!</string>
+
+
     <string name="auth_failed">Authentication failed, check your email and password or sign up
     </string>
-    <string name="button_login">Login</string>
-    <string name="button_singUp_activity">Not registered? SingUp Now!</string>
-    <string name="textView_Login">Sign In</string>
-    <string name="textView_SingAp">Sing Up</string>
-    <string name="textView_RorgotPass">We just your registered Email id to send you password reset
-        instruction</string>
+    <string name="email_isEmpty">Enter Email</string>
+    <string name="password_isEmpty">Enter Password</string>
+    <string name="password_toShort">Password to short</string>
+
 
 
 </resources>

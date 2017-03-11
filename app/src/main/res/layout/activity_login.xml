@@ -16,35 +16,35 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="@dimen/image_singUp_w_h"
-            android:layout_height="@dimen/image_singUp_w_h"
+            android:layout_width="@dimen/image_logoWH"
+            android:layout_height="@dimen/image_logoWH"
             android:layout_gravity="center"
-            app:srcCompat="@android:drawable/btn_star_big_on" />
+            app:srcCompat="@mipmap/icon" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/textView_Login"
+            android:text="@string/tv_singIn"
             android:textColor="@color/white"
             android:textSize="40dp" />
 
         <EditText
-            android:id="@+id/email_Login"
+            android:id="@+id/editText_email_Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/email"
+            android:hint="@string/editText_email"
             android:inputType="textEmailAddress"
             android:maxLines="1" />
 
         <EditText
-            android:id="@+id/password_Login"
+            android:id="@+id/editText_password_Login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/password"
+            android:hint="@string/editText_password"
             android:inputType="textPassword"
             android:maxLines="1" />
 
@@ -53,18 +53,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/button_login_marginTop"
+            android:layout_marginTop="@dimen/marginTop"
             android:background="@color/yellow"
             android:gravity="center"
-            android:text="@string/button_login" />
+            android:text="@string/btn_login" />
 
         <Button
             android:id="@+id/btn_reset_act"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/button_login_marginTop"
+            android:layout_marginTop="@dimen/marginTop"
             android:background="@null"
-            android:text="@string/button_forgot_pass"
+            android:text="@string/btn_forgotPass"
             android:textAllCaps="false"
             android:textColor="@color/yellow" />
 
@@ -72,9 +72,9 @@
             android:id="@+id/btn_singUp_act"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/button_login_marginTop"
+            android:layout_marginTop="@dimen/marginTop"
             android:background="@null"
-            android:text="@string/button_singUp_activity"
+            android:text="@string/btn_notReg"
             android:textAllCaps="false"
             android:textColor="@color/white" />
 

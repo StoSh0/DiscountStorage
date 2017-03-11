@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="image_singUp_w_h">100dp</dimen>
-    <dimen name="button_login_marginTop">30dp</dimen>
-    <dimen name="textView_resetPass_size">15dp</dimen>
+    <dimen name="image_logoWH">100dp</dimen>
+    <dimen name="marginTop">30dp</dimen>
+    <dimen name="tv_forgotPassSize">30dp</dimen>
+    <dimen name="textView_resetPassSize">15dp</dimen>
 </resources>

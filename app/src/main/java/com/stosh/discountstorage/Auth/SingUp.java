@@ -29,11 +29,11 @@ public class SingUp extends AppCompatActivity {
     private Unbinder unbinder;
     private String TAG = "checkAuth";
 
-    @BindView(R.id.email_SingUp)
-    EditText email_SingUp;
-    @BindView(R.id.password_SingUp)
-    EditText password_SingUp;
-    @BindView(R.id.progressBar_singup)
+    @BindView(R.id.editText_email_SingUp)
+    EditText editTextEmail;
+    @BindView(R.id.editText_password_SingUp)
+    EditText editTextPassword;
+    @BindView(R.id.progressBar_singUp)
     ProgressBar progressBar;
 
     @Override
@@ -45,54 +45,18 @@ public class SingUp extends AppCompatActivity {
     }
 
 
-
     @OnClick({R.id.btn_register, R.id.btn_resetPass_act, R.id.btn_singIn_act})
     public void onButtonClick(Button button) {
         switch (button.getId()) {
 
             case R.id.btn_register:
-                String email = email_SingUp.getText().toString();
-                String password = password_SingUp.getText().toString();
-
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(this, "Enter Email Adres", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(this, "Enter Password", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (password.length() < 6) {
-                    Toast.makeText(this, "Password to short", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                progressBar.setVisibility(View.VISIBLE);
-                mAuth.createUserWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                                progressBar.setVisibility(View.GONE);
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
-                                    Toast.makeText(
-                                            SingUp.this,
-                                            R.string.auth_failed,
-                                            Toast.LENGTH_SHORT
-                                    ).show();
-                                }
-
-                                // ...
-                            }
-                        });
+                register();
                 break;
             case R.id.btn_resetPass_act:
                 break;
 
             case R.id.btn_singIn_act:
-                startActivity(new Intent(this,Login.class));
+                startActivity(new Intent(this, Login.class));
                 finish();
                 break;
         }
@@ -103,5 +67,42 @@ public class SingUp extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    private void register() {
+        String email = editTextEmail.getText().toString();
+        String password = editTextPassword.getText().toString();
+
+        if (TextUtils.isEmpty(email)) {
+            editTextEmail.setError(R.string.email_isEmpty + "");
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            editTextEmail.setError(R.string.password_isEmpty + " ");
+            return;
+        }
+        if (password.length() < 6) {
+            editTextPassword.setError(R.string.password_toShort + "");
+            return;
+        }
+        progressBar.setVisibility(View.VISIBLE);
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                        progressBar.setVisibility(View.GONE);
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(
+                                    SingUp.this,
+                                    R.string.auth_failed,
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                        }
+                    }
+                });
     }
 }

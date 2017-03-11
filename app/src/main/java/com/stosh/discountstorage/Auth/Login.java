@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-import static com.stosh.discountstorage.R.id.email_Login;
-import static com.stosh.discountstorage.R.id.password_Login;
+import static com.stosh.discountstorage.R.id.editText_email_Login;
+import static com.stosh.discountstorage.R.id.editText_password_Login;
 
 public class Login extends AppCompatActivity {
 
@@ -32,10 +32,10 @@ public class Login extends AppCompatActivity {
     private Unbinder unbinder;
     private String TAG = "checkAuth";
 
-    @BindView(email_Login)
-    EditText emailLogin;
-    @BindView(password_Login)
-    EditText passwordLogin;
+    @BindView(editText_email_Login)
+    EditText editTextEmail;
+    @BindView(editText_password_Login)
+    EditText editTextPassword;
     @BindView(R.id.progressBar_login)
     ProgressBar progressBar;
 
@@ -52,39 +52,11 @@ public class Login extends AppCompatActivity {
         switch (button.getId()) {
 
             case R.id.btn_login:
-
-                String email = emailLogin.getText().toString();
-                final String password = passwordLogin.getText().toString();
-                if (TextUtils.isEmpty(email)) {
-                    Toast.makeText(this, "Enter Login", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (TextUtils.isEmpty(password)) {
-                    Toast.makeText(this, "Enter Password", Toast.LENGTH_SHORT).show();
-                }
-                progressBar.setVisibility(View.VISIBLE);
-                mAuth.signInWithEmailAndPassword(email, password)
-                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                                progressBar.setVisibility(View.GONE);
-                                // If sign in fails, display a message to the user. If sign in succeeds
-                                // the auth state listener will be notified and logic to handle the
-                                // signed in user can be handled in the listener.
-                                if (!task.isSuccessful()) {
-                                    Log.w(TAG, "signInWithEmail:failed", task.getException());
-                                    if (password.length() < 6) {
-                                        passwordLogin.setError("Password to short");}
-                                    Toast.makeText(Login.this, R.string.auth_failed,
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                logIn();
                 break;
 
             case R.id.btn_reset_act:
-                startActivity(new Intent(this,ResetPassword.class));
+                startActivity(new Intent(this, ResetPassword.class));
                 break;
 
             case R.id.btn_singUp_act:
@@ -92,9 +64,42 @@ public class Login extends AppCompatActivity {
                 finish();
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    private void logIn() {
+        String email = editTextEmail.getText().toString();
+        final String password = editTextPassword.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            editTextEmail.setError(R.string.email_isEmpty + "");
+            return;
+        }
+        if (TextUtils.isEmpty(password)) {
+            editTextPassword.setError(R.string.password_isEmpty + "");
+        }
+        progressBar.setVisibility(View.VISIBLE);
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                        progressBar.setVisibility(View.GONE);
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmail:failed", task.getException());
+                            if (password.length() < 6) {
+                                editTextPassword.setError(R.string.password_toShort + "");
+                            }
+                            Toast.makeText(Login.this, R.string.auth_failed,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

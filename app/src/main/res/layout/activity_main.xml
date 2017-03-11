@@ -15,26 +15,26 @@
         tools:layout_editor_absoluteY="8dp">
 
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="@dimen/image_singUp_w_h"
-            android:layout_height="@dimen/image_singUp_w_h"
+            android:id="@+id/imageLogo"
+            android:layout_width="@dimen/image_logoWH"
+            android:layout_height="@dimen/image_logoWH"
             android:layout_gravity="center"
-            app:srcCompat="@android:drawable/btn_star_big_on" />
+            app:srcCompat="@mipmap/icon" />
 
         <Button
             android:id="@+id/btn_login_act"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_login"
+            android:text="@string/btn_login"
             android:background="@color/yellow"
-            android:layout_marginTop="@dimen/button_login_marginTop"/>
+            android:layout_marginTop="@dimen/marginTop"/>
 
         <Button
             android:id="@+id/btn_register_act"
-            android:layout_marginTop="@dimen/button_login_marginTop"
+            android:layout_marginTop="@dimen/marginTop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/button_register"
+            android:text="@string/btn_register"
             android:background="@color/yellow"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
