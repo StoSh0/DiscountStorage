@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.stosh.discountstorage.Drawer;
 import com.stosh.discountstorage.R;
 
 import butterknife.BindView;
@@ -36,7 +37,7 @@ public class Login extends AppCompatActivity {
     EditText editTextEmail;
     @BindView(editText_password_Login)
     EditText editTextPassword;
-    @BindView(R.id.progressBar4)
+    @BindView(R.id.progressBarLogin)
     ProgressBar progressBar;
 
     @Override
@@ -88,20 +89,21 @@ public class Login extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                        progressBar.setVisibility(View.GONE);
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
+                            progressBar.setVisibility(View.GONE);
                             if (password.length() < 6) {
                                 editTextPassword.setError(getString(R.string.password_toShort));
                             }
                             Toast.makeText(Login.this, R.string.auth_failed,
                                     Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }
+                        startActivity(new Intent(Login.this, Drawer.class));
+                        finish();
                     }
+
                 });
-        progressBar.setVisibility(View.GONE);
     }
 }
+

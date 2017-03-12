@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="@string/title_scanWithCamera" />
+        <item
+            android:id="@+id/nav_hand"
+            android:icon="@drawable/ic_menu_send"
+            android:title="@string/title_enterCode" />
+        <item
+            android:id="@+id/nav_show"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/title_showListRooms" />
+    </group>
+
+    <item android:title="@string/title_group">
+        <menu>
+            <item
+                android:id="@+id/nav_create"
+                android:icon="@drawable/ic_menu_gallery"
+                android:title="@string/title_createRoom" />
+            <item
+                android:id="@+id/nav_connect"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/title_connectRoom" />
+        </menu>
+    </item>
+
+</menu>

@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.stosh.discountstorage.Drawer;
 import com.stosh.discountstorage.R;
 
 import butterknife.BindView;
@@ -33,7 +34,7 @@ public class SingUp extends AppCompatActivity {
     EditText editTextEmail;
     @BindView(R.id.editText_password_SingUp)
     EditText editTextPassword;
-    @BindView(R.id.progressBar2)
+    @BindView(R.id.progressBarReg)
     ProgressBar progressBar;
 
     @Override
@@ -53,6 +54,7 @@ public class SingUp extends AppCompatActivity {
                 register();
                 break;
             case R.id.btn_resetPass_act:
+                startActivity(new Intent(this, ResetPassword.class));
                 break;
 
             case R.id.btn_singIn_act:
@@ -70,15 +72,15 @@ public class SingUp extends AppCompatActivity {
     }
 
     private void register() {
-        String email = editTextEmail.getText().toString();
-        String password = editTextPassword.getText().toString();
+        final String email = editTextEmail.getText().toString();
+        final String password = editTextPassword.getText().toString();
 
         if (TextUtils.isEmpty(email)) {
-            editTextEmail.setError(getString(R.string.email_isEmpty ));
+            editTextEmail.setError(getString(R.string.email_isEmpty));
             return;
         }
         if (TextUtils.isEmpty(password)) {
-            editTextEmail.setError(getString(R.string.password_isEmpty ));
+            editTextEmail.setError(getString(R.string.password_isEmpty));
             return;
         }
         if (password.length() < 6) {
@@ -101,9 +103,33 @@ public class SingUp extends AppCompatActivity {
                                     R.string.auth_failed,
                                     Toast.LENGTH_SHORT
                             ).show();
+                            progressBar.setVisibility(View.GONE);
                         }
+                        login(email, password);
                     }
                 });
-        progressBar.setVisibility(View.GONE);
+    }
+
+    private void login(String email, final String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "signInWithEmail:failed", task.getException());
+                            progressBar.setVisibility(View.GONE);
+                            if (password.length() < 6) {
+                                editTextPassword.setError(getString(R.string.password_toShort));
+                            }
+                            Toast.makeText(SingUp.this, R.string.auth_failed,
+                                    Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                        startActivity(new Intent(SingUp.this, Drawer.class));
+                        finish();
+                    }
+
+                });
     }
 }

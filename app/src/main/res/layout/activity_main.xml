@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.stosh.discountstorage.Main">
+    tools:context="com.stosh.discountstorage.Main"
+    android:background="@color/colorPrimaryDark">
 
     <LinearLayout
-        android:layout_width="330dp"
-        android:layout_height="490dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:orientation="vertical"
         tools:layout_editor_absoluteX="8dp"

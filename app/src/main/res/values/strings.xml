@@ -23,6 +23,20 @@
     <string name="email_isEmpty">Enter Email</string>
     <string name="password_isEmpty">Enter Password</string>
     <string name="password_toShort">Password to short</string>
+    <string name="title_activity_navigation">Navigation</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_drawer">Drawer</string>
+    <string name="title_scanWithCamera">Scanning with camera</string>
+    <string name="title_enterCode">Enter bar code</string>
+    <string name="title_showListRooms">Show all rooms</string>
+
+    <string name="title_group">Manager Rooms</string>
+    <string name="title_createRoom">Create Room</string>
+    <string name="title_connectRoom">Connect to Room</string>
 
 
 

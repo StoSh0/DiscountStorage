@@ -1,5 +1,6 @@
 package com.stosh.discountstorage.Auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.stosh.discountstorage.Drawer;
 import com.stosh.discountstorage.R;
 
 import butterknife.BindView;
@@ -27,7 +29,7 @@ public class ResetPassword extends AppCompatActivity {
 
     @BindView(R.id.editText_email_Reset)
     EditText editTextEmailReset;
-    @BindView(R.id.progressBar3)
+    @BindView(R.id.progressBarReset)
     ProgressBar progressBar;
 
     @Override
@@ -46,6 +48,7 @@ public class ResetPassword extends AppCompatActivity {
                 break;
 
             case R.id.btn_reset_back:
+                startActivity(new Intent(this, Drawer.class));
                 finish();
                 break;
         }
@@ -72,13 +75,14 @@ public class ResetPassword extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             Toast.makeText(ResetPassword.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         } else {
                             Toast.makeText(ResetPassword.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
                         }
-                        progressBar.setVisibility(View.GONE);
                     }
                 });
-        progressBar.setVisibility(View.GONE);
+
     }
 }
 
