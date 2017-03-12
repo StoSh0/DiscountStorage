@@ -1,19 +1,37 @@
 package com.stosh.discountstorage;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static android.widget.Toast.makeText;
+
 public class SettingProfile extends AppCompatActivity {
 
     private Unbinder unbinder;
+    private FirebaseUser user;
+    private FirebaseAuth mAuth;
+    private String TAG = "checkAuth";
+    private String email;
+    private String password;
+
 
     @BindView(R.id.editText_settingChangeEmail)
     EditText editTextChangeEmail;
@@ -21,9 +39,14 @@ public class SettingProfile extends AppCompatActivity {
     EditText editTextChangePassword;
     @BindView(R.id.editText_settingEmailReset)
     EditText editTextEmailReset;
-    @BindView(R.id.btn_settingChangeEmail)Button btnChangeEmail;
-    @BindView(R.id.btn_settingChangePassword)Button btnChangePassword;
-    @BindView(R.id.btn_settingResetEmail)Button btnResetToEmail;
+    @BindView(R.id.progressBar_setting)
+    ProgressBar progressBar;
+    @BindView(R.id.btn_settingChangeEmail)
+    Button btnChangeEmail;
+    @BindView(R.id.btn_settingChangePassword)
+    Button btnChangePassword;
+    @BindView(R.id.btn_settingResetEmail)
+    Button btnResetToEmail;
 
 
     @Override
@@ -31,6 +54,8 @@ public class SettingProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_profile);
         unbinder = ButterKnife.bind(this);
+        mAuth = FirebaseAuth.getInstance();
+        user = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @OnClick({
@@ -46,12 +71,35 @@ public class SettingProfile extends AppCompatActivity {
     public void onButtonClick(Button button) {
         switch (button.getId()) {
             case R.id.btn_settingChangeEmail:
+
+                progressBar.setVisibility(View.VISIBLE);
+                email = editTextChangeEmail.getText().toString();
+                if (TextUtils.isEmpty(email)) {
+                    editTextChangeEmail.setError(getString(R.string.email_isEmpty));
+                    return;
+                }
                 changeEmail();
+
                 break;
             case R.id.btn_settingChangePassword:
+                password = editTextChangePassword.getText().toString();
+                if (TextUtils.isEmpty(password)) {
+                    editTextChangePassword.setError(getString(R.string.password_isEmpty));
+                    return;
+                }
+                if (password.length() < 6) {
+                    editTextChangePassword.setError(getString(R.string.password_toShort));
+                }
+                progressBar.setVisibility(View.VISIBLE);
                 changePassword();
                 break;
             case R.id.btn_settingResetEmail:
+                email = editTextEmailReset.getText().toString();
+                if (TextUtils.isEmpty(email)){
+                    editTextEmailReset.setError(getString(R.string.email_isEmpty));
+                    return;
+                }
+                progressBar.setVisibility(View.VISIBLE);
                 resetPasswordToEmail();
                 break;
             case R.id.btn_settingChangeEmailVis:
@@ -96,23 +144,92 @@ public class SettingProfile extends AppCompatActivity {
         unbinder.unbind();
     }
 
-    private void changeEmail (){
+    private void changeEmail() {
+        user.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    makeText(
+                            SettingProfile.this,
+                            getString(R.string.email_update),
+                            Toast.LENGTH_LONG
+                    ).show();
+                    singOut();
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    makeText(
+                            SettingProfile.this,
+                            getString(R.string.failed_updateEmail),
+                            Toast.LENGTH_LONG
+                    ).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
 
     }
 
-    private void changePassword (){
+    private void changePassword() {
+        user.updatePassword(password)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            makeText(
+                                    SettingProfile.this,
+                                    getString(R.string.email_update),
+                                    Toast.LENGTH_LONG
+                            ).show();
+                            singOut();
+                            progressBar.setVisibility(View.GONE);
+                        } else {
+                            makeText(
+                                    SettingProfile.this,
+                                    getString(R.string.failed_updateEmail),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                });
 
     }
 
-    private void resetPasswordToEmail(){
-
+    private void resetPasswordToEmail() {
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            makeText(
+                                    SettingProfile.this,
+                                    getString(R.string.passReset),
+                                    Toast.LENGTH_SHORT)
+                                    .show();
+                            progressBar.setVisibility(View.GONE);
+                        } else {
+                            makeText(
+                                    SettingProfile.this,
+                                    getString(R.string.failedReset),
+                                    Toast.LENGTH_SHORT
+                            ).show();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    }
+                })
+        ;
     }
 
-    private void deleteUser (){
-
+    private void deleteUser() {
+        user.delete();
+        singOut();
+        startActivity(new Intent(this, Main.class));
+        finish();
     }
 
-    private void singOut (){
-
+    private void singOut() {
+        mAuth.signOut();
+        startActivity(new Intent(SettingProfile.this, Main.class));
+        finish();
     }
 }

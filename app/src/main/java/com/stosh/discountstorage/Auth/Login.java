@@ -29,9 +29,14 @@ import static com.stosh.discountstorage.R.id.editText_password_Login;
 
 public class Login extends AppCompatActivity {
 
+
+
     private FirebaseAuth mAuth;
     private Unbinder unbinder;
     private String TAG = "checkAuth";
+    private String email;
+    private String password;
+
 
     @BindView(editText_email_Login)
     EditText editTextEmail;
@@ -53,7 +58,20 @@ public class Login extends AppCompatActivity {
         switch (button.getId()) {
 
             case R.id.btn_login:
-                logIn();
+                email = editTextEmail.getText().toString();
+                password = editTextPassword.getText().toString();
+                if (TextUtils.isEmpty(email)) {
+                    editTextEmail.setError(getString(R.string.email_isEmpty));
+                    return;
+                } else if (TextUtils.isEmpty(password)) {
+                    editTextPassword.setError(getString(R.string.password_isEmpty));
+                    return;
+                } else if (password.length() < 6) {
+                    editTextPassword.setError(getString(R.string.password_toShort));
+                    return;
+                }
+                progressBar.setVisibility(View.VISIBLE);
+                login();
                 break;
 
             case R.id.btn_reset_act:
@@ -72,38 +90,27 @@ public class Login extends AppCompatActivity {
         unbinder.unbind();
     }
 
-    private void logIn() {
-        String email = editTextEmail.getText().toString();
-        final String password = editTextPassword.getText().toString();
-        if (TextUtils.isEmpty(email)) {
-            editTextEmail.setError(getString(R.string.email_isEmpty));
-            return;
-        }
-        if (TextUtils.isEmpty(password)) {
-            editTextPassword.setError(getString(R.string.password_isEmpty));
-            return;
-        }
-        progressBar.setVisibility(View.VISIBLE);
+    private void login() {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                        if (!task.isSuccessful()) {
-                            Log.w(TAG, "signInWithEmail:failed", task.getException());
+                        if (task.isSuccessful()) {
+
+                            Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                             progressBar.setVisibility(View.GONE);
-                            if (password.length() < 6) {
-                                editTextPassword.setError(getString(R.string.password_toShort));
-                            }
-                            Toast.makeText(Login.this, R.string.auth_failed,
-                                    Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(Login.this, Drawer.class));
+                            finish();
+
+                        } else {
+                            Log.w(TAG, "signInWithEmail:failed", task.getException());
+                            Toast.makeText(Login.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                             progressBar.setVisibility(View.GONE);
                         }
-                        startActivity(new Intent(Login.this, Drawer.class));
-                        finish();
                     }
+                })
+        ;
 
-                });
     }
 }
 

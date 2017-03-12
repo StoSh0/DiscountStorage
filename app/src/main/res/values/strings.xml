@@ -43,6 +43,12 @@
     <string name="btn_deleteUser">Delete User</string>
     <string name="btn_singOut">Sing Out</string>
     <string name="btn_settingChange">Change</string>
+    <string name="email_update">"Email address is updated. Please sign in with new email id!"</string>
+    <string name="failed_updateEmail">"Failed to update email!"</string>
+    <string name="pass_update">Password is updated. Please sign in with new email id!</string>
+    <string name="pass_updateFail">Failed to update password!</string>
+    <string name="passReset">"We have sent you instructions to reset your password!"</string>
+    <string name="failedReset">"Failed to send reset email!"</string>
 
 
 

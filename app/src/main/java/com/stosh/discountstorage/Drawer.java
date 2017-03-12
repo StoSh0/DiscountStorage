@@ -45,7 +45,6 @@ public class Drawer extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.drawer, menu);
-        //startActivity(new Intent(this,SettingProfile.class ));
         return true;
     }
 
@@ -55,12 +54,12 @@ public class Drawer extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()){
+            case R.id.action_settings:
+                startActivity(new Intent(this,SettingProfile.class ));
+                finish();
+            break;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this,SettingProfile.class ));
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -70,18 +69,17 @@ public class Drawer extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_hand) {
-
-        } else if (id == R.id.nav_show) {
-
-        }  else if (id == R.id.nav_create) {
-
-        } else if (id == R.id.nav_connect) {
-
+        switch (item.getItemId()){
+            case R.id.nav_camera:
+                break;
+            case R.id.nav_hand:
+                break;
+            case R.id.nav_show:
+                break;
+            case R.id.nav_create:
+                break;
+            case R.id.nav_connect:
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

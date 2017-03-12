@@ -18,10 +18,13 @@ import butterknife.Unbinder;
 
 public class Main extends AppCompatActivity {
 
+
     private Unbinder unbinder;
     private String TAG = "checkAuth";
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +32,19 @@ public class Main extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mAuth = FirebaseAuth.getInstance();
         unbinder = ButterKnife.bind(this);
-        checkSign();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                    startActivity(new Intent(Main.this, Drawer.class));
+
+                } else {
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
     }
 
     @OnClick({R.id.btn_login_act, R.id.btn_register_act})
@@ -37,10 +52,12 @@ public class Main extends AppCompatActivity {
         switch (button.getId()) {
             case R.id.btn_login_act:
                 startActivity(new Intent(this, Login.class));
+                finish();
                 break;
 
             case R.id.btn_register_act:
                 startActivity(new Intent(this, SingUp.class));
+                finish();
                 break;
         }
     }
@@ -65,21 +82,4 @@ public class Main extends AppCompatActivity {
         unbinder.unbind();
     }
 
-    private void checkSign() {
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    startActivity(new Intent(Main.this, Drawer.class));
-                    finish();
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                }
-            }
-        };
-
-
-    }
 }
