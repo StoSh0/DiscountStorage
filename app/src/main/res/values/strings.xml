@@ -37,6 +37,12 @@
     <string name="title_group">Manager Rooms</string>
     <string name="title_createRoom">Create Room</string>
     <string name="title_connectRoom">Connect to Room</string>
+    <string name="btn_changeEmail">Change Email</string>
+    <string name="btn_changePassword">Change Password</string>
+    <string name="btn_resetPasswordToEmail">Reset Password to Email</string>
+    <string name="btn_deleteUser">Delete User</string>
+    <string name="btn_singOut">Sing Out</string>
+    <string name="btn_settingChange">Change</string>
 
 
 

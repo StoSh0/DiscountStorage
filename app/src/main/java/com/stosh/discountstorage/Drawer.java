@@ -1,5 +1,6 @@
 package com.stosh.discountstorage;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -44,8 +45,10 @@ public class Drawer extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.drawer, menu);
+        //startActivity(new Intent(this,SettingProfile.class ));
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -56,6 +59,7 @@ public class Drawer extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this,SettingProfile.class ));
             return true;
         }
 
