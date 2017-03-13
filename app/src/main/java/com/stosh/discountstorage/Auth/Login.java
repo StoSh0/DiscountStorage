@@ -26,7 +26,9 @@ import butterknife.Unbinder;
 
 import static com.stosh.discountstorage.R.id.editText_email_Login;
 import static com.stosh.discountstorage.R.id.editText_password_Login;
-
+/**
+ * Created by StoSh on 11-Mar-17.
+ */
 public class Login extends AppCompatActivity {
 
 

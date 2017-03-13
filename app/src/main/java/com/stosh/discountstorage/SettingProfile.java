@@ -20,7 +20,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
+/**
+ * Created by StoSh on 10-Mar-17.
+ */
 import static android.widget.Toast.makeText;
 
 public class SettingProfile extends AppCompatActivity {
@@ -71,13 +73,12 @@ public class SettingProfile extends AppCompatActivity {
     public void onButtonClick(Button button) {
         switch (button.getId()) {
             case R.id.btn_settingChangeEmail:
-
-                progressBar.setVisibility(View.VISIBLE);
                 email = editTextChangeEmail.getText().toString();
                 if (TextUtils.isEmpty(email)) {
                     editTextChangeEmail.setError(getString(R.string.email_isEmpty));
                     return;
                 }
+                progressBar.setVisibility(View.VISIBLE);
                 changeEmail();
 
                 break;
@@ -89,6 +90,7 @@ public class SettingProfile extends AppCompatActivity {
                 }
                 if (password.length() < 6) {
                     editTextChangePassword.setError(getString(R.string.password_toShort));
+                    return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
                 changePassword();

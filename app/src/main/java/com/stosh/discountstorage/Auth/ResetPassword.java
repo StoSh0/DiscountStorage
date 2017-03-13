@@ -21,7 +21,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static android.widget.Toast.makeText;
-
+/**
+ * Created by StoSh on 11-Mar-17.
+ */
 public class ResetPassword extends AppCompatActivity {
 
     private FirebaseAuth auth;

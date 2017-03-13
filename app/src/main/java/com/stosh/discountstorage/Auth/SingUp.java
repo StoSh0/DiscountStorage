@@ -23,7 +23,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
+/**
+ * Created by StoSh on 10-Mar-17.
+ */
 public class SingUp extends AppCompatActivity {
 
     private FirebaseAuth mAuth;

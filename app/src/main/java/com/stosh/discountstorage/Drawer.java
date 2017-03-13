@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
+/**
+ * Created by StoSh on 11-Mar-17.
+ */
 public class Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 

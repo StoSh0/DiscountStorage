@@ -7,10 +7,10 @@
     tools:context="com.stosh.discountstorage.SettingProfile">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="576dp"
         android:layout_height="wrap_content"
         tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+        tools:layout_editor_absoluteY="0dp">
 
         <EditText
             android:id="@+id/editText_settingChangeEmail"
@@ -56,36 +56,36 @@
             android:id="@+id/btn_settingChangePassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_settingChange"
-            android:visibility="gone"
-            android:layout_below="@+id/editText_settingChangePassword"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/editText_settingChangePassword"
+            android:text="@string/btn_settingChange"
+            android:visibility="gone" />
 
         <Button
             android:id="@+id/btn_settingResetEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btn_reset"
-            android:visibility="gone"
-            android:layout_below="@+id/editText_settingEmailReset"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/editText_settingEmailReset"
+            android:text="@string/btn_reset"
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progressBar_setting"
             style="?android:attr/progressBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/progresBar_marginTop"
+            android:layout_marginTop="@dimen/progressBar_marginTop"
             android:layout_weight="1"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/layout_marginTop"
+            android:layout_marginTop="150dp"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="8dp"
             tools:layout_editor_absoluteY="8dp">
@@ -94,63 +94,63 @@
                 android:id="@+id/btn_settingChangeEmailVis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_changeEmail"
                 android:layout_gravity="center"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="@color/white"
                 android:layout_margin="@dimen/btn_margin"
-                android:textAllCaps="false" />
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/btn_changeEmail"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btn_settingChangePasswordVis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_changePassword"
                 android:layout_gravity="center"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="@color/white"
                 android:layout_margin="@dimen/btn_margin"
-                android:textAllCaps="false" />
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/btn_changePassword"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btn_settingResetEmailVis"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_resetPasswordToEmail"
                 android:layout_gravity="center"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="@color/white"
                 android:layout_margin="@dimen/btn_margin"
-                android:textAllCaps="false" />
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/btn_resetPasswordToEmail"
+                android:textAllCaps="false"
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btn_deleteUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/btn_margin"
                 android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
                 android:text="@string/btn_deleteUser"
                 android:textAllCaps="false"
-                android:background="@color/colorPrimaryDark"
-                android:textColor="@color/white"
-                android:layout_margin="@dimen/btn_margin"
-                android:layout_gravity="center" />
+                android:textColor="@color/white" />
 
             <Button
                 android:id="@+id/btn_singOut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_singOut"
-                android:background="@color/colorPrimaryDark"
+                android:layout_gravity="center"
                 android:layout_margin="@dimen/btn_margin"
-                android:textColor="@color/white"
+                android:layout_weight="1"
+                android:background="@color/colorPrimaryDark"
+                android:text="@string/btn_singOut"
 
 
                 android:textAllCaps="false"
-                android:layout_gravity="center" />
+                android:textColor="@color/white" />
 
         </LinearLayout>
     </RelativeLayout>
