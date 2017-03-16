@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.Auth;
+package com.stosh.discountstorage.first;
 
 
 import android.app.Fragment;
@@ -24,11 +24,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class LoginActivity extends AppCompatActivity implements LoginFragment.ListenerLogin, SingUpFragment.ListenerSingUp {
+public class LoginActivity extends AppCompatActivity implements LoginFragment.ListenerLogin, SingUpFragment.ListenerSingUp, PasswordResetFragment.ListenerReset {
 
-    private final int LOGIN = 1;
-    private final int SING_UP = 2;
-    private final int RESET = 3;
+    private final int LOGIN_ID = 1;
+    private final int SING_UP_ID = 2;
+    private final int RESET_ID = 3;
+    private final int BACK_ID = 4;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FragmentTransaction fragmentTransaction;
@@ -52,7 +53,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    startActivity(new Intent(LoginActivity.this,DrawerActivity.class));
+                    startActivity(new Intent(LoginActivity.this, DrawerActivity.class));
                     finish();
 
                 } else {
@@ -66,45 +67,9 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
 
     }
 
-    @Override
-    public void onClickBtnLogin(int code) {
-        switch (code) {
-            case SING_UP:
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new SingUpFragment();
-                fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
-                break;
-            case RESET:
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new PasswordResetFragment();
-                fragmentTransaction.replace(R.id.containerLogin, fragment).addToBackStack(null).commit();
-                break;
-        }
-
-    }
 
     @Override
-    public void onClickBtnSingUp(int code) {
-        switch (code) {
-            case LOGIN: {
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new LoginFragment();
-                fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
-                break;
-            }
-            case RESET: {
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new PasswordResetFragment();
-                fragmentTransaction.replace(R.id.containerLogin, fragment).addToBackStack(null).commit();
-                break;
-            }
-        }
-    }
-
-
-
-    @Override
-    public void onLogin(String email, String password) {
+    public void login(String email, String password) {
         progressBar.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -129,12 +94,14 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
 
     @Override
     public void singUp(final String email, final String password) {
+        progressBar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                    onLogin(email, password);
+                    progressBar.setVisibility(View.GONE);
+                    login(email, password);
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
@@ -145,10 +112,79 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
 
 
     @Override
+    public void resetPassword(String email) {
+        progressBar.setVisibility(View.VISIBLE);
+        mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(LoginActivity.this, getString(R.string.send_reset), Toast.LENGTH_SHORT)
+                            .show();
+
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(
+                            LoginActivity.this,
+                            getString(R.string.failed_reset),
+                            Toast.LENGTH_SHORT
+                    ).show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public void onClickBtnLogin(int code) {
+        switch (code) {
+            case SING_UP_ID:
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragment = new SingUpFragment();
+                fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
+                break;
+            case RESET_ID:
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragment = new PasswordResetFragment();
+                fragmentTransaction.replace(R.id.containerLogin, fragment).addToBackStack(null).commit();
+                break;
+        }
+
+    }
+
+    @Override
+    public void onClickBtnSingUp(int code) {
+        switch (code) {
+            case LOGIN_ID: {
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragment = new LoginFragment();
+                fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
+                break;
+            }
+            case RESET_ID: {
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragment = new PasswordResetFragment();
+                fragmentTransaction.replace(R.id.containerLogin, fragment).addToBackStack(null).commit();
+                break;
+            }
+        }
+    }
+
+
+
+    @Override
+    public void onClickBack() {
+        onBackPressed();
+    }
+
+
+    @Override
     public void onStart() {
         super.onStart();
         mAuth.addAuthStateListener(mAuthListener);
     }
+
 
     @Override
     public void onStop() {

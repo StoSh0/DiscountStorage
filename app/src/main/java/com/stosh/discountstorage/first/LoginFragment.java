@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.Auth;
+package com.stosh.discountstorage.first;
 
 
 import android.app.Activity;
@@ -16,81 +16,87 @@ import com.stosh.discountstorage.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SingUpFragment extends Fragment {
+public class LoginFragment extends Fragment {
 
+    private final int SING_UP_ID = 2;
+    private final int RESET_ID = 3;
 
-    private final int LOGIN = 1;
-    private final int RESET = 3;
     private View view;
-    private Button btnSingUp, btnSingUpFrag, btnResetPass;
+    private Button btnLogin, btnSingUpFrag, btnResetPass;
     private EditText editTextEmail, editTextPassword;
     private View.OnClickListener clickListener;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_sing_up, container, false);
+                             final Bundle savedInstanceState) {
+
+        view = inflater.inflate(R.layout.fragment_login, container, false);
+
 
         clickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.btnRegister:
+                switch (v.getId()) {
+                    case R.id.btnLogin:
                         String email = editTextEmail.getText().toString();
                         String password = editTextPassword.getText().toString();
-                        if (TextUtils.isEmpty(email)){
+                        if (TextUtils.isEmpty(email)) {
                             editTextEmail.setError(getString(R.string.email_is_empty));
                             break;
-                        }else if (TextUtils.isEmpty(password)){
+                        } else if (TextUtils.isEmpty(password)) {
                             editTextPassword.setError(getString(R.string.password_is_empty));
                             break;
-                        }else if (password.length() <6){
+                        } else if (password.length() < 6) {
                             editTextPassword.setError(getString(R.string.password_to_short));
+                            break;
                         }
-                        listener.singUp(email,password);
+                        listener.login(email, password);
 
                         break;
-                    case R.id.btnResetPassFrag:
-                        listener.onClickBtnSingUp(RESET);
+
+                    case R.id.btnSingUpFrag:
+                        listener.onClickBtnLogin(SING_UP_ID);
                         break;
-                    case R.id.btnSingInFrag:
-                        listener.onClickBtnSingUp(LOGIN);
+
+                    case R.id.btnResetFrag:
+                        listener.onClickBtnLogin(RESET_ID);
+                        onDestroy();
                         break;
                 }
             }
         };
-
         init();
         return view;
     }
 
     private void init() {
-        editTextEmail = (EditText) view.findViewById(R.id.editTextEmailSingUp);
-        editTextPassword = (EditText) view.findViewById(R.id.editTextPasswordSingUp);
-        btnSingUp = (Button) view.findViewById(R.id.btnRegister);
-        btnSingUpFrag = (Button) view.findViewById(R.id.btnSingInFrag);
-        btnResetPass = (Button) view.findViewById(R.id.btnResetPassFrag);
+        editTextEmail = (EditText) view.findViewById(R.id.editTextEmailLogin);
+        editTextPassword = (EditText) view.findViewById(R.id.editTextPasswordLogin);
+        btnLogin = (Button) view.findViewById(R.id.btnLogin);
+        btnSingUpFrag = (Button) view.findViewById(R.id.btnSingUpFrag);
+        btnResetPass = (Button) view.findViewById(R.id.btnResetFrag);
 
-        btnSingUp.setOnClickListener(clickListener);
+        btnLogin.setOnClickListener(clickListener);
         btnSingUpFrag.setOnClickListener(clickListener);
         btnResetPass.setOnClickListener(clickListener);
     }
 
-    private ListenerSingUp listener;
+    public interface ListenerLogin {
+        public void onClickBtnLogin(int code);
 
-    public interface ListenerSingUp {
-        public void onClickBtnSingUp(int code);
-
-        public void singUp(String email, String password);
+        public void login(String email, String password);
     }
+
+    private ListenerLogin listener;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            listener = (ListenerSingUp) activity;
+            listener = (ListenerLogin) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + "must implements OnClicBtnListener");
+            throw new ClassCastException(activity.toString() + "must implements ListenerLogin");
         }
     }
 }

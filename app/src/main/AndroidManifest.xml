@@ -11,16 +11,16 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Auth.LoginActivity">
+        <activity android:name=".first.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Auth.Login" />
-        <activity android:name=".Auth.SingUp" />
-        <activity android:name=".Auth.ResetPassword" />
+        <activity android:name=".first.Login" />
+        <activity android:name=".first.SingUp" />
+        <activity android:name=".first.ResetPassword" />
         <activity
             android:name=".DrawerActivity"
             android:label="@string/title_activity_drawer"
