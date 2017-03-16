@@ -68,13 +68,6 @@
             android:textAllCaps="false"
             android:textColor="@color/white" />
 
-        <ProgressBar
-            android:id="@+id/progressBarReg"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
     </LinearLayout>
 
 </FrameLayout>

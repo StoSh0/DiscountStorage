@@ -56,11 +56,11 @@ public class LoginFragment extends Fragment {
                         break;
 
                     case R.id.btnSingUpFrag:
-                        listener.onClickBtn(SING_UP);
+                        listener.onClickBtnLogin(SING_UP);
                         break;
 
                     case R.id.btnResetFrag:
-                        listener.onClickBtn(RESET);
+                        listener.onClickBtnLogin(RESET);
                         onDestroy();
                         break;
                 }
@@ -82,20 +82,21 @@ public class LoginFragment extends Fragment {
         btnResetPass.setOnClickListener(clickListener);
     }
 
-    public interface OnClickBtnListener {
-        public void onClickBtn(int code);
+    public interface ListenerLogin {
+        public void onClickBtnLogin(int code);
+
         public void onLogin(String email, String password);
     }
 
-    private OnClickBtnListener listener;
+    private ListenerLogin listener;
 
     @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         try {
-            listener = (OnClickBtnListener) context;
+            listener = (ListenerLogin) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implements OnClicBtnListener");
+            throw new ClassCastException(activity.toString() + "must implements OnClicBtnListener");
         }
     }
 }

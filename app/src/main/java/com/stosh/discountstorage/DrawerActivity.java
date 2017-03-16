@@ -1,4 +1,3 @@
-/*
 package com.stosh.discountstorage;
 
 import android.content.Intent;
@@ -11,12 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-*/
-/**
- * Created by StoSh on 11-Mar-17.
- *//*
 
-public class Drawer extends AppCompatActivity
+
+public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -28,7 +24,7 @@ public class Drawer extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.open_navigation, R.string.close_navigation);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -92,4 +88,3 @@ public class Drawer extends AppCompatActivity
         return true;
     }
 }
-*/

@@ -43,7 +43,7 @@ public class Main extends AppCompatActivity {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    startActivity(new Intent(Main.this, Drawer.class));
+                    startActivity(new Intent(Main.this, DrawerActivity.class));
 
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");

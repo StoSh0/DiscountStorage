@@ -1,4 +1,3 @@
-/*
 package com.stosh.discountstorage;
 
 import android.content.Intent;
@@ -16,15 +15,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.stosh.discountstorage.Auth.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-*/
-/**
- * Created by StoSh on 10-Mar-17.
- *//*
+
 
 import static android.widget.Toast.makeText;
 
@@ -78,7 +75,7 @@ public class SettingProfile extends AppCompatActivity {
             case R.id.btn_settingChangeEmail:
                 email = editTextChangeEmail.getText().toString();
                 if (TextUtils.isEmpty(email)) {
-                    editTextChangeEmail.setError(getString(R.string.email_isEmpty));
+                    editTextChangeEmail.setError(getString(R.string.email_is_empty));
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
@@ -88,11 +85,11 @@ public class SettingProfile extends AppCompatActivity {
             case R.id.btn_settingChangePassword:
                 password = editTextChangePassword.getText().toString();
                 if (TextUtils.isEmpty(password)) {
-                    editTextChangePassword.setError(getString(R.string.password_isEmpty));
+                    editTextChangePassword.setError(getString(R.string.password_is_empty));
                     return;
                 }
                 if (password.length() < 6) {
-                    editTextChangePassword.setError(getString(R.string.password_toShort));
+                    editTextChangePassword.setError(getString(R.string.password_to_short));
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
@@ -101,7 +98,7 @@ public class SettingProfile extends AppCompatActivity {
             case R.id.btn_settingResetEmail:
                 email = editTextEmailReset.getText().toString();
                 if (TextUtils.isEmpty(email)){
-                    editTextEmailReset.setError(getString(R.string.email_isEmpty));
+                    editTextEmailReset.setError(getString(R.string.email_is_empty));
                     return;
                 }
                 progressBar.setVisibility(View.VISIBLE);
@@ -164,7 +161,7 @@ public class SettingProfile extends AppCompatActivity {
                 } else {
                     makeText(
                             SettingProfile.this,
-                            getString(R.string.failed_updateEmail),
+                            getString(R.string.failed_update_email),
                             Toast.LENGTH_LONG
                     ).show();
                     progressBar.setVisibility(View.GONE);
@@ -190,7 +187,7 @@ public class SettingProfile extends AppCompatActivity {
                         } else {
                             makeText(
                                     SettingProfile.this,
-                                    getString(R.string.failed_updateEmail),
+                                    getString(R.string.failed_update_email),
                                     Toast.LENGTH_LONG)
                                     .show();
                             progressBar.setVisibility(View.GONE);
@@ -208,14 +205,14 @@ public class SettingProfile extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             makeText(
                                     SettingProfile.this,
-                                    getString(R.string.passReset),
+                                    getString(R.string.reset),
                                     Toast.LENGTH_SHORT)
                                     .show();
                             progressBar.setVisibility(View.GONE);
                         } else {
                             makeText(
                                     SettingProfile.this,
-                                    getString(R.string.failedReset),
+                                    getString(R.string.failed_reset),
                                     Toast.LENGTH_SHORT
                             ).show();
                             progressBar.setVisibility(View.GONE);
@@ -228,14 +225,13 @@ public class SettingProfile extends AppCompatActivity {
     private void deleteUser() {
         user.delete();
         singOut();
-        startActivity(new Intent(this, Main.class));
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 
     private void singOut() {
         mAuth.signOut();
-        startActivity(new Intent(SettingProfile.this, Main.class));
+        startActivity(new Intent(SettingProfile.this, LoginActivity.class));
         finish();
     }
 }
-*/

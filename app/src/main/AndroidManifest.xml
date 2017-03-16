@@ -22,7 +22,7 @@
         <activity android:name=".Auth.SingUp" />
         <activity android:name=".Auth.ResetPassword" />
         <activity
-            android:name=".Drawer"
+            android:name=".DrawerActivity"
             android:label="@string/title_activity_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SettingProfile" />
