@@ -1,55 +1,55 @@
 <resources>
     <string name="app_name">DiscountStorage</string>
 
-    <string name="btn_login">Login</string>
-    <string name="btn_register">Register</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 
-    <string name="tv_singIn">Sing In</string>
-    <string name="editText_email">Email</string>
-    <string name="editText_password">Password</string>
-    <string name="btn_forgotPass">Forgot your password?</string>
-    <string name="btn_notReg">Not registered? SingUp Now!</string>
-    <string name="tv_singUp">Sing Up</string>
-    <string name="btn_alreadyReg">Already registered? Login Me!</string>
-    <string name="tv_forgotPass">We just your registered Email id to send you password reset
-        instruction</string>
-    <string name="btn_reset">Reset</string>
-    <string name="btn_resetBack">Back</string>
-    <string name="btn_noReg">Not registered? SingUp Now!</string>
+    <string name="sing_in">Sing In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgot_pass">Forgot your password?</string>
+    <string name="not_reg">Not registered? SingUp Now!</string>
+    <string name="sing_up">Sing Up</string>
+    <string name="already_reg">Already registered? Login Me!</string>
+    <string name="reset">Reset Password</string>
+    <string name="Back">Back</string>
 
 
     <string name="auth_failed">Authentication failed, check your email and password or sign up
     </string>
-    <string name="email_isEmpty">Enter Email</string>
-    <string name="password_isEmpty">Enter Password</string>
-    <string name="password_toShort">Password to short</string>
-    <string name="title_activity_navigation">Navigation</string>
+    <string name="email_is_empty">Enter Email</string>
+    <string name="password_is_empty">Enter Password</string>
+    <string name="password_to_short">Password to short</string>
+    <string name="navigation">Navigation</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="open_navigation">Open navigation drawer</string>
+    <string name="close_navigation">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_drawer">Drawer</string>
-    <string name="title_scanWithCamera">Scanning with camera</string>
-    <string name="title_enterCode">Enter bar code</string>
-    <string name="title_showListRooms">Show all rooms</string>
+    <string name="drawer">Drawer</string>
+    <string name="scan_with_camera">Scanning with camera</string>
+    <string name="enter_code">Enter bar code</string>
+    <string name="show_list_rooms">Show all rooms</string>
 
     <string name="title_group">Manager Rooms</string>
-    <string name="title_createRoom">Create Room</string>
+    <string name="create_room">Create Room</string>
     <string name="title_connectRoom">Connect to Room</string>
-    <string name="btn_changeEmail">Change Email</string>
-    <string name="btn_changePassword">Change Password</string>
-    <string name="btn_resetPasswordToEmail">Reset Password to Email</string>
-    <string name="btn_deleteUser">Delete User</string>
-    <string name="btn_singOut">Sing Out</string>
-    <string name="btn_settingChange">Change</string>
+    <string name="change_email">Change Email</string>
+    <string name="change_password">Change Password</string>
+    <string name="reset_password">Reset Password to Email</string>
+    <string name="delete_user">Delete User</string>
+    <string name="sing_out">Sing Out</string>
+    <string name="setting_change">Change</string>
+    <string name="title_activity_drawer">Drawer</string>
     <string name="email_update">"Email address is updated. Please sign in with new email id!"</string>
-    <string name="failed_updateEmail">"Failed to update email!"</string>
+    <string name="failed_update_email">"Failed to update email!"</string>
     <string name="pass_update">Password is updated. Please sign in with new email id!</string>
-    <string name="pass_updateFail">Failed to update password!</string>
-    <string name="passReset">"We have sent you instructions to reset your password!"</string>
-    <string name="failedReset">"Failed to send reset email!"</string>
+    <string name="pass_update_fail">Failed to update password!</string>
+    <string name="send_reset">"We have sent you instructions to reset your password!"</string>
+    <string name="failed_reset">"Failed to send reset email!"</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

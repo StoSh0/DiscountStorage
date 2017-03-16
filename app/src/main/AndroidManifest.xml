@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Main">
+        <activity android:name=".Auth.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,8 @@
             android:name=".Drawer"
             android:label="@string/title_activity_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SettingProfile"></activity>
+        <activity android:name=".SettingProfile" />
+        <activity android:name=".Main"></activity>
     </application>
 
 </manifest>

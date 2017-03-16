@@ -1,3 +1,4 @@
+/*
 package com.stosh.discountstorage;
 
 import android.content.Intent;
@@ -20,9 +21,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+*/
 /**
  * Created by StoSh on 10-Mar-17.
- */
+ *//*
+
 import static android.widget.Toast.makeText;
 
 public class SettingProfile extends AppCompatActivity {
@@ -235,3 +238,4 @@ public class SettingProfile extends AppCompatActivity {
         finish();
     }
 }
+*/

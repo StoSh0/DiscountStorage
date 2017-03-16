@@ -1,3 +1,4 @@
+/*
 package com.stosh.discountstorage;
 
 import android.content.Intent;
@@ -10,9 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+*/
 /**
  * Created by StoSh on 11-Mar-17.
- */
+ *//*
+
 public class Drawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -89,3 +92,4 @@ public class Drawer extends AppCompatActivity
         return true;
     }
 }
+*/

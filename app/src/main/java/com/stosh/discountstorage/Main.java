@@ -1,3 +1,4 @@
+/*
 package com.stosh.discountstorage;
 
 import android.content.Intent;
@@ -15,9 +16,11 @@ import com.stosh.discountstorage.Auth.SingUp;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+*/
 /**
  * Created by StoSh on 10-Mar-17.
- */
+ *//*
+
 public class Main extends AppCompatActivity {
 
 
@@ -85,3 +88,4 @@ public class Main extends AppCompatActivity {
     }
 
 }
+*/
