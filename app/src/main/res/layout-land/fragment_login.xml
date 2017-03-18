@@ -1,8 +1,9 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.stosh.discountstorage.login.fragments.SingUpFragment">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,16 +13,17 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/sing_up"
+            android:text="@string/sing_in"
             android:textColor="@color/white"
             android:textSize="40dp" />
 
         <EditText
-            android:id="@+id/editTextEmailSingUp"
+            android:id="@+id/editTextEmailLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -31,28 +33,27 @@
             android:textColorHint="@color/common_google_signin_btn_text_dark" />
 
         <EditText
-            android:id="@+id/editTextPasswordSingUp"
+            android:id="@+id/editTextPasswordLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:textColorHint="@color/common_google_signin_btn_text_light"
-            />
+            android:textColorHint="@color/common_google_signin_btn_text_light" />
 
         <Button
-            android:id="@+id/btnRegister"
+            android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/marginTop"
             android:background="@color/yellow"
             android:gravity="center"
-            android:text="@string/register" />
+            android:text="@string/login" />
 
         <Button
-            android:id="@+id/btnResetPassFrag"
+            android:id="@+id/btnResetFrag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginTop"
@@ -62,15 +63,13 @@
             android:textColor="@color/yellow" />
 
         <Button
-            android:id="@+id/btnSingInFrag"
+            android:id="@+id/btnSingUpFrag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginTop"
             android:background="@null"
-            android:text="@string/already_reg"
+            android:text="@string/not_reg"
             android:textAllCaps="false"
             android:textColor="@color/white" />
-
     </LinearLayout>
-
-</FrameLayout>
+</LinearLayout>

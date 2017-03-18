@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.first;
+package com.stosh.discountstorage.login.fragments;
 
 
 import android.app.Activity;

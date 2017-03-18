@@ -3,6 +3,7 @@
     package="com.stosh.discountstorage">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -11,22 +12,19 @@
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".first.LoginActivity">
+        <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".first.Login" />
-        <activity android:name=".first.SingUp" />
-        <activity android:name=".first.ResetPassword" />
         <activity
             android:name=".DrawerActivity"
             android:label="@string/title_activity_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SettingProfile" />
-        <activity android:name=".Main"></activity>
+        <activity android:name=".ScannerActivity" />
     </application>
 
 </manifest>

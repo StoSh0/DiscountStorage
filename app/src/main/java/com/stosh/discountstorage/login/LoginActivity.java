@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.first;
+package com.stosh.discountstorage.login;
 
 
 import android.app.Fragment;
@@ -19,6 +19,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.stosh.discountstorage.DrawerActivity;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.login.fragments.LoginFragment;
+import com.stosh.discountstorage.login.fragments.PasswordResetFragment;
+import com.stosh.discountstorage.login.fragments.SingUpFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
