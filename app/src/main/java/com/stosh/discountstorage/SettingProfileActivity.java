@@ -25,7 +25,7 @@ import butterknife.Unbinder;
 
 import static android.widget.Toast.makeText;
 
-public class SettingProfile extends AppCompatActivity {
+public class SettingProfileActivity extends AppCompatActivity {
 
     private Unbinder unbinder;
     private FirebaseUser user;
@@ -152,7 +152,7 @@ public class SettingProfile extends AppCompatActivity {
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     makeText(
-                            SettingProfile.this,
+                            SettingProfileActivity.this,
                             getString(R.string.email_update),
                             Toast.LENGTH_LONG
                     ).show();
@@ -160,7 +160,7 @@ public class SettingProfile extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                 } else {
                     makeText(
-                            SettingProfile.this,
+                            SettingProfileActivity.this,
                             getString(R.string.failed_update_email),
                             Toast.LENGTH_LONG
                     ).show();
@@ -178,7 +178,7 @@ public class SettingProfile extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             makeText(
-                                    SettingProfile.this,
+                                    SettingProfileActivity.this,
                                     getString(R.string.email_update),
                                     Toast.LENGTH_LONG
                             ).show();
@@ -186,7 +186,7 @@ public class SettingProfile extends AppCompatActivity {
                             progressBar.setVisibility(View.GONE);
                         } else {
                             makeText(
-                                    SettingProfile.this,
+                                    SettingProfileActivity.this,
                                     getString(R.string.failed_update_email),
                                     Toast.LENGTH_LONG)
                                     .show();
@@ -204,14 +204,14 @@ public class SettingProfile extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             makeText(
-                                    SettingProfile.this,
+                                    SettingProfileActivity.this,
                                     getString(R.string.reset),
                                     Toast.LENGTH_SHORT)
                                     .show();
                             progressBar.setVisibility(View.GONE);
                         } else {
                             makeText(
-                                    SettingProfile.this,
+                                    SettingProfileActivity.this,
                                     getString(R.string.failed_reset),
                                     Toast.LENGTH_SHORT
                             ).show();
@@ -231,7 +231,7 @@ public class SettingProfile extends AppCompatActivity {
 
     private void singOut() {
         mAuth.signOut();
-        startActivity(new Intent(SettingProfile.this, LoginActivity.class));
+        startActivity(new Intent(SettingProfileActivity.this, LoginActivity.class));
         finish();
     }
 }

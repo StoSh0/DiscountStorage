@@ -57,7 +57,7 @@ public class DrawerActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()){
             case R.id.action_settings:
-                startActivity(new Intent(this,SettingProfile.class ));
+                startActivity(new Intent(this,SettingProfileActivity.class ));
                 finish();
             break;
 
