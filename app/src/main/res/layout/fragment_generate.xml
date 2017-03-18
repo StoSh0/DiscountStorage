@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.stosh.discountstorage.GenerateFragment"
+    tools:context="com.stosh.discountstorage.drawer.fragments.GenerateFragment"
     android:background="@color/colorPrimaryDark">
 
 
@@ -19,6 +19,14 @@
             android:visibility="visible"
             android:layout_gravity="center"
             app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+
+        <TextView
+            android:id="@+id/textViewCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="30dp"
+            android:text="TextView" />
 
         <LinearLayout
             android:layout_width="match_parent"

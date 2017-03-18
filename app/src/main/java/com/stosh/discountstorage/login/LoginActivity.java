@@ -17,7 +17,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.stosh.discountstorage.DrawerActivity;
+import com.stosh.discountstorage.drawer.AllActivity;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.login.fragments.LoginFragment;
 import com.stosh.discountstorage.login.fragments.PasswordResetFragment;
@@ -56,7 +56,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    startActivity(new Intent(LoginActivity.this, DrawerActivity.class));
+                    startActivity(new Intent(LoginActivity.this, AllActivity.class));
                     finish();
 
                 } else {
@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
 
                             Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                             progressBar.setVisibility(View.GONE);
-                            startActivity(new Intent(LoginActivity.this, DrawerActivity.class));
+                            startActivity(new Intent(LoginActivity.this, AllActivity.class));
                             finish();
 
                         } else {

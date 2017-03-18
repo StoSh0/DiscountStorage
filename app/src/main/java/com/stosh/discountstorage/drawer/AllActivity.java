@@ -1,4 +1,4 @@
-package com.stosh.discountstorage;
+package com.stosh.discountstorage.drawer;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
@@ -16,10 +16,16 @@ import android.view.MenuItem;
 
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.SettingProfileActivity;
+import com.stosh.discountstorage.drawer.fragments.GenerateFragment;
+import com.stosh.discountstorage.drawer.fragments.HandFragment;
+import com.stosh.discountstorage.drawer.fragments.ScanFragment;
 
 
-public class DrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class AllActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, HandFragment.HandListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +80,18 @@ public class DrawerActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        FragmentTransaction fragmentTransaction;
+        Fragment fragment;
         switch (item.getItemId()) {
             case R.id.nav_camera:
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                Fragment fragment = new ScanFragment();
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragment = new ScanFragment();
                 fragmentTransaction.replace(R.id.containerDrawer, fragment).commit();
                 break;
             case R.id.nav_hand:
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragment = new HandFragment();
+                fragmentTransaction.replace(R.id.containerDrawer, fragment).commit();
                 break;
             case R.id.nav_show:
                 break;
@@ -95,8 +105,6 @@ public class DrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -123,5 +131,17 @@ public class DrawerActivity extends AppCompatActivity
                 fragmentTransaction.replace(R.id.containerDrawer, fragment).addToBackStack(null).commit();
             }
         }
+    }
+
+    @Override
+    public void send(String code) {
+        String format = "EAN_13";
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        Fragment fragment = new GenerateFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("code", code);
+        bundle.putString("format", format);
+        fragment.setArguments(bundle);
+        fragmentTransaction.replace(R.id.containerDrawer, fragment).addToBackStack(null).commit();
     }
 }

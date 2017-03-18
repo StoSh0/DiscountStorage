@@ -1,8 +1,8 @@
 package com.stosh.discountstorage.login.fragments;
 
 
+import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -85,7 +85,7 @@ public class SingUpFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(Activity context) {
         super.onAttach(context);
         try {
             listener = (ListenerSingUp) context;

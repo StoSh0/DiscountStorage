@@ -1,4 +1,4 @@
-package com.stosh.discountstorage;
+package com.stosh.discountstorage.drawer.fragments;
 
 
 import android.app.Activity;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.stosh.discountstorage.R;
 
 
 /**
