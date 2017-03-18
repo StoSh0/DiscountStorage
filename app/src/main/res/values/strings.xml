@@ -42,6 +42,9 @@
     <string name="pass_update_fail">Failed to update password!</string>
     <string name="send_reset">"We have sent you instructions to reset your password!"</string>
     <string name="failed_reset">"Failed to send reset email!"</string>
+    <string name="cancel">Cancel</string>
+    <string name="add">Add BarCode</string>
+    <string name="scan">Scan</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

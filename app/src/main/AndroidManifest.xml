@@ -24,7 +24,7 @@
             android:label="@string/title_activity_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".SettingProfile" />
-        <activity android:name=".ScannerActivity" />
+        <activity android:name=".ScanActivity" />
     </application>
 
 </manifest>
