@@ -1,8 +1,8 @@
 package com.stosh.discountstorage.login.fragments;
 
 
-import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -73,12 +73,12 @@ public class PasswordResetFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            listener = (ListenerReset) activity;
+            listener = (ListenerReset) context;
         }catch (ClassCastException e){
-            throw new ClassCastException(activity.toString()+"must implements ListenerReset");
+            throw new ClassCastException(context.toString()+"must implements ListenerReset");
         }
     }
 }

@@ -69,6 +69,8 @@ public class SettingProfileActivity extends AppCompatActivity {
             R.id.btn_settingResetEmailVis,
             R.id.btn_deleteUser,
             R.id.btn_singOut
+
+
     })
     public void onButtonClick(Button button) {
         switch (button.getId()) {

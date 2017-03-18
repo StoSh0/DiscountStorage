@@ -1,8 +1,8 @@
 package com.stosh.discountstorage.login.fragments;
 
 
-import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -85,12 +85,12 @@ public class SingUpFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
         try {
-            listener = (ListenerSingUp) activity;
+            listener = (ListenerSingUp) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + "must implements OnClicBtnListener");
+            throw new ClassCastException(context.toString() + "must implements OnClicBtnListener");
         }
     }
 }

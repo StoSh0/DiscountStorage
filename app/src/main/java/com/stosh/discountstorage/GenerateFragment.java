@@ -1,20 +1,18 @@
 package com.stosh.discountstorage;
 
-import android.app.Activity;
-import android.content.Intent;
+
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import static com.google.zxing.BarcodeFormat.CODE_128;
@@ -29,68 +27,31 @@ import static com.google.zxing.BarcodeFormat.UPC_A;
 import static com.google.zxing.BarcodeFormat.UPC_E;
 
 
-public class ScanActivity extends AppCompatActivity {
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class GenerateFragment extends Fragment {
 
-    private String TAG = "SCAN";
-
-    private IntentResult result;
-
+    private ImageView imageView;
+    private Button buttonCansel;
+    private Button buttonAdd;
+    private View view;
     private BitMatrix bitMatrix;
     private Bitmap bitmap;
     private BarcodeEncoder barcodeEncoder;
-
-    private String code;
     private String format;
-
-    private ImageView imageView;
-    private Button button;
-    private Button butto1;
-    private Button butto2;
-
+    private String code;
 
     @Override
-    public void onCreate(Bundle state) {
-        super.onCreate(state);
-        setContentView(R.layout.activity_scan);
-init();
-        final Activity activity = this;
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentIntegrator integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-                integrator.setPrompt("Scan");
-                integrator.setCameraId(0);
-                integrator.setBeepEnabled(false);
-                integrator.setBarcodeImageEnabled(false);
-                integrator.initiateScan();
-
-            }
-        });
-    }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_generate, container, false);
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Log.d(TAG, "Cancelled scan");
-                finish();
-            } else {
-                Log.d(TAG, "Scanned");
-                generate();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-
-    private void generate(){
-        code = result.getContents();
-        format = result.getFormatName();
-
+        Bundle bundle = getArguments();
+        code = bundle.getString("code");
+        format = bundle.getString("format");
+        init();
         try {
 
             switch (format){
@@ -114,7 +75,7 @@ init();
                     break;
                 case "CODE_128":
                     bitMatrix = new MultiFormatWriter().encode(code, CODE_128, 400,200);
-                        break;
+                    break;
                 case "ITF":
                     bitMatrix = new MultiFormatWriter().encode(code, ITF, 400,200);
                     break;
@@ -128,21 +89,19 @@ init();
 
             barcodeEncoder = new BarcodeEncoder();
             bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            imageView.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
         }
+        return view;
+    }
 
-        imageView.setVisibility(View.VISIBLE);
-        butto1.setVisibility(View.VISIBLE);
-        butto1.setText(code);
-        butto2.setText(format);
-        butto2.setVisibility(View.VISIBLE);
-        imageView.setImageBitmap(bitmap);
-    }
     private void init(){
-        button = (Button) findViewById(R.id.btnScan);
-        butto1 = (Button) findViewById(R.id.btnCancel);
-        butto2 = (Button) findViewById(R.id.btnAdd);
-        imageView = (ImageView) findViewById(R.id.imageViewBarcode);
+        buttonCansel = (Button) view.findViewById(R.id.btnCancel);
+        buttonAdd = (Button) view.findViewById(R.id.btnAdd);
+        imageView = (ImageView) view.findViewById(R.id.imageViewBarcode);
     }
+
+
+
 }
