@@ -22,6 +22,7 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.SettingProfileActivity;
+import com.stosh.discountstorage.database.Cards;
 import com.stosh.discountstorage.database.RoomList;
 import com.stosh.discountstorage.drawer.fragments.CreateRoomFragment;
 import com.stosh.discountstorage.drawer.fragments.GenerateFragment;
@@ -31,7 +32,7 @@ import com.stosh.discountstorage.drawer.fragments.ScanFragment;
 
 public class AllActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HandFragment.ListenerHand,
-        CreateRoomFragment.ListenerCreateRoom {
+        CreateRoomFragment.ListenerCreateRoom, GenerateFragment.ListenerGenerate {
 
     private String TAG = "Auth";
     private FirebaseAuth mAuth;
@@ -46,6 +47,10 @@ public class AllActivity extends AppCompatActivity
         setContentView(R.layout.activity_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -165,20 +170,29 @@ public class AllActivity extends AppCompatActivity
     @Override
     public void createRoom(String name, String password) {
 
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+
         mUser = mAuth.getCurrentUser();
         String emailUserBD = (mUser.getEmail()).replace(".", "").toLowerCase();
 
         myRef = database.getReference("users");
 
-        RoomList roomList =  new RoomList(name,password);
+        RoomList roomList = new RoomList(name, password);
 
 
         myRef.child(emailUserBD).child("RoomList").child(name).setValue(roomList);
+    }
 
-        /*Cards cards = new Cards("Rukavicka", "1", "4509584937548");
+    @Override
+    public void onClickCancel() {
+        onBackPressed();
+    }
 
-        myRef.child(emailUserDB).child("Rooms").child("Job").child("Rukavichka").setValue(cards);*/
+    @Override
+    public void onClickAdd(String code, String format) {
+        Cards cards = new Cards("Rukavicka", "1", code,format);
+
+        String emailUserBD = (mUser.getEmail()).replace(".", "").toLowerCase();
+
+        myRef.child(emailUserBD).child("Rooms").child("Job").child("Rukavichka").setValue(cards);
     }
 }

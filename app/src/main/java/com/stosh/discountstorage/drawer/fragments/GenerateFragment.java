@@ -1,6 +1,7 @@
 package com.stosh.discountstorage.drawer.fragments;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class GenerateFragment extends Fragment {
     private TextView textViewCode;
     private Button buttonCansel;
     private Button buttonAdd;
+    private View.OnClickListener onClickListener;
     private View view;
     private BitMatrix bitMatrix;
     private Bitmap bitmap;
@@ -50,7 +52,18 @@ public class GenerateFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_generate, container, false);
 
-
+        onClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()){
+                    case R.id.btnAdd:
+                        listener.onClickAdd(code, format);
+                    case R.id.btnCancel:
+                        listener.onClickCancel();
+                        break;
+                }
+            }
+        };
         Bundle bundle = getArguments();
         code = bundle.getString("code");
         format = bundle.getString("format");
@@ -105,7 +118,25 @@ public class GenerateFragment extends Fragment {
         buttonAdd = (Button) view.findViewById(R.id.btnAdd);
         imageView = (ImageView) view.findViewById(R.id.imageViewBarcode);
         textViewCode = (TextView) view.findViewById(R.id.textViewCode);
+
+        buttonCansel.setOnClickListener(onClickListener);
+        buttonAdd.setOnClickListener(onClickListener);
     }
 
+    private ListenerGenerate listener;
 
+    public interface ListenerGenerate{
+        public void onClickCancel();
+        public void onClickAdd(String code, String format);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            listener = (ListenerGenerate) activity;
+        }catch (ClassCastException e){
+            throw new ClassCastException(activity.toString()+"must implements ListenerGenerate");
+        }
+    }
 }

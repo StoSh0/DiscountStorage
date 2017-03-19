@@ -57,7 +57,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
+
         unbinder = ButterKnife.bind(this);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -144,8 +148,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
     }
 
     private void createDBForNewUser(String email, String password){
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("users");
+
         mUser = mAuth.getCurrentUser();
         String userId = mUser.getUid();
         String emailUserDB = email.replace(".", "").toLowerCase();

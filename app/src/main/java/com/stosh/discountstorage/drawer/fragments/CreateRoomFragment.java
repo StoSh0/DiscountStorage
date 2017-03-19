@@ -67,12 +67,12 @@ public class CreateRoomFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
         try {
-            listener = (ListenerCreateRoom) context;
+            listener = (ListenerCreateRoom) activity;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implements ListenerCreateRoom");
+            throw new ClassCastException(activity.toString() + "must implements ListenerCreateRoom");
         }
     }
 }
