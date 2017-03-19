@@ -22,7 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-
 import static android.widget.Toast.makeText;
 
 public class SettingProfileActivity extends AppCompatActivity {
@@ -135,9 +134,11 @@ public class SettingProfileActivity extends AppCompatActivity {
                 break;
             case R.id.btn_deleteUser:
                 deleteUser();
+                finish();
                 break;
             case R.id.btn_singOut:
                 singOut();
+                finish();
                 break;
         }
     }

@@ -25,7 +25,7 @@ import com.stosh.discountstorage.drawer.fragments.ScanFragment;
 
 public class AllActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HandFragment.HandListener {
-
+    private String TAG = "Auth";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +47,7 @@ public class AllActivity extends AppCompatActivity
         Fragment fragment = new ScanFragment();
         fragmentTransaction.replace(R.id.containerDrawer, fragment).commit();
     }
+
 
     @Override
     public void onBackPressed() {

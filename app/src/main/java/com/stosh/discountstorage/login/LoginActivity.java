@@ -17,8 +17,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.stosh.discountstorage.drawer.AllActivity;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.database.RoomList;
+import com.stosh.discountstorage.database.User;
+import com.stosh.discountstorage.drawer.AllActivity;
 import com.stosh.discountstorage.login.fragments.LoginFragment;
 import com.stosh.discountstorage.login.fragments.PasswordResetFragment;
 import com.stosh.discountstorage.login.fragments.SingUpFragment;
@@ -33,10 +37,16 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
     private final int SING_UP_ID = 2;
     private final int RESET_ID = 3;
     private final int BACK_ID = 4;
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private FirebaseUser mUser;
+
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment;
+
     private String TAG = "Auth";
     private Unbinder unbinder;
 
@@ -58,12 +68,12 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     startActivity(new Intent(LoginActivity.this, AllActivity.class));
                     finish();
-
                 } else {
                     fragmentTransaction = getFragmentManager().beginTransaction();
                     fragment = new LoginFragment();
                     fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
                     Log.d(TAG, "onAuthStateChanged:signed_out");
+
                 }
             }
         };
@@ -79,12 +89,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
                             Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                             progressBar.setVisibility(View.GONE);
-                            startActivity(new Intent(LoginActivity.this, AllActivity.class));
-                            finish();
-
                         } else {
                             Log.w(TAG, "signInWithEmail:failed", task.getException());
                             Toast.makeText(LoginActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
@@ -104,6 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
                 if (task.isSuccessful()) {
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
                     progressBar.setVisibility(View.GONE);
+                    createDBForNewUser(email, password);
                     login(email, password);
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
@@ -136,6 +143,24 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
                 }
             }
         });
+    }
+
+    private void createDBForNewUser(String email, String password){
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
+
+        mUser = mAuth.getCurrentUser();
+        String userId = mUser.getUid();
+
+        String emailUserDB = email.substring(0, email.length() - 4);
+        User user = new User(userId, email, password);
+
+        myRef.child(emailUserDB).setValue(user);
+
+
+        RoomList roomList =  new RoomList("school","123456");
+
+        myRef.child(emailUserDB).child("Room").child("Lsldsld").setValue(roomList);
     }
 
 
@@ -173,7 +198,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
             }
         }
     }
-
 
 
     @Override

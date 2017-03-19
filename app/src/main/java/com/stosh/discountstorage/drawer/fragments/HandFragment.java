@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,6 @@ public class HandFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String code = editTextEnterHand.getText().toString();
-                Log.d("sds", code);
                 if (TextUtils.isEmpty(code)){
                     Toast.makeText(activity, getString(R.string.enter_barcode), Toast.LENGTH_SHORT).show();
                     return;
