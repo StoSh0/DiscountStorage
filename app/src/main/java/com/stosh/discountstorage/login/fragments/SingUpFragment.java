@@ -46,6 +46,7 @@ public class SingUpFragment extends Fragment {
                             break;
                         }else if (password.length() <6){
                             editTextPassword.setError(getString(R.string.password_to_short));
+                            break;
                         }
                         listener.singUp(email,password);
 
@@ -90,7 +91,7 @@ public class SingUpFragment extends Fragment {
         try {
             listener = (ListenerSingUp) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implements OnClicBtnListener");
+            throw new ClassCastException(context.toString() + "must implements ListenerSingUp");
         }
     }
 }

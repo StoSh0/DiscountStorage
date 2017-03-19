@@ -14,18 +14,31 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.SettingProfileActivity;
+import com.stosh.discountstorage.database.RoomList;
+import com.stosh.discountstorage.drawer.fragments.CreateRoomFragment;
 import com.stosh.discountstorage.drawer.fragments.GenerateFragment;
 import com.stosh.discountstorage.drawer.fragments.HandFragment;
 import com.stosh.discountstorage.drawer.fragments.ScanFragment;
 
 
 public class AllActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HandFragment.HandListener {
+        implements NavigationView.OnNavigationItemSelectedListener, HandFragment.ListenerHand,
+        CreateRoomFragment.ListenerCreateRoom {
+
     private String TAG = "Auth";
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+    private FirebaseUser mUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +110,9 @@ public class AllActivity extends AppCompatActivity
             case R.id.nav_show:
                 break;
             case R.id.nav_create:
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragment = new CreateRoomFragment();
+                fragmentTransaction.replace(R.id.containerDrawer, fragment).addToBackStack(null).commit();
                 break;
             case R.id.nav_connect:
                 break;
@@ -144,5 +160,25 @@ public class AllActivity extends AppCompatActivity
         bundle.putString("format", format);
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.containerDrawer, fragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void createRoom(String name, String password) {
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        mUser = mAuth.getCurrentUser();
+        String emailUserBD = (mUser.getEmail()).replace(".", "").toLowerCase();
+
+        myRef = database.getReference("users");
+
+        RoomList roomList =  new RoomList(name,password);
+
+
+        myRef.child(emailUserBD).child("RoomList").child(name).setValue(roomList);
+
+        /*Cards cards = new Cards("Rukavicka", "1", "4509584937548");
+
+        myRef.child(emailUserDB).child("Rooms").child("Job").child("Rukavichka").setValue(cards);*/
     }
 }

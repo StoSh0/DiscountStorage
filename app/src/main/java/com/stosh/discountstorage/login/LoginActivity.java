@@ -20,7 +20,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.database.RoomList;
 import com.stosh.discountstorage.database.User;
 import com.stosh.discountstorage.drawer.AllActivity;
 import com.stosh.discountstorage.login.fragments.LoginFragment;
@@ -111,7 +110,6 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
                     progressBar.setVisibility(View.GONE);
                     createDBForNewUser(email, password);
-                    login(email, password);
                 } else {
                     Toast.makeText(LoginActivity.this, R.string.auth_failed, Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
@@ -148,19 +146,11 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
     private void createDBForNewUser(String email, String password){
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("users");
-
         mUser = mAuth.getCurrentUser();
         String userId = mUser.getUid();
-
-        String emailUserDB = email.substring(0, email.length() - 4);
+        String emailUserDB = email.replace(".", "").toLowerCase();
         User user = new User(userId, email, password);
-
         myRef.child(emailUserDB).setValue(user);
-
-
-        RoomList roomList =  new RoomList("school","123456");
-
-        myRef.child(emailUserDB).child("Room").child("Lsldsld").setValue(roomList);
     }
 
 

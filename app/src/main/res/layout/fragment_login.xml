@@ -31,7 +31,8 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:textColorHint="@color/common_google_signin_btn_text_dark"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textAllCaps="false"/>
 
         <EditText
             android:id="@+id/editTextPasswordLogin"

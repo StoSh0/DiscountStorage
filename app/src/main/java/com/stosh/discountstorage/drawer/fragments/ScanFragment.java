@@ -16,7 +16,7 @@ import com.stosh.discountstorage.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ScanFragment extends Fragment {
+public class  ScanFragment extends Fragment {
 
     private View view;
     private Button buttonCancel;

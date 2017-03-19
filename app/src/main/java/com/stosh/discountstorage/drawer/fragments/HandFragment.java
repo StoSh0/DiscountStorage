@@ -52,9 +52,9 @@ public class HandFragment extends Fragment {
         buttonEnter.setOnClickListener(onClickListener);
     }
 
-    private HandListener listener;
+    private ListenerHand listener;
 
-    public interface HandListener {
+    public interface ListenerHand {
         public void send(String code);
     }
 
@@ -62,9 +62,9 @@ public class HandFragment extends Fragment {
     public void onAttach(Activity context) {
         super.onAttach(context);
         try {
-            listener = (HandListener) context;
+            listener = (ListenerHand) context;
         }catch (ClassCastException e){
-            throw new ClassCastException(context.toString() + "Must implement HandListener");
+            throw new ClassCastException(context.toString() + "Must implement ListenerHand");
         }
     }
 }
