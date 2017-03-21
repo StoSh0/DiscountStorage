@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.stosh.discountstorage.drawer.fragments.GenerateFragment"
+    tools:context="com.stosh.discountstorage.drawer.fragments.AddCodeFragment"
     android:background="@color/colorPrimaryDark">
 
 
@@ -27,6 +27,27 @@
             android:gravity="center"
             android:textSize="30dp"
             android:text="TextView" />
+
+        <Spinner
+            android:id="@+id/spinnerNameRoom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/editTextNameCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="NameCard" />
+
+        <EditText
+            android:id="@+id/editTextCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="Category"/>
 
         <LinearLayout
             android:layout_width="match_parent"

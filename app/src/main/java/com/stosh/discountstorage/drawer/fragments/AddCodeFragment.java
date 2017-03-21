@@ -5,11 +5,17 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.zxing.MultiFormatWriter;
@@ -17,6 +23,9 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.stosh.discountstorage.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.google.zxing.BarcodeFormat.CODE_128;
 import static com.google.zxing.BarcodeFormat.CODE_39;
@@ -33,31 +42,46 @@ import static com.google.zxing.BarcodeFormat.UPC_E;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GenerateFragment extends Fragment {
+public class AddCodeFragment extends Fragment {
 
     private ImageView imageView;
     private TextView textViewCode;
-    private Button buttonCansel;
+    private Button buttonCancel;
     private Button buttonAdd;
+    private Spinner spinner;
+    private EditText editTextNameCard;
+    private EditText editTextCategory;
     private View.OnClickListener onClickListener;
     private View view;
+
+    private String format;
+    private String code;
     private BitMatrix bitMatrix;
     private Bitmap bitmap;
     private BarcodeEncoder barcodeEncoder;
-    private String format;
-    private String code;
+
+    private List roomList;
+    private int spinnerPosition;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_generate, container, false);
+        view = inflater.inflate(R.layout.fragment_add_code, container, false);
 
         onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()){
+                switch (v.getId()) {
                     case R.id.btnAdd:
-                        listener.onClickAdd(code, format);
+                        String nameCard = editTextNameCard.getText().toString();
+                        String category = editTextCategory.getText().toString();
+                        if (TextUtils.isEmpty(nameCard)) {
+                            return;
+                        } else if (TextUtils.isEmpty(category)) {
+                            return;
+                        }
+                        listener.onClickAddCard(roomList.get(spinnerPosition).toString(), nameCard, category, code, format);
+                        Log.d("1", roomList.get(spinnerPosition).toString());
                     case R.id.btnCancel:
                         listener.onClickCancel();
                         break;
@@ -67,7 +91,27 @@ public class GenerateFragment extends Fragment {
         Bundle bundle = getArguments();
         code = bundle.getString("code");
         format = bundle.getString("format");
+        roomList = (ArrayList) bundle.getStringArrayList("roomList");
         init();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, roomList);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setPrompt("Title");
+        spinner.setSelection(2);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerPosition = position;
+                Log.d("1", roomList.get(spinnerPosition).toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        setSpinnerRoomsAdapter();
         try {
 
             switch (format) {
@@ -114,20 +158,32 @@ public class GenerateFragment extends Fragment {
     }
 
     private void init() {
-        buttonCansel = (Button) view.findViewById(R.id.btnCancel);
+        buttonCancel = (Button) view.findViewById(R.id.btnCancel);
         buttonAdd = (Button) view.findViewById(R.id.btnAdd);
         imageView = (ImageView) view.findViewById(R.id.imageViewBarcode);
         textViewCode = (TextView) view.findViewById(R.id.textViewCode);
+        spinner = (Spinner) view.findViewById(R.id.spinnerNameRoom);
+        editTextNameCard = (EditText) view.findViewById(R.id.editTextNameCard);
+        editTextCategory = (EditText) view.findViewById(R.id.editTextCategory);
 
-        buttonCansel.setOnClickListener(onClickListener);
+
+        buttonCancel.setOnClickListener(onClickListener);
         buttonAdd.setOnClickListener(onClickListener);
+    }
+
+    private void setSpinnerRoomsAdapter() {
+
+
+
+
     }
 
     private ListenerGenerate listener;
 
-    public interface ListenerGenerate{
+    public interface ListenerGenerate {
         public void onClickCancel();
-        public void onClickAdd(String code, String format);
+
+        public void onClickAddCard(String nameRoom, String name, String category, String code, String format);
     }
 
     @Override
@@ -135,8 +191,10 @@ public class GenerateFragment extends Fragment {
         super.onAttach(activity);
         try {
             listener = (ListenerGenerate) activity;
-        }catch (ClassCastException e){
-            throw new ClassCastException(activity.toString()+"must implements ListenerGenerate");
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + "must implements ListenerGenerate");
         }
     }
+
+
 }

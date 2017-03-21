@@ -16,30 +16,37 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.SettingProfileActivity;
 import com.stosh.discountstorage.database.Cards;
 import com.stosh.discountstorage.database.RoomList;
+import com.stosh.discountstorage.drawer.fragments.AddCodeFragment;
 import com.stosh.discountstorage.drawer.fragments.CreateRoomFragment;
-import com.stosh.discountstorage.drawer.fragments.GenerateFragment;
 import com.stosh.discountstorage.drawer.fragments.HandFragment;
 import com.stosh.discountstorage.drawer.fragments.ScanFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class AllActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, HandFragment.ListenerHand,
-        CreateRoomFragment.ListenerCreateRoom, GenerateFragment.ListenerGenerate {
+        CreateRoomFragment.ListenerCreateRoom, AddCodeFragment.ListenerGenerate {
 
-    private String TAG = "Auth";
+    private String TAG = "Scan";
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private FirebaseUser mUser;
+    private String email;
+    private String emailUserBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +54,7 @@ public class AllActivity extends AppCompatActivity
         setContentView(R.layout.activity_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("users");
+        initFireBase();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -61,9 +65,6 @@ public class AllActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        Fragment fragment = new ScanFragment();
-        fragmentTransaction.replace(R.id.containerDrawer, fragment).commit();
     }
 
 
@@ -130,7 +131,7 @@ public class AllActivity extends AppCompatActivity
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String TAG = "Scan";
+
         IntentResult result;
         Log.d(TAG, "3");
         super.onActivityResult(requestCode, resultCode, data);
@@ -145,10 +146,13 @@ public class AllActivity extends AppCompatActivity
                 String format = result.getFormatName();
 
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                Fragment fragment = new GenerateFragment();
+                Fragment fragment = new AddCodeFragment();
+
+                List roomList = getRooms();
                 Bundle bundle = new Bundle();
                 bundle.putString("code", code);
                 bundle.putString("format", format);
+                bundle.putStringArrayList("roomList", (ArrayList<String>) roomList);
                 fragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.containerDrawer, fragment).addToBackStack(null).commit();
             }
@@ -159,40 +163,64 @@ public class AllActivity extends AppCompatActivity
     public void send(String code) {
         String format = "EAN_13";
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        Fragment fragment = new GenerateFragment();
+        Fragment fragment = new AddCodeFragment();
+        List roomList = getRooms();
         Bundle bundle = new Bundle();
         bundle.putString("code", code);
         bundle.putString("format", format);
+        bundle.putStringArrayList("roomList", (ArrayList<String>) roomList);
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.containerDrawer, fragment).addToBackStack(null).commit();
     }
 
     @Override
     public void createRoom(String name, String password) {
-
-
-        mUser = mAuth.getCurrentUser();
-        String emailUserBD = (mUser.getEmail()).replace(".", "").toLowerCase();
-
-        myRef = database.getReference("users");
-
-        RoomList roomList = new RoomList(name, password);
-
-
+        RoomList roomList = new RoomList(name, password, emailUserBD);
         myRef.child(emailUserBD).child("RoomList").child(name).setValue(roomList);
     }
+
+
+    @Override
+    public void onClickAddCard(String roomName, String cardName, String category, String code, String format) {
+
+        Cards cards = new Cards(cardName, category, code, format);
+
+        myRef.child(emailUserBD).child("Rooms").child(roomName).child(cardName).setValue(cards);
+    }
+
 
     @Override
     public void onClickCancel() {
         onBackPressed();
     }
 
-    @Override
-    public void onClickAdd(String code, String format) {
-        Cards cards = new Cards("Rukavicka", "1", code,format);
+    private List getRooms() {
+        final List roomList = new ArrayList();
+        myRef.child(emailUserBD).child("RoomList").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
+                    RoomList room = roomsDataSnapshot.getValue(RoomList.class);
+                    Log.d("1", room.name);
+                    roomList.add(room.name);
+                }
+            }
 
-        String emailUserBD = (mUser.getEmail()).replace(".", "").toLowerCase();
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        myRef.child(emailUserBD).child("Rooms").child("Job").child("Rukavichka").setValue(cards);
+            }
+        });
+        return roomList;
+    }
+
+    private void initFireBase() {
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+        mUser = mAuth.getCurrentUser();
+        email = mUser.getEmail();
+        emailUserBD = email.replace(".", "").toLowerCase();
+        myRef = database.getReference("users");
     }
 }

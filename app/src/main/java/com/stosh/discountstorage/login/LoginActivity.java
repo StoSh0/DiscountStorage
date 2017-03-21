@@ -35,13 +35,15 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
     private final int LOGIN_ID = 1;
     private final int SING_UP_ID = 2;
     private final int RESET_ID = 3;
-    private final int BACK_ID = 4;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private FirebaseUser mUser;
+    private String email;
+    private String userId;
+    private String emailUserDB;
 
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment;
@@ -53,14 +55,14 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
     @BindView(R.id.progressBarLogin)
     ProgressBar progressBar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference("users");
+
 
         unbinder = ButterKnife.bind(this);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -112,6 +114,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+                    initFireBase();
                     progressBar.setVisibility(View.GONE);
                     createDBForNewUser(email, password);
                 } else {
@@ -147,11 +150,8 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
         });
     }
 
-    private void createDBForNewUser(String email, String password){
+    private void createDBForNewUser(String email, String password) {
 
-        mUser = mAuth.getCurrentUser();
-        String userId = mUser.getUid();
-        String emailUserDB = email.replace(".", "").toLowerCase();
         User user = new User(userId, email, password);
         myRef.child(emailUserDB).setValue(user);
     }
@@ -220,5 +220,13 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
         unbinder.unbind();
     }
 
+    private void initFireBase() {
 
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference("users");
+        mUser = mAuth.getCurrentUser();
+        userId = mUser.getUid();
+        email = mUser.getEmail();
+        emailUserDB = email.replace(".", "").toLowerCase();
+    }
 }

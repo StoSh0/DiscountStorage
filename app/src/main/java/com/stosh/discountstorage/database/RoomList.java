@@ -10,14 +10,16 @@ public class RoomList {
 
     public String name;
     public String password;
+    public String creator;
 
     public RoomList(){
 
     }
 
-    public RoomList(String name, String password){
+    public RoomList(String name, String password,String creator){
         this.name = name;
         this.password = password;
+        this.creator = creator;
     }
 
 }

@@ -28,13 +28,13 @@ public class HandFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view =  inflater.inflate(R.layout.fragment_hand, container, false);
+        view = inflater.inflate(R.layout.fragment_hand, container, false);
         final Activity activity = getActivity();
         onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String code = editTextEnterHand.getText().toString();
-                if (TextUtils.isEmpty(code)){
+                if (TextUtils.isEmpty(code)) {
                     Toast.makeText(activity, getString(R.string.enter_barcode), Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -46,7 +46,7 @@ public class HandFragment extends Fragment {
         return view;
     }
 
-    private void init(){
+    private void init() {
         editTextEnterHand = (EditText) view.findViewById(R.id.editTextEnter);
         buttonEnter = (Button) view.findViewById(R.id.btnEnter);
         buttonEnter.setOnClickListener(onClickListener);
@@ -63,7 +63,7 @@ public class HandFragment extends Fragment {
         super.onAttach(context);
         try {
             listener = (ListenerHand) context;
-        }catch (ClassCastException e){
+        } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "Must implement ListenerHand");
         }
     }
