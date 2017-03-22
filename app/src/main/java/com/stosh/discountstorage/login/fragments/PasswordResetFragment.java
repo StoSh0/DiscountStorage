@@ -4,51 +4,53 @@ package com.stosh.discountstorage.login.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PasswordResetFragment extends Fragment {
-
+public class PasswordResetFragment extends Fragment implements View.OnClickListener {
 
     private EditText editTextEmail;
+    private FireBaseSingleton fireBase;
     private View view;
-    private View.OnClickListener onClickListener;
     private Button buttonReset, buttonBack;
+    private ProgressBar progressBar;
+    private ListenerFragment listenerFragment;
 
+    public interface ListenerFragment {
+        void resetPassword(int response);
+    }
+
+    @Override
+    public void onAttach(Activity context) {
+        super.onAttach(context);
+        try {
+            listenerFragment = (ListenerFragment) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "must implements ListenerReset");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_password_reset, container, false);
-        onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.btnResetBack:
-                        listener.onClickBack();
-                        break;
-                    case R.id.btnReset:
-                        String email = editTextEmail.getText().toString();
-                        if (TextUtils.isEmpty(email)){
-                            editTextEmail.setError(getString(R.string.email_is_empty));
-                            break;
-                        }
-                        listener.resetPassword(email);
-                        break;
-                }
-            }
-        };
+        fireBase = FireBaseSingleton.getInstance();
         init();
         return view;
     }
@@ -57,28 +59,47 @@ public class PasswordResetFragment extends Fragment {
         editTextEmail = (EditText) view.findViewById(R.id.editTextEmailReset);
         buttonReset = (Button) view.findViewById(R.id.btnReset);
         buttonBack = (Button) view.findViewById(R.id.btnResetBack);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBarResetPassword);
 
-        buttonReset.setOnClickListener(onClickListener);
-        buttonBack.setOnClickListener(onClickListener);
+        buttonReset.setOnClickListener(this);
+        buttonBack.setOnClickListener(this);
 
-    }
-
-
-    private ListenerReset listener;
-
-    public interface ListenerReset {
-        public void onClickBack();
-
-        public void resetPassword(String email);
     }
 
     @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        try {
-            listener = (ListenerReset) context;
-        }catch (ClassCastException e){
-            throw new ClassCastException(context.toString()+"must implements ListenerReset");
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnResetBack:
+                getActivity().onBackPressed();
+                break;
+            case R.id.btnReset:
+                String email = editTextEmail.getText().toString();
+                if (TextUtils.isEmpty(email)) {
+                    editTextEmail.setError(getString(R.string.email_is_empty));
+                    break;
+                }
+                progressBar.setVisibility(View.VISIBLE);
+                createPasswordResetListener(email);
+                break;
         }
+    }
+
+    private void createPasswordResetListener(String email) {
+        OnCompleteListener<Void> listenerReset = new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()) {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), getString(R.string.send_reset), Toast.LENGTH_SHORT)
+                            .show();
+                    progressBar.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.failed_reset), Toast.LENGTH_SHORT)
+                            .show();
+                    progressBar.setVisibility(View.GONE);
+                }
+            }
+        };
+        fireBase.resetPassword(email, listenerReset);
     }
 }
