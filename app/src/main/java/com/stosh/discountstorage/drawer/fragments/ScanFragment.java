@@ -16,30 +16,15 @@ import com.stosh.discountstorage.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class  ScanFragment extends Fragment {
+public class  ScanFragment extends Fragment implements View.OnClickListener{
 
     private View view;
     private Button buttonCancel;
-    private View.OnClickListener onClickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_scan, container, false);
-        final Activity activity = getActivity();
-        onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentIntegrator integrator = new IntentIntegrator(activity);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-                integrator.setPrompt("Scan");
-                integrator.setCameraId(0);
-                integrator.setBeepEnabled(false);
-                integrator.setBarcodeImageEnabled(false);
-                integrator.initiateScan();
-
-            }
-        };
         init();
         return view;
     }
@@ -47,6 +32,17 @@ public class  ScanFragment extends Fragment {
 
     private void init() {
         buttonCancel = (Button) view.findViewById(R.id.btnScan);
-        buttonCancel.setOnClickListener(onClickListener);
+        buttonCancel.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        IntentIntegrator integrator = new IntentIntegrator(getActivity());
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+        integrator.setPrompt("Scan");
+        integrator.setCameraId(0);
+        integrator.setBeepEnabled(false);
+        integrator.setBarcodeImageEnabled(false);
+        integrator.initiateScan();
     }
 }

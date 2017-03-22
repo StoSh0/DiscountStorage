@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.stosh.discountstorage.database.RoomList;
 import com.stosh.discountstorage.database.User;
 
 /**
@@ -28,10 +29,19 @@ public class FireBaseSingleton {
     private FirebaseUser mUser;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private String userId;
+    private String userIdDB;
 
     private FireBaseSingleton() {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+
+    }
+
+    private void init(){
+        mUser = mAuth.getCurrentUser();
+        userId = mUser.getUid();
+        userIdDB = mUser.getEmail().replace(".","").toLowerCase();
     }
 
     public void check(FirebaseAuth.AuthStateListener mAuthListener) {
@@ -40,6 +50,7 @@ public class FireBaseSingleton {
     }
 
     public void onStart() {
+
         mAuth.addAuthStateListener(mAuthListener);
     }
 
@@ -65,12 +76,17 @@ public class FireBaseSingleton {
     }
 
     public void addUserToDB(String email, String password){
-        myRef = database.getReference("users");
-        mUser = mAuth.getCurrentUser();
-        String userId = mUser.getUid();
-        String userIdDB = mUser.getEmail().replace(".","").toLowerCase();
+        init();
+        myRef = database.getReference("Users");
         User user = new User(userId, email, password);
         myRef.child(userIdDB).setValue(user);
+    }
+
+    public void createList(String name, String password){
+        init();
+        myRef = database.getReference("RoomList");
+        RoomList roomList = new RoomList(name, password, userIdDB);
+        myRef.child(name + "_" + userIdDB).setValue(roomList);
     }
 
 }

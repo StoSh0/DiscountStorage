@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,7 +39,7 @@ import java.util.List;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, EnterBarCodeFragment.ListenerHand,
-        CreateRoomFragment.ListenerCreateRoom, AddCardFragment.ListenerGenerate {
+        AddCardFragment.ListenerGenerate, CreateRoomFragment.ListenerCreateRoom {
 
     private String TAG = "Scan";
     private FirebaseAuth mAuth;
@@ -130,12 +131,14 @@ public class DrawerActivity extends AppCompatActivity
     }
 
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    public void responseCreateRoom() {
+        Toast.makeText(this, getString(R.string.room_was_create), Toast.LENGTH_LONG).show();
+    }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result;
-        Log.d(TAG, "3");
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d(TAG, "4");
         result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
@@ -172,13 +175,6 @@ public class DrawerActivity extends AppCompatActivity
         fragment.setArguments(bundle);
         fragmentTransaction.replace(R.id.containerDrawer, fragment).addToBackStack(null).commit();
     }
-
-    @Override
-    public void createRoom(String name, String password) {
-        RoomList roomList = new RoomList(name, password, emailUserBD);
-        myRef.child(emailUserBD).child("RoomList").child(name).setValue(roomList);
-    }
-
 
     @Override
     public void onClickAddCard(String roomName, String cardName, String category, String code, String format) {
@@ -223,4 +219,5 @@ public class DrawerActivity extends AppCompatActivity
         emailUserBD = email.replace(".", "").toLowerCase();
         myRef = database.getReference("users");
     }
+
 }

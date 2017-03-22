@@ -11,59 +11,27 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.database.RoomList;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CreateRoomFragment extends Fragment {
+public class CreateRoomFragment extends Fragment implements View.OnClickListener {
 
     private Button buttonCreate;
     private EditText editTextCreateName;
     private EditText editTextCreatePass;
     private View view;
-    private View.OnClickListener onClickListener;
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_create_room, container, false);
-        onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = editTextCreateName.getText().toString();
-                String password = editTextCreatePass.getText().toString();
-                if (TextUtils.isEmpty(name)) {
-                    editTextCreateName.setError(getString(R.string.email_is_empty));
-                    return;
-                } else if (TextUtils.isEmpty(password)) {
-                    editTextCreatePass.setError(getString(R.string.password_is_empty));
-                    return;
-                } else if (password.length() < 6) {
-                    editTextCreateName.setError(getString(R.string.password_to_short));
-                    return;
-                }
-                listener.createRoom(name, password);
-            }
-        };
-        init();
-        return view;
-    }
-
-    private void init() {
-        buttonCreate = (Button) view.findViewById(R.id.btnCreateRoom);
-        editTextCreateName = (EditText) view.findViewById(R.id.editTextCreateRoomName);
-        editTextCreatePass = (EditText) view.findViewById(R.id.editTextCreateRoomPass);
-
-
-        buttonCreate.setOnClickListener(onClickListener);
-    }
-
+    private FireBaseSingleton fireBase;
     private ListenerCreateRoom listener;
 
+    public CreateRoomFragment() {
+    }
+
     public interface ListenerCreateRoom {
-        public void createRoom(String name, String password);
+        void responseCreateRoom();
     }
 
     @Override
@@ -73,6 +41,42 @@ public class CreateRoomFragment extends Fragment {
             listener = (ListenerCreateRoom) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + "must implements ListenerCreateRoom");
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.fragment_create_room, container, false);
+        fireBase = FireBaseSingleton.getInstance();
+        init();
+        return view;
+    }
+
+    private void init() {
+        buttonCreate = (Button) view.findViewById(R.id.btnCreateRoom);
+        editTextCreateName = (EditText) view.findViewById(R.id.editTextCreateRoomName);
+        editTextCreatePass = (EditText) view.findViewById(R.id.editTextCreateRoomPass);
+        buttonCreate.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        {
+            String name = editTextCreateName.getText().toString();
+            String password = editTextCreatePass.getText().toString();
+            if (TextUtils.isEmpty(name)) {
+                editTextCreateName.setError(getString(R.string.email_is_empty));
+                return;
+            } else if (TextUtils.isEmpty(password)) {
+                editTextCreatePass.setError(getString(R.string.password_is_empty));
+                return;
+            } else if (password.length() < 6) {
+                editTextCreateName.setError(getString(R.string.password_to_short));
+                return;
+            }
+            fireBase.createList(name, password);
+            listener.responseCreateRoom();
         }
     }
 }

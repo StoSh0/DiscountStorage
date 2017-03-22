@@ -46,6 +46,7 @@
     <string name="scan">Scan with Camera</string>
     <string name="enter_barcode">Enter Barcode</string>
     <string name="enter">Enter</string>
+    <string name="room_was_create">Room was created</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
