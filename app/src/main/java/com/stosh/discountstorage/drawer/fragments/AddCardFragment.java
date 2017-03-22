@@ -42,7 +42,7 @@ import static com.google.zxing.BarcodeFormat.UPC_E;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddCodeFragment extends Fragment {
+public class AddCardFragment extends Fragment {
 
     private ImageView imageView;
     private TextView textViewCode;
@@ -66,7 +66,7 @@ public class AddCodeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_add_code, container, false);
+        view = inflater.inflate(R.layout.fragment_add_card, container, false);
 
         onClickListener = new View.OnClickListener() {
             @Override

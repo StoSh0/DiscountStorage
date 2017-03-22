@@ -13,7 +13,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.drawer.AllActivity;
+import com.stosh.discountstorage.drawer.DrawerActivity;
 import com.stosh.discountstorage.login.fragments.LoginFragment;
 import com.stosh.discountstorage.login.fragments.PasswordResetFragment;
 import com.stosh.discountstorage.login.fragments.SingUpFragment;
@@ -21,7 +21,7 @@ import com.stosh.discountstorage.login.fragments.SingUpFragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class LoginActivity extends AppCompatActivity implements LoginFragment.ListenerFragment, SingUpFragment.ListenerFragment, PasswordResetFragment.ListenerFragment {
+public class MainActivity extends AppCompatActivity implements LoginFragment.ListenerFragment, SingUpFragment.ListenerFragment, PasswordResetFragment.ListenerFragment {
 
     private final int LOGIN_ID = 1;
     private final int SING_UP_ID = 2;
@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
         fireBase = FireBaseSingleton.getInstance();
         unbinder = ButterKnife.bind(this);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements LoginFragment.Li
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    startActivity(new Intent(LoginActivity.this, AllActivity.class));
+                    startActivity(new Intent(MainActivity.this, DrawerActivity.class));
                     finish();
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");

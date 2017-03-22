@@ -27,18 +27,18 @@ import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.SettingProfileActivity;
 import com.stosh.discountstorage.database.Cards;
 import com.stosh.discountstorage.database.RoomList;
-import com.stosh.discountstorage.drawer.fragments.AddCodeFragment;
+import com.stosh.discountstorage.drawer.fragments.AddCardFragment;
 import com.stosh.discountstorage.drawer.fragments.CreateRoomFragment;
-import com.stosh.discountstorage.drawer.fragments.HandFragment;
+import com.stosh.discountstorage.drawer.fragments.EnterBarCodeFragment;
 import com.stosh.discountstorage.drawer.fragments.ScanFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class AllActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, HandFragment.ListenerHand,
-        CreateRoomFragment.ListenerCreateRoom, AddCodeFragment.ListenerGenerate {
+public class DrawerActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, EnterBarCodeFragment.ListenerHand,
+        CreateRoomFragment.ListenerCreateRoom, AddCardFragment.ListenerGenerate {
 
     private String TAG = "Scan";
     private FirebaseAuth mAuth;
@@ -110,7 +110,7 @@ public class AllActivity extends AppCompatActivity
                 break;
             case R.id.nav_hand:
                 fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new HandFragment();
+                fragment = new EnterBarCodeFragment();
                 fragmentTransaction.replace(R.id.containerDrawer, fragment).commit();
                 break;
             case R.id.nav_show:
@@ -146,7 +146,7 @@ public class AllActivity extends AppCompatActivity
                 String format = result.getFormatName();
 
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                Fragment fragment = new AddCodeFragment();
+                Fragment fragment = new AddCardFragment();
 
                 List roomList = getRooms();
                 Bundle bundle = new Bundle();
@@ -163,7 +163,7 @@ public class AllActivity extends AppCompatActivity
     public void send(String code) {
         String format = "EAN_13";
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        Fragment fragment = new AddCodeFragment();
+        Fragment fragment = new AddCardFragment();
         List roomList = getRooms();
         Bundle bundle = new Bundle();
         bundle.putString("code", code);

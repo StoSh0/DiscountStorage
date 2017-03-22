@@ -15,7 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.stosh.discountstorage.login.LoginActivity;
+import com.stosh.discountstorage.login.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -228,13 +228,13 @@ public class SettingProfileActivity extends AppCompatActivity {
     private void deleteUser() {
         user.delete();
         singOut();
-        startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
     private void singOut() {
         mAuth.signOut();
-        startActivity(new Intent(SettingProfileActivity.this, LoginActivity.class));
+        startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
         finish();
     }
 }

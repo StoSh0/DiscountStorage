@@ -17,7 +17,7 @@ import com.stosh.discountstorage.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HandFragment extends Fragment {
+public class EnterBarCodeFragment extends Fragment {
 
 
     private EditText editTextEnterHand;
@@ -28,7 +28,7 @@ public class HandFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_hand, container, false);
+        view = inflater.inflate(R.layout.fragment_enter_bar_code, container, false);
         final Activity activity = getActivity();
         onClickListener = new View.OnClickListener() {
             @Override
