@@ -21,7 +21,8 @@ import com.stosh.discountstorage.login.fragments.SingUpFragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.ListenerFragment, SingUpFragment.ListenerFragment, PasswordResetFragment.ListenerFragment {
+public class MainActivity extends AppCompatActivity implements LoginFragment.ListenerFragment,
+        SingUpFragment.ListenerFragment {
 
     private final int LOGIN_ID = 1;
     private final int SING_UP_ID = 2;
@@ -52,15 +53,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
                     startActivity(new Intent(MainActivity.this, DrawerActivity.class));
                     finish();
                 } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    LoginFragment fragment = new LoginFragment();
-                    fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
 
                 }
             }
         };
         fireBase.check(mAuthListener);
+        Log.d(TAG, "onAuthStateChanged:signed_out");
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        LoginFragment fragment = new LoginFragment();
+        fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
     }
 
 
@@ -75,7 +76,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
             case RESET_ID:
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragment = new PasswordResetFragment();
-                fragmentTransaction.replace(R.id.containerLogin, fragment).addToBackStack(null).commit();
+                fragmentTransaction
+                        .replace(R.id.containerLogin, fragment)
+                        .addToBackStack(null)
+                        .commit();
                 break;
         }
     }
@@ -91,14 +95,12 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
             case RESET_ID:
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragment = new PasswordResetFragment();
-                fragmentTransaction.replace(R.id.containerLogin, fragment).addToBackStack(null).commit();
+                fragmentTransaction
+                        .replace(R.id.containerLogin, fragment)
+                        .addToBackStack(null)
+                        .commit();
                 break;
         }
-    }
-
-    @Override
-    public void resetPassword(int response) {
-
     }
 
     @Override

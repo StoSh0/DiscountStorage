@@ -233,8 +233,9 @@ public class SettingProfileActivity extends AppCompatActivity {
     }
 
     private void singOut() {
-        mAuth.signOut();
         startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
+        mAuth.signOut();
+
         finish();
     }
 }

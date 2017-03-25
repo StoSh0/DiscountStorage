@@ -93,6 +93,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 progressBar.setVisibility(View.VISIBLE);
+                btnLogin.setClickable(false);
+                btnSingUpFrag.setClickable(false);
+                btnResetPass.setClickable(false);
                 createListenerLogin(email, password);
                 break;
 
@@ -114,10 +117,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 if (task.isSuccessful()) {
                     Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
                     progressBar.setVisibility(View.GONE);
+                    btnLogin.setClickable(true);
+                    btnSingUpFrag.setClickable(true);
+                    btnResetPass.setClickable(true);
                 } else {
                     Log.w(TAG, "signInWithEmail:failed", task.getException());
                     Toast.makeText(getActivity(), R.string.auth_failed, Toast.LENGTH_SHORT).show();
                     progressBar.setVisibility(View.GONE);
+                    btnLogin.setClickable(true);
+                    btnSingUpFrag.setClickable(true);
+                    btnResetPass.setClickable(true);
                 }
             }
         };

@@ -30,21 +30,6 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
     private View view;
     private Button buttonReset, buttonBack;
     private ProgressBar progressBar;
-    private ListenerFragment listenerFragment;
-
-    public interface ListenerFragment {
-        void resetPassword(int response);
-    }
-
-    @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        try {
-            listenerFragment = (ListenerFragment) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "must implements ListenerReset");
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -79,6 +64,8 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
                     break;
                 }
                 progressBar.setVisibility(View.VISIBLE);
+                buttonReset.setClickable(false);
+                buttonBack.setClickable(false);
                 createPasswordResetListener(email);
                 break;
         }
@@ -90,13 +77,22 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), getString(R.string.send_reset), Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                            getActivity(),
+                            getString(R.string.send_reset),
+                            Toast.LENGTH_SHORT
+                    )
                             .show();
+
                     progressBar.setVisibility(View.GONE);
+                    buttonReset.setClickable(true);
+                    buttonBack.setClickable(true);
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.failed_reset), Toast.LENGTH_SHORT)
                             .show();
                     progressBar.setVisibility(View.GONE);
+                    buttonReset.setClickable(true);
+                    buttonBack.setClickable(true);
                 }
             }
         };

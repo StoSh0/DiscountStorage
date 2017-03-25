@@ -24,6 +24,21 @@ public class EnterBarCodeFragment extends Fragment {
     private Button buttonEnter;
     private View.OnClickListener onClickListener;
     private View view;
+    private ListenerHand listener;
+
+    public interface ListenerHand {
+        void send(String code);
+    }
+
+    @Override
+    public void onAttach(Activity context) {
+        super.onAttach(context);
+        try {
+            listener = (ListenerHand) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + "Must implement ListenerHand");
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,21 +65,5 @@ public class EnterBarCodeFragment extends Fragment {
         editTextEnterHand = (EditText) view.findViewById(R.id.editTextEnter);
         buttonEnter = (Button) view.findViewById(R.id.btnEnter);
         buttonEnter.setOnClickListener(onClickListener);
-    }
-
-    private ListenerHand listener;
-
-    public interface ListenerHand {
-        public void send(String code);
-    }
-
-    @Override
-    public void onAttach(Activity context) {
-        super.onAttach(context);
-        try {
-            listener = (ListenerHand) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "Must implement ListenerHand");
-        }
     }
 }

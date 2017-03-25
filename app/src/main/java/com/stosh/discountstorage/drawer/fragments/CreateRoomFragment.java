@@ -13,7 +13,6 @@ import android.widget.EditText;
 
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.database.RoomList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -75,7 +74,9 @@ public class CreateRoomFragment extends Fragment implements View.OnClickListener
                 editTextCreateName.setError(getString(R.string.password_to_short));
                 return;
             }
-            fireBase.createList(name, password);
+            fireBase.createList(name);
+            fireBase.createRoom(name, password);
+
             listener.responseCreateRoom();
         }
     }

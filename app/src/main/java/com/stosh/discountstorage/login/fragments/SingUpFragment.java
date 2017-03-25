@@ -89,6 +89,9 @@ public class SingUpFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 progressBar.setVisibility(View.VISIBLE);
+                btnSingUp.setClickable(false);
+                btnResetPass.setClickable(false);
+                btnSingUpFrag.setClickable(false);
                 createListenerSingUp(email, password);
                 break;
             case R.id.btnResetPassFrag:
@@ -108,9 +111,19 @@ public class SingUpFragment extends Fragment implements View.OnClickListener {
                     Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
                     progressBar.setVisibility(View.GONE);
                     fireBase.addUserToDB(email, password);
+                    btnSingUp.setClickable(true);
+                    btnResetPass.setClickable(true);
+                    btnSingUpFrag.setClickable(true);
                 } else {
-                    Toast.makeText(getActivity(), R.string.auth_failed, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(
+                            getActivity(),
+                            R.string.auth_failed,
+                            Toast.LENGTH_SHORT)
+                            .show();
                     progressBar.setVisibility(View.GONE);
+                    btnSingUp.setClickable(true);
+                    btnResetPass.setClickable(true);
+                    btnSingUpFrag.setClickable(true);
                 }
             }
         };

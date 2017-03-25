@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.stosh.discountstorage.database.Room;
 import com.stosh.discountstorage.database.RoomList;
 import com.stosh.discountstorage.database.User;
 
@@ -16,6 +17,10 @@ import com.stosh.discountstorage.database.User;
  */
 
 public class FireBaseSingleton {
+
+    private final String DBUser = "Users";
+    private final String DBRoomList = "RoomList";
+    private final String DBRooms = "Rooms";
 
     private static final FireBaseSingleton ourInstance = new FireBaseSingleton();
 
@@ -38,10 +43,10 @@ public class FireBaseSingleton {
 
     }
 
-    private void init(){
+    private void init() {
         mUser = mAuth.getCurrentUser();
         userId = mUser.getUid();
-        userIdDB = mUser.getEmail().replace(".","").toLowerCase();
+        userIdDB = mUser.getEmail().replace(".", "").toLowerCase();
     }
 
     public void check(FirebaseAuth.AuthStateListener mAuthListener) {
@@ -60,7 +65,11 @@ public class FireBaseSingleton {
         }
     }
 
-    public void login(Activity activity, String email, String password, OnCompleteListener<AuthResult> listener) {
+    public void login(
+            Activity activity,
+            String email,
+            String password,
+            OnCompleteListener<AuthResult> listener) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, listener);
     }
@@ -70,23 +79,30 @@ public class FireBaseSingleton {
                 .addOnCompleteListener(listener);
     }
 
-    public void resetPassword(String email, OnCompleteListener<Void> listener){
+    public void resetPassword(String email, OnCompleteListener<Void> listener) {
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(listener);
     }
 
-    public void addUserToDB(String email, String password){
+    public void addUserToDB(String email, String password) {
         init();
         myRef = database.getReference("Users");
         User user = new User(userId, email, password);
         myRef.child(userIdDB).setValue(user);
     }
 
-    public void createList(String name, String password){
+    public void createList(String name) {
         init();
-        myRef = database.getReference("RoomList");
-        RoomList roomList = new RoomList(name, password, userIdDB);
-        myRef.child(name + "_" + userIdDB).setValue(roomList);
+        myRef = database.getReference(DBUser);
+        RoomList roomList = new RoomList(name + "_" + userIdDB);
+        myRef.child(userIdDB).child(DBRoomList).child(name + "_" + userIdDB).setValue(roomList);
+    }
+
+    public void createRoom(String name, String password) {
+        init();
+        myRef = database.getReference(DBRooms);
+        Room room = new Room(name, password, userIdDB);
+        myRef.child(name + "_" + userIdDB).setValue(room);
     }
 
 }

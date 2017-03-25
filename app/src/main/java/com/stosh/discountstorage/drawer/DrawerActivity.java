@@ -27,7 +27,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.SettingProfileActivity;
 import com.stosh.discountstorage.database.Cards;
-import com.stosh.discountstorage.database.RoomList;
+import com.stosh.discountstorage.database.Room;
 import com.stosh.discountstorage.drawer.fragments.AddCardFragment;
 import com.stosh.discountstorage.drawer.fragments.CreateRoomFragment;
 import com.stosh.discountstorage.drawer.fragments.EnterBarCodeFragment;
@@ -37,8 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, EnterBarCodeFragment.ListenerHand,
+public class DrawerActivity extends AppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener,
+        EnterBarCodeFragment.ListenerHand,
         AddCardFragment.ListenerGenerate, CreateRoomFragment.ListenerCreateRoom {
 
     private String TAG = "Scan";
@@ -119,7 +120,10 @@ public class DrawerActivity extends AppCompatActivity
             case R.id.nav_create:
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragment = new CreateRoomFragment();
-                fragmentTransaction.replace(R.id.containerDrawer, fragment).addToBackStack(null).commit();
+                fragmentTransaction
+                        .replace(R.id.containerDrawer, fragment)
+                        .addToBackStack(null)
+                        .commit();
                 break;
             case R.id.nav_connect:
                 break;
@@ -157,7 +161,10 @@ public class DrawerActivity extends AppCompatActivity
                 bundle.putString("format", format);
                 bundle.putStringArrayList("roomList", (ArrayList<String>) roomList);
                 fragment.setArguments(bundle);
-                fragmentTransaction.replace(R.id.containerDrawer, fragment).addToBackStack(null).commit();
+                fragmentTransaction
+                        .replace(R.id.containerDrawer, fragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         }
     }
@@ -177,7 +184,12 @@ public class DrawerActivity extends AppCompatActivity
     }
 
     @Override
-    public void onClickAddCard(String roomName, String cardName, String category, String code, String format) {
+    public void onClickAddCard(
+            String roomName,
+            String cardName,
+            String category,
+            String code,
+            String format) {
 
         Cards cards = new Cards(cardName, category, code, format);
 
@@ -192,11 +204,11 @@ public class DrawerActivity extends AppCompatActivity
 
     private List getRooms() {
         final List roomList = new ArrayList();
-        myRef.child(emailUserBD).child("RoomList").addValueEventListener(new ValueEventListener() {
+        myRef.child(emailUserBD).child("Room").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
-                    RoomList room = roomsDataSnapshot.getValue(RoomList.class);
+                    Room room = roomsDataSnapshot.getValue(Room.class);
                     Log.d("1", room.name);
                     roomList.add(room.name);
                 }
