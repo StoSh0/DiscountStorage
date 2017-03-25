@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:hint= "@string/name"
+            android:textColorHint="@color/white"/>
 
         <EditText
             android:id="@+id/editTextCreateRoomPass"
@@ -25,7 +26,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Password" />
+            android:hint="@string/password"
+            android:textColorHint="@color/yellow"/>
 
         <Button
             android:id="@+id/btnCreateRoom"

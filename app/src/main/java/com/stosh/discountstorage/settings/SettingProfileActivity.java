@@ -1,4 +1,4 @@
-package com.stosh.discountstorage;
+package com.stosh.discountstorage.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.stosh.discountstorage.FireBaseSingleton;
+import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.login.MainActivity;
 
 import butterknife.BindView;
@@ -26,10 +28,10 @@ import static android.widget.Toast.makeText;
 
 public class SettingProfileActivity extends AppCompatActivity {
 
+    private FireBaseSingleton fireBase;
     private Unbinder unbinder;
     private FirebaseUser user;
     private FirebaseAuth mAuth;
-    private String TAG = "checkAuth";
     private String email;
     private String password;
 
@@ -55,6 +57,7 @@ public class SettingProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting_profile);
         unbinder = ButterKnife.bind(this);
+        fireBase = FireBaseSingleton.getInstance();
         mAuth = FirebaseAuth.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
     }

@@ -31,7 +31,10 @@
         <Spinner
             android:id="@+id/spinnerNameRoom"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:isScrollContainer="true"
+
+            />
 
         <EditText
             android:id="@+id/editTextNameCard"
@@ -39,7 +42,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="NameCard" />
+            android:hint="NameCard"
+            android:textColorHint="@color/white"/>
 
         <EditText
             android:id="@+id/editTextCategory"
@@ -47,7 +51,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:hint="Category"/>
+            android:hint="Category"
+            android:textColorHint="@color/yellow"/>
 
         <LinearLayout
             android:layout_width="match_parent"

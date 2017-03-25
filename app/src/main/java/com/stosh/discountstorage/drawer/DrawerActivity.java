@@ -17,23 +17,16 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.SettingProfileActivity;
-import com.stosh.discountstorage.database.Room;
+import com.stosh.discountstorage.settings.SettingProfileActivity;
 import com.stosh.discountstorage.drawer.fragments.AddCardFragment;
 import com.stosh.discountstorage.drawer.fragments.CreateRoomFragment;
 import com.stosh.discountstorage.drawer.fragments.EnterBarCodeFragment;
 import com.stosh.discountstorage.drawer.fragments.ScanFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class DrawerActivity extends AppCompatActivity implements

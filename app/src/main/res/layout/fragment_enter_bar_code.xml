@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="@string/enter_barcode"
-            android:textColorHint="@color/common_google_signin_btn_text_dark"
+            android:textColorHint="@color/white"
             android:inputType="number" />
 
         <Button
