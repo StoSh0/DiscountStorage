@@ -1,16 +1,25 @@
 package com.stosh.discountstorage;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.stosh.discountstorage.database.Card;
+import com.stosh.discountstorage.database.CardList;
 import com.stosh.discountstorage.database.Room;
 import com.stosh.discountstorage.database.RoomList;
 import com.stosh.discountstorage.database.User;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by StoSh on 21-Mar-17.
@@ -18,9 +27,11 @@ import com.stosh.discountstorage.database.User;
 
 public class FireBaseSingleton {
 
-    private final String DBUser = "Users";
-    private final String DBRoomList = "RoomList";
-    private final String DBRooms = "Rooms";
+    private final String DB_USERS = "Users";
+    private final String DB_ROOMS_LIST = "RoomList";
+    private final String DB_ROOMS = "Rooms";
+    private final String DB_CARD_LIST = "CardList";
+    private final String DB_CARDS = "Card";
 
     private static final FireBaseSingleton ourInstance = new FireBaseSingleton();
 
@@ -93,18 +104,37 @@ public class FireBaseSingleton {
 
     public void createList(String name) {
         init();
-        myRef = database.getReference(DBUser);
-        RoomList roomList = new RoomList(name + "_" + userIdDB);
-        myRef.child(userIdDB).child(DBRoomList).child(name + "_" + userIdDB).setValue(roomList);
+        myRef = database.getReference(DB_USERS);
+        RoomList roomList = new RoomList(name);
+        myRef.child(userIdDB).child(DB_ROOMS_LIST).child(name + "_" + userIdDB).setValue(roomList);
     }
 
     public void createRoom(String name, String password) {
         init();
-        myRef = database.getReference(DBRooms);
+        myRef = database.getReference(DB_ROOMS);
         Room room = new Room(name, password, userIdDB);
         myRef.child(name + "_" + userIdDB).setValue(room);
     }
 
+    public void createCardList(String roomName, String cardName) {
+        init();
+        myRef = database.getReference(DB_ROOMS);
+        CardList cardList = new CardList(cardName);
+        myRef.child(roomName + "_" + userIdDB).child(DB_CARD_LIST).child(cardName + "_" + roomName).setValue(cardList);
+    }
+
+    public void createCard(String roomName, String cardName, String category, String code, String format) {
+        init();
+        myRef = database.getReference(DB_CARDS);
+        Card card = new Card(roomName, cardName, category, code, format);
+        myRef.child(cardName + "_" + roomName + "_" + userIdDB).setValue(card);
+    }
+
+    public void getRooms(ValueEventListener listener) {
+        init();
+        myRef = database.getReference(DB_USERS);
+        myRef.child(userIdDB).child(DB_ROOMS_LIST).addValueEventListener(listener);
+    }
 }
 
 

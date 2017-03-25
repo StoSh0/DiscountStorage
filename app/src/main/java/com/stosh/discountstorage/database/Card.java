@@ -8,17 +8,19 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 
 @IgnoreExtraProperties
-public class Cards {
+public class Card {
 
+    public String nameRoom;
     public String name;
     public String category;
     public String code;
     public String format;
-    public Cards(){
+    public Card(){
 
     }
 
-    public Cards(String name, String category, String code, String format){
+    public Card(String nameRoom, String name, String category, String code, String format){
+        this.nameRoom = nameRoom;
         this.name = name;
         this.category = category;
         this.code = code;

@@ -5,17 +5,11 @@ import com.google.firebase.database.IgnoreExtraProperties;
 /**
  * Created by StoSh on 25-Mar-17.
  */
-
 @IgnoreExtraProperties
-public class RoomList {
-
+public class CardList {
     public String name;
 
-    public RoomList(){
-
-    }
-
-    public RoomList(String name) {
+    public CardList(String name) {
         this.name = name;
     }
 }

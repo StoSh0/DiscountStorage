@@ -18,11 +18,17 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.database.Room;
+import com.stosh.discountstorage.database.RoomList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +48,8 @@ import static com.google.zxing.BarcodeFormat.UPC_E;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddCardFragment extends Fragment {
+public class AddCardFragment extends Fragment implements View.OnClickListener {
+
 
     private ImageView imageView;
     private TextView textViewCode;
@@ -51,69 +58,64 @@ public class AddCardFragment extends Fragment {
     private Spinner spinner;
     private EditText editTextNameCard;
     private EditText editTextCategory;
-    private View.OnClickListener onClickListener;
     private View view;
-
     private String format;
     private String code;
-    private BitMatrix bitMatrix;
-    private Bitmap bitmap;
-    private BarcodeEncoder barcodeEncoder;
-
     private List roomList;
     private int spinnerPosition;
+    private FireBaseSingleton fireBase;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_card, container, false);
-
-        onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.btnAdd:
-                        String nameCard = editTextNameCard.getText().toString();
-                        String category = editTextCategory.getText().toString();
-                        if (TextUtils.isEmpty(nameCard)) {
-                            return;
-                        } else if (TextUtils.isEmpty(category)) {
-                            return;
-                        }
-                        listener.onClickAddCard(roomList.get(spinnerPosition).toString(), nameCard, category, code, format);
-                        Log.d("1", roomList.get(spinnerPosition).toString());
-                    case R.id.btnCancel:
-                        listener.onClickCancel();
-                        break;
-                }
-            }
-        };
+        fireBase = FireBaseSingleton.getInstance();
         Bundle bundle = getArguments();
         code = bundle.getString("code");
         format = bundle.getString("format");
-        roomList = (ArrayList) bundle.getStringArrayList("roomList");
         init();
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, roomList);
+        getRoomList();
+        generateBitmap();
+        return view;
+    }
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setPrompt("Title");
-        spinner.setSelection(2);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spinnerPosition = position;
+    private void init() {
+        buttonCancel = (Button) view.findViewById(R.id.btnCancel);
+        buttonAdd = (Button) view.findViewById(R.id.btnAdd);
+        imageView = (ImageView) view.findViewById(R.id.imageViewBarcode);
+        textViewCode = (TextView) view.findViewById(R.id.textViewCode);
+        spinner = (Spinner) view.findViewById(R.id.spinnerNameRoom);
+        editTextNameCard = (EditText) view.findViewById(R.id.editTextNameCard);
+        editTextCategory = (EditText) view.findViewById(R.id.editTextCategory);
+        buttonCancel.setOnClickListener(this);
+        buttonAdd.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnAdd:
+                String nameCard = editTextNameCard.getText().toString();
+                String category = editTextCategory.getText().toString();
+                if (TextUtils.isEmpty(nameCard)) {
+                    return;
+                } else if (TextUtils.isEmpty(category)) {
+                    return;
+                }
+                String roomName = roomList.get(spinnerPosition).toString();
+                fireBase.createCardList(roomName, nameCard);
+                fireBase.createCard(roomName, nameCard, category, code, format);
                 Log.d("1", roomList.get(spinnerPosition).toString());
-            }
+            case R.id.btnCancel:
+                break;
+        }
+    }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        setSpinnerRoomsAdapter();
+    private void generateBitmap() {
+        BitMatrix bitMatrix = null;
+        Bitmap bitmap;
+        BarcodeEncoder barcodeEncoder;
         try {
-
             switch (format) {
                 case "UPC_A":
                     bitMatrix = new MultiFormatWriter().encode(code, UPC_A, 400, 200);
@@ -154,47 +156,46 @@ public class AddCardFragment extends Fragment {
         } catch (WriterException e) {
             e.printStackTrace();
         }
-        return view;
     }
 
-    private void init() {
-        buttonCancel = (Button) view.findViewById(R.id.btnCancel);
-        buttonAdd = (Button) view.findViewById(R.id.btnAdd);
-        imageView = (ImageView) view.findViewById(R.id.imageViewBarcode);
-        textViewCode = (TextView) view.findViewById(R.id.textViewCode);
-        spinner = (Spinner) view.findViewById(R.id.spinnerNameRoom);
-        editTextNameCard = (EditText) view.findViewById(R.id.editTextNameCard);
-        editTextCategory = (EditText) view.findViewById(R.id.editTextCategory);
+    private void setSpinnerAdapter() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_single_choice, roomList);
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        spinner.setAdapter(adapter);
+        spinner.setPrompt("Title");
+        spinner.setSelection(0);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerPosition = position;
+                Log.d("1", roomList.get(spinnerPosition).toString());
+            }
 
-
-        buttonCancel.setOnClickListener(onClickListener);
-        buttonAdd.setOnClickListener(onClickListener);
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
-    private void setSpinnerRoomsAdapter() {
+    private void getRoomList() {
+        roomList = new ArrayList();
+        ValueEventListener listener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
+                    RoomList room = roomsDataSnapshot.getValue(RoomList.class);
+                    Log.d("1", room.name);
+                    roomList.add(room.name);
+                }
+                setSpinnerAdapter();
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-
+            }
+        };
+        fireBase.getRooms(listener);
 
     }
-
-    private ListenerGenerate listener;
-
-    public interface ListenerGenerate {
-        public void onClickCancel();
-
-        public void onClickAddCard(String nameRoom, String name, String category, String code, String format);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            listener = (ListenerGenerate) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + "must implements ListenerGenerate");
-        }
-    }
-
-
 }

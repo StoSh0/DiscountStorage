@@ -228,14 +228,11 @@ public class SettingProfileActivity extends AppCompatActivity {
     private void deleteUser() {
         user.delete();
         singOut();
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
     }
 
     private void singOut() {
-        startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
         mAuth.signOut();
-
+        startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
         finish();
     }
 }

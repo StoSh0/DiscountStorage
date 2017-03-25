@@ -76,7 +76,6 @@ public class CreateRoomFragment extends Fragment implements View.OnClickListener
             }
             fireBase.createList(name);
             fireBase.createRoom(name, password);
-
             listener.responseCreateRoom();
         }
     }

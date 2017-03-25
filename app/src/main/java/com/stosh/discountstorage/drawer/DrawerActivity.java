@@ -26,7 +26,6 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.SettingProfileActivity;
-import com.stosh.discountstorage.database.Cards;
 import com.stosh.discountstorage.database.Room;
 import com.stosh.discountstorage.drawer.fragments.AddCardFragment;
 import com.stosh.discountstorage.drawer.fragments.CreateRoomFragment;
@@ -40,7 +39,9 @@ import java.util.List;
 public class DrawerActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
         EnterBarCodeFragment.ListenerHand,
-        AddCardFragment.ListenerGenerate, CreateRoomFragment.ListenerCreateRoom {
+        CreateRoomFragment.ListenerCreateRoom {
+
+    private final String OK_ID = "OK";
 
     private String TAG = "Scan";
     private FirebaseAuth mAuth;
@@ -154,12 +155,9 @@ public class DrawerActivity extends AppCompatActivity implements
 
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 Fragment fragment = new AddCardFragment();
-
-                List roomList = getRooms();
                 Bundle bundle = new Bundle();
                 bundle.putString("code", code);
                 bundle.putString("format", format);
-                bundle.putStringArrayList("roomList", (ArrayList<String>) roomList);
                 fragment.setArguments(bundle);
                 fragmentTransaction
                         .replace(R.id.containerDrawer, fragment)
@@ -171,55 +169,22 @@ public class DrawerActivity extends AppCompatActivity implements
 
     @Override
     public void send(String code) {
-        String format = "EAN_13";
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        Fragment fragment = new AddCardFragment();
-        List roomList = getRooms();
-        Bundle bundle = new Bundle();
-        bundle.putString("code", code);
-        bundle.putString("format", format);
-        bundle.putStringArrayList("roomList", (ArrayList<String>) roomList);
-        fragment.setArguments(bundle);
-        fragmentTransaction.replace(R.id.containerDrawer, fragment).addToBackStack(null).commit();
-    }
 
-    @Override
-    public void onClickAddCard(
-            String roomName,
-            String cardName,
-            String category,
-            String code,
-            String format) {
-
-        Cards cards = new Cards(cardName, category, code, format);
-
-        myRef.child(emailUserBD).child("Rooms").child(roomName).child(cardName).setValue(cards);
-    }
-
-
-    @Override
-    public void onClickCancel() {
-        onBackPressed();
-    }
-
-    private List getRooms() {
-        final List roomList = new ArrayList();
-        myRef.child(emailUserBD).child("Room").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
-                    Room room = roomsDataSnapshot.getValue(Room.class);
-                    Log.d("1", room.name);
-                    roomList.add(room.name);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        return roomList;
+        if (code.length() == 13){
+            String format = "EAN_13";
+            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            Fragment fragment = new AddCardFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString("code", code);
+            bundle.putString("format", format);
+            fragment.setArguments(bundle);
+            fragmentTransaction
+                    .replace(R.id.containerDrawer, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        }else {
+            Toast.makeText(this, "Sorry, but now we scan only EAN-13", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void initFireBase() {
@@ -231,5 +196,4 @@ public class DrawerActivity extends AppCompatActivity implements
         emailUserBD = email.replace(".", "").toLowerCase();
         myRef = database.getReference("users");
     }
-
 }
