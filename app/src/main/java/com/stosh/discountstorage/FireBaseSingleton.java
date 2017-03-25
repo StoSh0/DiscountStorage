@@ -136,5 +136,3 @@ public class FireBaseSingleton {
         myRef.child(userIdDB).child(DB_ROOMS_LIST).addValueEventListener(listener);
     }
 }
-
-
