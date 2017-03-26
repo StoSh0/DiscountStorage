@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.drawer.fragments.AddRoomFragment;
 import com.stosh.discountstorage.settings.SettingProfileActivity;
 import com.stosh.discountstorage.drawer.fragments.AddCardFragment;
 import com.stosh.discountstorage.drawer.fragments.CreateRoomFragment;
@@ -111,6 +112,9 @@ public class DrawerActivity extends AppCompatActivity implements
                         .commit();
                 break;
             case R.id.nav_connect:
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragment = new AddRoomFragment();
+                fragmentTransaction.replace(R.id.containerDrawer, fragment).commit();
                 break;
         }
 

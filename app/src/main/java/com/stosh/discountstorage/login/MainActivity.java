@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
             }
         };
         fireBase.check(mAuthListener);
-
     }
 
     @Override
