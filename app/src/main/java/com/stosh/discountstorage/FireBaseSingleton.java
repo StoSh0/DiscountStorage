@@ -62,7 +62,6 @@ public class FireBaseSingleton {
 
     public void check(FirebaseAuth.AuthStateListener mAuthListener) {
         this.mAuthListener = mAuthListener;
-        mAuth.addAuthStateListener(mAuthListener);
     }
 
     public void onStart() {

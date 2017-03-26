@@ -69,7 +69,7 @@ public class SettingProfileActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
                             startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
-                            finish();
+                            SettingProfileActivity.this.finish();
                         }
                     }
                 };
@@ -78,6 +78,7 @@ public class SettingProfileActivity extends AppCompatActivity {
             case R.id.btnSingOut:
                 fireBase.singOut();
                 startActivity(new Intent(this, MainActivity.class));
+                SettingProfileActivity.this.finish();
                 break;
         }
     }

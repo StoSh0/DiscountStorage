@@ -77,7 +77,7 @@ public class DrawerActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingProfileActivity.class));
-                finish();
+                DrawerActivity.this.finish();
                 break;
         }
 

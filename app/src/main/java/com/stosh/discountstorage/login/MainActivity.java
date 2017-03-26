@@ -17,6 +17,7 @@ import com.stosh.discountstorage.drawer.DrawerActivity;
 import com.stosh.discountstorage.login.fragments.LoginFragment;
 import com.stosh.discountstorage.login.fragments.PasswordResetFragment;
 import com.stosh.discountstorage.login.fragments.SingUpFragment;
+import com.stosh.discountstorage.settings.SettingProfileActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -47,17 +48,17 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
                 if (user != null) {
                     Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
                     startActivity(new Intent(MainActivity.this, DrawerActivity.class));
-                    finish();
+                    MainActivity.this.finish();
                 } else {
-                    Log.d(TAG, "onAuthStateChanged:singOut");
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    LoginFragment fragment = new LoginFragment();
+                    fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
                 }
             }
         };
         fireBase.check(mAuthListener);
-        Log.d(TAG, "onAuthStateChanged:signed_out");
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        LoginFragment fragment = new LoginFragment();
-        fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
+
     }
 
     @Override
