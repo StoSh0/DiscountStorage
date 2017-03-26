@@ -34,15 +34,7 @@ public class DrawerActivity extends AppCompatActivity implements
         EnterBarCodeFragment.ListenerHand,
         CreateRoomFragment.ListenerCreateRoom {
 
-    private final String OK_ID = "OK";
-
     private String TAG = "Scan";
-    private FirebaseAuth mAuth;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
-    private FirebaseUser mUser;
-    private String email;
-    private String emailUserBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +42,6 @@ public class DrawerActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        initFireBase();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -128,7 +119,6 @@ public class DrawerActivity extends AppCompatActivity implements
         return true;
     }
 
-
     @Override
     public void responseCreateRoom() {
         Toast.makeText(this, getString(R.string.room_was_create), Toast.LENGTH_LONG).show();
@@ -178,15 +168,5 @@ public class DrawerActivity extends AppCompatActivity implements
         }else {
             Toast.makeText(this, "Sorry, but now we scan only EAN-13", Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void initFireBase() {
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
-        mUser = mAuth.getCurrentUser();
-        email = mUser.getEmail();
-        emailUserBD = email.replace(".", "").toLowerCase();
-        myRef = database.getReference("users");
     }
 }

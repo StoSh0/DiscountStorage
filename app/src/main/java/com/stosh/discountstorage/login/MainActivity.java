@@ -27,15 +27,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
     private final int LOGIN_ID = 1;
     private final int SING_UP_ID = 2;
     private final int RESET_ID = 3;
-
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FragmentTransaction fragmentTransaction;
     private Fragment fragment;
-
-    private String TAG = "FireBase";
+    private String TAG = "MainActivity";
     private Unbinder unbinder;
-
-
     private FireBaseSingleton fireBase;
 
     @Override
@@ -53,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
                     startActivity(new Intent(MainActivity.this, DrawerActivity.class));
                     finish();
                 } else {
-
+                    Log.d(TAG, "onAuthStateChanged:singOut");
                 }
             }
         };
@@ -63,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
         LoginFragment fragment = new LoginFragment();
         fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
     }
-
 
     @Override
     public void onClickBtnLogin(int code) {
@@ -121,6 +116,4 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
         super.onDestroy();
         unbinder.unbind();
     }
-
-
 }

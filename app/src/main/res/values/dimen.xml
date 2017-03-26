@@ -12,5 +12,5 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="btn_margin">5dp</dimen>
     <dimen name="layout_marginTop">150dp</dimen>
-    <dimen name="progresBar_marginTop">100dp</dimen>
+    <dimen name="progressBar_marginTop">100dp</dimen>
 </resources>

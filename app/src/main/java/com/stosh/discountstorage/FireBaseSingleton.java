@@ -135,4 +135,25 @@ public class FireBaseSingleton {
         myRef = database.getReference(DB_USERS);
         myRef.child(userIdDB).child(DB_ROOMS_LIST).addValueEventListener(listener);
     }
+
+    public void changeEmail(String email, OnCompleteListener listener){
+        init();
+        mUser.updateEmail(email).addOnCompleteListener(listener);
+    }
+
+    public void changePassword(String password, OnCompleteListener listener){
+        init();
+        mUser.updatePassword(password)
+                .addOnCompleteListener(listener);
+    }
+
+    public void deleteUser(OnCompleteListener listener){
+        init();
+        mUser.delete().addOnCompleteListener(listener);
+    }
+
+    public void singOut(){
+        init();
+        mAuth.signOut();
+    }
 }
