@@ -1,8 +1,9 @@
 package com.stosh.discountstorage.drawer.fragments;
 
 
-import android.app.Activity;
-import android.app.Fragment;
+
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,7 +29,6 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.database.Room;
 import com.stosh.discountstorage.database.RoomList;
 
 import java.util.ArrayList;
@@ -64,6 +65,12 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
     private List roomList;
     private int spinnerPosition;
     private FireBaseSingleton fireBase;
+
+    public static AddCardFragment getInstance(@Nullable Bundle data) {
+        AddCardFragment fragment = new AddCardFragment();
+        fragment.setArguments(data == null ? new Bundle() : data);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -189,6 +196,8 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
                     RoomList room = roomsDataSnapshot.getValue(RoomList.class);
                     Log.d("1", room.name);
                     roomList.add(room.name);
+                    Toast.makeText(getActivity(), "Card was add", Toast.LENGTH_LONG).show();
+                    getActivity().onBackPressed();
                 }
                 setSpinnerAdapter();
             }

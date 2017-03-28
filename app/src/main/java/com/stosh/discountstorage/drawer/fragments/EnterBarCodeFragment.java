@@ -2,7 +2,8 @@ package com.stosh.discountstorage.drawer.fragments;
 
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -38,6 +39,12 @@ public class EnterBarCodeFragment extends Fragment {
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "Must implement ListenerHand");
         }
+    }
+
+    public static EnterBarCodeFragment getInstance(@Nullable Bundle data) {
+        EnterBarCodeFragment fragment = new EnterBarCodeFragment();
+        fragment.setArguments(data == null ? new Bundle() : data);
+        return fragment;
     }
 
     @Override

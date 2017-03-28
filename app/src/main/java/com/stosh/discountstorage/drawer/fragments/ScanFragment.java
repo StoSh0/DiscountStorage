@@ -1,8 +1,9 @@
 package com.stosh.discountstorage.drawer.fragments;
 
 
-import android.app.Activity;
-import android.app.Fragment;
+
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,12 @@ public class  ScanFragment extends Fragment implements View.OnClickListener{
 
     private View view;
     private Button buttonCancel;
+
+    public static ScanFragment getInstance(@Nullable Bundle data) {
+        ScanFragment fragment = new ScanFragment();
+        fragment.setArguments(data == null ? new Bundle() : data);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

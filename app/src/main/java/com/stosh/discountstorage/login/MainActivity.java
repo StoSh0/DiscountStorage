@@ -1,8 +1,7 @@
 package com.stosh.discountstorage.login;
 
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +16,6 @@ import com.stosh.discountstorage.drawer.DrawerActivity;
 import com.stosh.discountstorage.login.fragments.LoginFragment;
 import com.stosh.discountstorage.login.fragments.PasswordResetFragment;
 import com.stosh.discountstorage.login.fragments.SingUpFragment;
-import com.stosh.discountstorage.settings.SettingProfileActivity;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -29,11 +27,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
     private final int SING_UP_ID = 2;
     private final int RESET_ID = 3;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private FragmentTransaction fragmentTransaction;
-    private Fragment fragment;
     private String TAG = "MainActivity";
     private Unbinder unbinder;
     private FireBaseSingleton fireBase;
+    private FragmentManager mFragmentManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
         setContentView(R.layout.activity_main);
         fireBase = FireBaseSingleton.getInstance();
         unbinder = ButterKnife.bind(this);
+
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -51,9 +50,8 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
                     MainActivity.this.finish();
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
-                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                    LoginFragment fragment = new LoginFragment();
-                    fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
+                    mFragmentManager = getSupportFragmentManager();
+                    startLoginFragment();
                 }
             }
         };
@@ -64,17 +62,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
     public void onClickBtnLogin(int code) {
         switch (code) {
             case SING_UP_ID:
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new SingUpFragment();
-                fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
+                mFragmentManager.beginTransaction()
+                        .setCustomAnimations(
+                                R.anim.fragment_fade_in,
+                                R.anim.fragment_fade_out)
+                        .replace(R.id.containerLogin, SingUpFragment.getInstance(null))
+                        .commit();
                 break;
             case RESET_ID:
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new PasswordResetFragment();
-                fragmentTransaction
-                        .replace(R.id.containerLogin, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                startResetFragment();
                 break;
         }
     }
@@ -83,19 +79,34 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
     public void onClickBtnSingUp(int response) {
         switch (response) {
             case LOGIN_ID:
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new LoginFragment();
-                fragmentTransaction.replace(R.id.containerLogin, fragment).commit();
+                startLoginFragment();
                 break;
             case RESET_ID:
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new PasswordResetFragment();
-                fragmentTransaction
-                        .replace(R.id.containerLogin, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                startResetFragment();
                 break;
         }
+    }
+
+    private void startLoginFragment() {
+        mFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_fade_in,
+                        R.anim.fragment_fade_out)
+                .replace(R.id.containerLogin, LoginFragment.getInstance(null))
+                .commit();
+
+    }
+
+    private void startResetFragment() {
+        mFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_fade_in,
+                        R.anim.fragment_fade_out,
+                        R.anim.fragment_fade_pop_in,
+                        R.anim.fragment_fade_pop_out)
+                .replace(R.id.containerLogin, PasswordResetFragment.getInstance(null))
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

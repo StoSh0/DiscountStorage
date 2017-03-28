@@ -1,10 +1,12 @@
 package com.stosh.discountstorage.login.fragments;
 
 
-import android.app.Activity;
-import android.app.Fragment;
+
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +32,12 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
     private View view;
     private Button buttonReset, buttonBack;
     private ProgressBar progressBar;
+
+    public static PasswordResetFragment getInstance(@Nullable Bundle data) {
+        PasswordResetFragment fragment = new PasswordResetFragment();
+        fragment.setArguments(data == null ? new Bundle() : data);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

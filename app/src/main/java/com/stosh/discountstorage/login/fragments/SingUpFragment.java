@@ -2,7 +2,8 @@ package com.stosh.discountstorage.login.fragments;
 
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -29,7 +30,6 @@ public class SingUpFragment extends Fragment implements View.OnClickListener {
     private String TAG = "AUTH";
     private final int LOGIN_ID = 1;
     private final int RESET_ID = 3;
-    private final int RESPONSE_OK = 0;
     private View view;
     private Button btnSingUp, btnSingUpFrag, btnResetPass;
     private EditText editTextEmail, editTextPassword;
@@ -49,6 +49,12 @@ public class SingUpFragment extends Fragment implements View.OnClickListener {
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implements ListenerSingUp");
         }
+    }
+
+    public static SingUpFragment getInstance(@Nullable Bundle data){
+        SingUpFragment fragment = new SingUpFragment();
+        fragment.setArguments(data == null ? new Bundle() : data);
+        return fragment;
     }
 
     @Override

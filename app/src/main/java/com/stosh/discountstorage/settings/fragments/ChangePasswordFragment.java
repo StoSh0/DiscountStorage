@@ -3,7 +3,8 @@ package com.stosh.discountstorage.settings.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -33,6 +34,12 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     private Button buttonChange;
     private ProgressBar progressBar;
     private FireBaseSingleton fireBase;
+
+    public static ChangePasswordFragment getInstance(@Nullable Bundle data) {
+        ChangePasswordFragment fragment = new ChangePasswordFragment();
+        fragment.setArguments(data == null ? new Bundle() : data);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

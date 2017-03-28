@@ -12,7 +12,7 @@
         android:weightSum="1">
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/editTextCreatorEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -21,7 +21,7 @@
             android:textColorHint="@color/yellow"/>
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/editTextNameRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -31,7 +31,7 @@
 
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/editTextPasswordRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -45,7 +45,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/btnAddRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
@@ -54,7 +54,7 @@
                 android:layout_margin="10dp"/>
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btnCancelAddRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"

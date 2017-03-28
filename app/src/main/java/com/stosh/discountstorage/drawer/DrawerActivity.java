@@ -1,10 +1,10 @@
 package com.stosh.discountstorage.drawer;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -15,10 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.R;
@@ -36,6 +32,8 @@ public class DrawerActivity extends AppCompatActivity implements
         CreateRoomFragment.ListenerCreateRoom {
 
     private String TAG = "Scan";
+    private FragmentManager mFragmentManager;
+    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +51,7 @@ public class DrawerActivity extends AppCompatActivity implements
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        mFragmentManager = getSupportFragmentManager();
     }
 
 
@@ -88,33 +87,29 @@ public class DrawerActivity extends AppCompatActivity implements
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        FragmentTransaction fragmentTransaction;
-        Fragment fragment;
         switch (item.getItemId()) {
             case R.id.nav_camera:
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new ScanFragment();
-                fragmentTransaction.replace(R.id.containerDrawer, fragment).commit();
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.containerDrawer, ScanFragment.getInstance(null))
+                        .commit();
                 break;
             case R.id.nav_hand:
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new EnterBarCodeFragment();
-                fragmentTransaction.replace(R.id.containerDrawer, fragment).commit();
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.containerDrawer, EnterBarCodeFragment.getInstance(null))
+                        .commit();
                 break;
             case R.id.nav_show:
                 break;
             case R.id.nav_create:
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new CreateRoomFragment();
-                fragmentTransaction
-                        .replace(R.id.containerDrawer, fragment)
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.containerDrawer, CreateRoomFragment.getInstance(null))
                         .addToBackStack(null)
                         .commit();
                 break;
             case R.id.nav_connect:
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new AddRoomFragment();
-                fragmentTransaction.replace(R.id.containerDrawer, fragment).commit();
+                mFragmentManager.beginTransaction()
+                        .replace(R.id.containerDrawer, AddRoomFragment.getInstance(null))
+                        .commit();
                 break;
         }
 
@@ -139,17 +134,10 @@ public class DrawerActivity extends AppCompatActivity implements
                 Log.d(TAG, "Scanned");
                 String code = result.getContents();
                 String format = result.getFormatName();
-
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                Fragment fragment = new AddCardFragment();
-                Bundle bundle = new Bundle();
+                bundle = new Bundle();
                 bundle.putString("code", code);
                 bundle.putString("format", format);
-                fragment.setArguments(bundle);
-                fragmentTransaction
-                        .replace(R.id.containerDrawer, fragment)
-                        .addToBackStack(null)
-                        .commit();
+                startAddCardFragment();
             }
         }
     }
@@ -159,18 +147,19 @@ public class DrawerActivity extends AppCompatActivity implements
 
         if (code.length() == 13){
             String format = "EAN_13";
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            Fragment fragment = new AddCardFragment();
             Bundle bundle = new Bundle();
             bundle.putString("code", code);
             bundle.putString("format", format);
-            fragment.setArguments(bundle);
-            fragmentTransaction
-                    .replace(R.id.containerDrawer, fragment)
-                    .addToBackStack(null)
-                    .commit();
+            startAddCardFragment();
         }else {
             Toast.makeText(this, "Sorry, but now we scan only EAN-13", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void startAddCardFragment(){
+        mFragmentManager.beginTransaction()
+                .replace(R.id.containerDrawer, AddCardFragment.getInstance(bundle))
+                .addToBackStack(null)
+                .commit();
     }
 }

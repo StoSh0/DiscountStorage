@@ -3,7 +3,8 @@ package com.stosh.discountstorage.drawer.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,7 +27,10 @@ public class CreateRoomFragment extends Fragment implements View.OnClickListener
     private FireBaseSingleton fireBase;
     private ListenerCreateRoom listener;
 
-    public CreateRoomFragment() {
+    public static CreateRoomFragment getInstance(@Nullable Bundle data) {
+        CreateRoomFragment fragment = new CreateRoomFragment();
+        fragment.setArguments(data == null ? new Bundle() : data);
+        return fragment;
     }
 
     public interface ListenerCreateRoom {
