@@ -101,10 +101,10 @@ public class FireBaseSingleton {
         myRef.child(userIdDB).setValue(user);
     }
 
-    public void createList(String name) {
+    public void createRoomList(String name) {
         init();
         myRef = database.getReference(DB_USERS);
-        RoomList roomList = new RoomList(name);
+        RoomList roomList = new RoomList(name,name + "_" + userIdDB);
         myRef.child(userIdDB).child(DB_ROOMS_LIST).child(name + "_" + userIdDB).setValue(roomList);
     }
 
@@ -118,7 +118,7 @@ public class FireBaseSingleton {
     public void createCardList(String roomName, String cardName) {
         init();
         myRef = database.getReference(DB_ROOMS);
-        CardList cardList = new CardList(cardName);
+        CardList cardList = new CardList(cardName, cardName + "_" + roomName);
         myRef.child(roomName + "_" + userIdDB).child(DB_CARD_LIST).child(cardName + "_" + roomName).setValue(cardList);
     }
 

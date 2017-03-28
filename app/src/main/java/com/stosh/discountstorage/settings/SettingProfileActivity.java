@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -51,7 +52,6 @@ public class SettingProfileActivity extends AppCompatActivity {
                         .commit();
                 break;
             case R.id.btnSettingChangePasswordVis:
-
                 mFragmentManager.beginTransaction()
                         .replace(R.id.containerSettings, ChangePasswordFragment.getInstance(null))
                         .commit();
@@ -61,8 +61,9 @@ public class SettingProfileActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task task) {
                         if (task.isSuccessful()) {
+                            Log.d("1", "wsaas");
                             startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
-                            SettingProfileActivity.this.finish();
+                            finish();
                         }
                     }
                 };

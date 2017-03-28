@@ -1,6 +1,5 @@
 package com.stosh.discountstorage.drawer;
 
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -23,13 +22,11 @@ import com.stosh.discountstorage.settings.SettingProfileActivity;
 import com.stosh.discountstorage.drawer.fragments.AddCardFragment;
 import com.stosh.discountstorage.drawer.fragments.CreateRoomFragment;
 import com.stosh.discountstorage.drawer.fragments.EnterBarCodeFragment;
-import com.stosh.discountstorage.drawer.fragments.ScanFragment;
 
 
 public class DrawerActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener,
-        EnterBarCodeFragment.ListenerHand,
-        CreateRoomFragment.ListenerCreateRoom {
+        EnterBarCodeFragment.ListenerHand {
 
     private String TAG = "Scan";
     private FragmentManager mFragmentManager;
@@ -89,9 +86,13 @@ public class DrawerActivity extends AppCompatActivity implements
     public boolean onNavigationItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_camera:
-                mFragmentManager.beginTransaction()
-                        .replace(R.id.containerDrawer, ScanFragment.getInstance(null))
-                        .commit();
+                IntentIntegrator integrator = new IntentIntegrator(this);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
+                integrator.setPrompt("Scan");
+                integrator.setCameraId(0);
+                integrator.setBeepEnabled(false);
+                integrator.setBarcodeImageEnabled(false);
+                integrator.initiateScan();
                 break;
             case R.id.nav_hand:
                 mFragmentManager.beginTransaction()
@@ -118,11 +119,6 @@ public class DrawerActivity extends AppCompatActivity implements
         return true;
     }
 
-    @Override
-    public void responseCreateRoom() {
-        Toast.makeText(this, getString(R.string.room_was_create), Toast.LENGTH_LONG).show();
-    }
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result;
         super.onActivityResult(requestCode, resultCode, data);
@@ -137,26 +133,26 @@ public class DrawerActivity extends AppCompatActivity implements
                 bundle = new Bundle();
                 bundle.putString("code", code);
                 bundle.putString("format", format);
-                startAddCardFragment();
+                startAddCardFragment(bundle);
             }
         }
     }
 
     @Override
     public void send(String code) {
-
-        if (code.length() == 13){
+        Log.d("1", code);
+        if (code.length() == 13) {
             String format = "EAN_13";
             Bundle bundle = new Bundle();
             bundle.putString("code", code);
             bundle.putString("format", format);
-            startAddCardFragment();
-        }else {
-            Toast.makeText(this, "Sorry, but now we scan only EAN-13", Toast.LENGTH_LONG).show();
+            startAddCardFragment(bundle);
+        } else {
+            Toast.makeText(this, getString(R.string.only_ean_13), Toast.LENGTH_LONG).show();
         }
     }
 
-    private void startAddCardFragment(){
+    private void startAddCardFragment(Bundle bundle) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.containerDrawer, AddCardFragment.getInstance(bundle))
                 .addToBackStack(null)

@@ -7,9 +7,12 @@ import com.google.firebase.database.IgnoreExtraProperties;
  */
 @IgnoreExtraProperties
 public class CardList {
-    public String name;
 
-    public CardList(String name) {
+    public String name;
+    public String ID;
+
+    public CardList(String name, String ID) {
         this.name = name;
+        this.ID = ID;
     }
 }

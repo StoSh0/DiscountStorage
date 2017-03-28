@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.stosh.discountstorage.R;
 
@@ -20,7 +19,7 @@ import com.stosh.discountstorage.R;
 public class AddRoomFragment extends Fragment implements View.OnClickListener{
 
     private View view;
-    private EditText editTextCreatotEmail, editTextNameRoom, editTextPasswordRoom;
+    private EditText editTextCreatorEmail, editTextNameRoom, editTextPasswordRoom;
     private Button buttonCancel, buttonAdd;
 
     public static AddRoomFragment getInstance(@Nullable Bundle data) {
@@ -41,9 +40,9 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener{
     }
 
     private void init(){
-        editTextCreatotEmail = (EditText) view.findViewById(R.id.editTextCreatorEmail);
-        editTextNameRoom = (EditText) view.findViewById(R.id.editTextCreateRoomName);
-        editTextPasswordRoom = (EditText) view.findViewById(R.id.editTextCreateRoomPass);
+        editTextCreatorEmail = (EditText) view.findViewById(R.id.editTextCreatorEmail);
+        editTextNameRoom = (EditText) view.findViewById(R.id.editTextNameRoom);
+        editTextPasswordRoom = (EditText) view.findViewById(R.id.editTextPasswordRoom);
 
         buttonCancel = (Button) view.findViewById(R.id.btnCancelAddRoom);
         buttonAdd = (Button) view.findViewById(R.id.btnAddRoom);
@@ -56,17 +55,22 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btnAddRoom:
-                String creatorEmail = editTextCreatotEmail.getText().toString();
+                String creatorName = editTextCreatorEmail.getText().toString();
                 String roomName = editTextNameRoom.getText().toString();
                 String password = editTextPasswordRoom.getText().toString();
-                if (TextUtils.isEmpty(creatorEmail)){
-                    editTextCreatotEmail.setError(getString(R.string.email_is_empty));
+                if (TextUtils.isEmpty(creatorName)){
+                    editTextCreatorEmail.setError(getString(R.string.email_is_empty));
                     return;
                 }else if (TextUtils.isEmpty(roomName)){
                     editTextNameRoom.setError(getString(R.string.name));
                     return;
                 }else if (TextUtils.isEmpty(password)){
                     editTextPasswordRoom.setError(getString(R.string.password_is_empty));
+                    return;
+                }
+                else if (password.length() < 6) {
+                    editTextPasswordRoom.setError(getString(R.string.password_to_short));
+                    return;
                 }
                 break;
             case R.id.btnCancelAddRoom:

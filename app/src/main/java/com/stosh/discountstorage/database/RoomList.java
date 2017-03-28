@@ -10,12 +10,14 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class RoomList {
 
     public String name;
+    public String ID;
 
     public RoomList(){
 
     }
 
-    public RoomList(String name) {
+    public RoomList(String name, String ID) {
         this.name = name;
+        this.ID = ID;
     }
 }

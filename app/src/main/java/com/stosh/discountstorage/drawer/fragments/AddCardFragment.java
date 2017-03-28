@@ -1,7 +1,6 @@
 package com.stosh.discountstorage.drawer.fragments;
 
 
-
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.graphics.Bitmap;
@@ -105,15 +104,26 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
                 String nameCard = editTextNameCard.getText().toString();
                 String category = editTextCategory.getText().toString();
                 if (TextUtils.isEmpty(nameCard)) {
-                    return;
+                    editTextNameCard.setError(getString(R.string.enter_name_card));
+                    break;
                 } else if (TextUtils.isEmpty(category)) {
-                    return;
+                    editTextCategory.setError(getString(R.string.enter_category));
+                    break;
                 }
-                String roomName = roomList.get(spinnerPosition).toString();
-                fireBase.createCardList(roomName, nameCard);
-                fireBase.createCard(roomName, nameCard, category, code, format);
-                Log.d("1", roomList.get(spinnerPosition).toString());
+                else if (roomList.isEmpty()) {
+                    Toast.makeText(getActivity(), getString(R.string.first_room), Toast.LENGTH_LONG).show();
+                    break;
+                } else {
+                    String roomName = roomList.get(spinnerPosition).toString();
+                    fireBase.createCardList(roomName, nameCard);
+                    fireBase.createCard(roomName, nameCard, category, code, format);
+                    Toast.makeText(getActivity(), getString(R.string.card_add), Toast.LENGTH_LONG).show();
+                    getActivity().onBackPressed();
+                    Log.d("1", roomList.get(spinnerPosition).toString());
+                    break;
+                }
             case R.id.btnCancel:
+                getActivity().onBackPressed();
                 break;
         }
     }
@@ -196,8 +206,6 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
                     RoomList room = roomsDataSnapshot.getValue(RoomList.class);
                     Log.d("1", room.name);
                     roomList.add(room.name);
-                    Toast.makeText(getActivity(), "Card was add", Toast.LENGTH_LONG).show();
-                    getActivity().onBackPressed();
                 }
                 setSpinnerAdapter();
             }

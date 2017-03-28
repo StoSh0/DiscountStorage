@@ -51,7 +51,7 @@ public class SingUpFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public static SingUpFragment getInstance(@Nullable Bundle data){
+    public static SingUpFragment getInstance(@Nullable Bundle data) {
         SingUpFragment fragment = new SingUpFragment();
         fragment.setArguments(data == null ? new Bundle() : data);
         return fragment;
@@ -109,7 +109,7 @@ public class SingUpFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void createListenerSingUp(final String email, final String password){
+    private void createListenerSingUp(final String email, final String password) {
         OnCompleteListener<AuthResult> listenerSingUp = new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

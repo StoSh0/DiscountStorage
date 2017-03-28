@@ -45,7 +45,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnAddRoom"
+                android:id="@+id/btnCancelAddRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"
@@ -54,7 +54,7 @@
                 android:layout_margin="10dp"/>
 
             <Button
-                android:id="@+id/btnCancelAddRoom"
+                android:id="@+id/btnAddRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.9"

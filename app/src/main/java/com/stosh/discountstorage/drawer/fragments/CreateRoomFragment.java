@@ -1,7 +1,6 @@
 package com.stosh.discountstorage.drawer.fragments;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
@@ -25,26 +25,11 @@ public class CreateRoomFragment extends Fragment implements View.OnClickListener
     private EditText editTextCreatePass;
     private View view;
     private FireBaseSingleton fireBase;
-    private ListenerCreateRoom listener;
 
     public static CreateRoomFragment getInstance(@Nullable Bundle data) {
         CreateRoomFragment fragment = new CreateRoomFragment();
         fragment.setArguments(data == null ? new Bundle() : data);
         return fragment;
-    }
-
-    public interface ListenerCreateRoom {
-        void responseCreateRoom();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            listener = (ListenerCreateRoom) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString() + "must implements ListenerCreateRoom");
-        }
     }
 
     @Override
@@ -75,12 +60,13 @@ public class CreateRoomFragment extends Fragment implements View.OnClickListener
                 editTextCreatePass.setError(getString(R.string.password_is_empty));
                 return;
             } else if (password.length() < 6) {
-                editTextCreateName.setError(getString(R.string.password_to_short));
+                editTextCreatePass.setError(getString(R.string.password_to_short));
                 return;
             }
-            fireBase.createList(name);
+            fireBase.createRoomList(name);
             fireBase.createRoom(name, password);
-            listener.responseCreateRoom();
+            Toast.makeText(getActivity(), getString(R.string.room_was_create), Toast.LENGTH_LONG).show();
+            getActivity().onBackPressed();
         }
     }
 }
