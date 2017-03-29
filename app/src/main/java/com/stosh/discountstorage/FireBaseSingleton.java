@@ -155,4 +155,23 @@ public class FireBaseSingleton {
         init();
         mAuth.signOut();
     }
+
+    public void checkUserInDB(String creator, ValueEventListener listener){
+        init();
+        myRef = database.getReference("Users");
+        myRef.child(creator).addValueEventListener(listener);
+    }
+
+    public void checkRoomList(String creator, String nameRoom, ValueEventListener listener){
+        init();
+        myRef = database.getReference("Users");
+        myRef.child(creator).child("RoomList").child(nameRoom + "_" + creator).addValueEventListener(listener);
+
+    }
+
+    public void checkPassword(String creator, String nameRoom, ValueEventListener listener){
+        init();
+        myRef = database.getReference("Rooms");
+        myRef.child(nameRoom + "_" + creator).addValueEventListener(listener);
+    }
 }

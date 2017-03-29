@@ -119,7 +119,6 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
                     fireBase.createCard(roomName, nameCard, category, code, format);
                     Toast.makeText(getActivity(), getString(R.string.card_add), Toast.LENGTH_LONG).show();
                     getActivity().onBackPressed();
-                    Log.d("1", roomList.get(spinnerPosition).toString());
                     break;
                 }
             case R.id.btnCancel:
@@ -188,7 +187,6 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 spinnerPosition = position;
-                Log.d("1", roomList.get(spinnerPosition).toString());
             }
 
             @Override
@@ -204,7 +202,6 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
                     RoomList room = roomsDataSnapshot.getValue(RoomList.class);
-                    Log.d("1", room.name);
                     roomList.add(room.name);
                 }
                 setSpinnerAdapter();
