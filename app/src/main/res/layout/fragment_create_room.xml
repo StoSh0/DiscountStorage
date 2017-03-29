@@ -18,7 +18,8 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint= "@string/name"
-            android:textColorHint="@color/white"/>
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
 
         <EditText
             android:id="@+id/editTextCreateRoomPass"
@@ -27,13 +28,15 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:hint="@string/password"
-            android:textColorHint="@color/yellow"/>
+            android:textColorHint="@color/yellow"
+            android:textColor="@color/yellow"/>
 
         <Button
             android:id="@+id/btnCreateRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Button" />
+            android:text="Button"
+            android:background="@color/yellow"/>
     </LinearLayout>
 </FrameLayout>

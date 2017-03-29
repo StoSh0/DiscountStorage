@@ -96,7 +96,7 @@ public class FireBaseSingleton {
 
     public void addUserToDB(String email, String password) {
         init();
-        myRef = database.getReference("Users");
+        myRef = database.getReference(DB_USERS);
         User user = new User(userId, email, password);
         myRef.child(userIdDB).setValue(user);
     }
@@ -104,7 +104,7 @@ public class FireBaseSingleton {
     public void createRoomList(String name) {
         init();
         myRef = database.getReference(DB_USERS);
-        RoomList roomList = new RoomList(name,name + "_" + userIdDB);
+        RoomList roomList = new RoomList(name + "_" + userIdDB);
         myRef.child(userIdDB).child(DB_ROOMS_LIST).child(name + "_" + userIdDB).setValue(roomList);
     }
 
@@ -119,7 +119,7 @@ public class FireBaseSingleton {
         init();
         myRef = database.getReference(DB_ROOMS);
         CardList cardList = new CardList(cardName, cardName + "_" + roomName);
-        myRef.child(roomName + "_" + userIdDB).child(DB_CARD_LIST).child(cardName + "_" + roomName).setValue(cardList);
+        myRef.child(roomName).child(DB_CARD_LIST).child(cardName + "_" + roomName).setValue(cardList);
     }
 
     public void createCard(String roomName, String cardName, String category, String code, String format) {
@@ -158,20 +158,27 @@ public class FireBaseSingleton {
 
     public void checkUserInDB(String creator, ValueEventListener listener){
         init();
-        myRef = database.getReference("Users");
+        myRef = database.getReference(DB_USERS);
         myRef.child(creator).addValueEventListener(listener);
     }
 
     public void checkRoomList(String creator, String nameRoom, ValueEventListener listener){
         init();
-        myRef = database.getReference("Users");
-        myRef.child(creator).child("RoomList").child(nameRoom + "_" + creator).addValueEventListener(listener);
+        myRef = database.getReference(DB_USERS);
+        myRef.child(creator).child(DB_ROOMS_LIST).child(nameRoom + "_" + creator).addValueEventListener(listener);
 
     }
 
     public void checkPassword(String creator, String nameRoom, ValueEventListener listener){
         init();
-        myRef = database.getReference("Rooms");
+        myRef = database.getReference(DB_ROOMS);
         myRef.child(nameRoom + "_" + creator).addValueEventListener(listener);
+    }
+
+    public void addToRoomList(String creator, String nameRoom){
+        init();
+        myRef = database.getReference(DB_USERS);
+        RoomList roomList = new RoomList(nameRoom + "_" + creator);
+        myRef.child(userIdDB).child(DB_ROOMS_LIST).child(nameRoom + "_" + creator).setValue(roomList);
     }
 }

@@ -19,7 +19,8 @@
             android:ems="10"
             android:hint="@string/enter_barcode"
             android:textColorHint="@color/white"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/btnEnter"

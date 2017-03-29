@@ -96,6 +96,7 @@ public class DrawerActivity extends AppCompatActivity implements
                 break;
             case R.id.nav_hand:
                 mFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fragment_drawer_fade_in, R.anim.fragment_drawer_fade_out)
                         .replace(R.id.containerDrawer, EnterBarCodeFragment.getInstance(null))
                         .commit();
                 break;
@@ -103,12 +104,13 @@ public class DrawerActivity extends AppCompatActivity implements
                 break;
             case R.id.nav_create:
                 mFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fragment_drawer_fade_in, R.anim.fragment_drawer_fade_out)
                         .replace(R.id.containerDrawer, CreateRoomFragment.getInstance(null))
-                        .addToBackStack(null)
                         .commit();
                 break;
             case R.id.nav_connect:
                 mFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fragment_drawer_fade_in, R.anim.fragment_drawer_fade_out)
                         .replace(R.id.containerDrawer, AddRoomFragment.getInstance(null))
                         .commit();
                 break;

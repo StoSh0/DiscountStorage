@@ -202,7 +202,7 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
                     RoomList room = roomsDataSnapshot.getValue(RoomList.class);
-                    roomList.add(room.name);
+                    roomList.add(room.ID);
                 }
                 setSpinnerAdapter();
             }

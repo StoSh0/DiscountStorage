@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -29,8 +30,10 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private EditText editTextCreatorEmail, editTextNameRoom, editTextPasswordRoom;
-    private Button buttonCancel, buttonAdd;
+    private Button buttonAdd;
+    private ProgressBar progressBar;
     private FireBaseSingleton fireBase;
+    private String creator, roomName, password;
 
     public static AddRoomFragment getInstance(@Nullable Bundle data) {
         AddRoomFragment fragment = new AddRoomFragment();
@@ -51,57 +54,49 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
         editTextCreatorEmail = (EditText) view.findViewById(R.id.editTextCreatorEmail);
         editTextNameRoom = (EditText) view.findViewById(R.id.editTextNameRoom);
         editTextPasswordRoom = (EditText) view.findViewById(R.id.editTextPasswordRoom);
-
-        buttonCancel = (Button) view.findViewById(R.id.btnCancelAddRoom);
         buttonAdd = (Button) view.findViewById(R.id.btnAddRoom);
-
-        buttonCancel.setOnClickListener(this);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBarAddRoom);
         buttonAdd.setOnClickListener(this);
         fireBase = FireBaseSingleton.getInstance();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnAddRoom:
-                String creatorName = editTextCreatorEmail.getText().toString();
-                String roomName = editTextNameRoom.getText().toString();
-                String password = editTextPasswordRoom.getText().toString();
-                if (TextUtils.isEmpty(creatorName)) {
-                    editTextCreatorEmail.setError(getString(R.string.email_is_empty));
-                    return;
-                } else if (TextUtils.isEmpty(roomName)) {
-                    editTextNameRoom.setError(getString(R.string.name));
-                    return;
-                } else if (TextUtils.isEmpty(password)) {
-                    editTextPasswordRoom.setError(getString(R.string.password_is_empty));
-                    return;
-                } else if (password.length() < 6) {
-                    editTextPasswordRoom.setError(getString(R.string.password_to_short));
-                    return;
-                }
-                creatorName = creatorName.replace(".", "").toLowerCase();
-                checkInData(creatorName, roomName, password);
-                break;
-            case R.id.btnCancelAddRoom:
-                break;
+        creator = editTextCreatorEmail.getText().toString();
+        roomName = editTextNameRoom.getText().toString();
+        password = editTextPasswordRoom.getText().toString();
+        if (TextUtils.isEmpty(creator)) {
+            editTextCreatorEmail.setError(getString(R.string.email_is_empty));
+            return;
+        } else if (TextUtils.isEmpty(roomName)) {
+            editTextNameRoom.setError(getString(R.string.name));
+            return;
+        } else if (TextUtils.isEmpty(password)) {
+            editTextPasswordRoom.setError(getString(R.string.password_is_empty));
+            return;
+        } else if (password.length() < 6) {
+            editTextPasswordRoom.setError(getString(R.string.password_to_short));
+            return;
         }
+        progressBar.setVisibility(View.VISIBLE);
+        creator = creator.replace(".", "").toLowerCase();
+        checkInData();
     }
 
-    private void checkInData(final String creator, final String name, final String password){
-        Log.d("1", ":dsaada");
+
+    private void checkInData() {
         final ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 User user = dataSnapshot.getValue(User.class);
-                if (user == null){
-                    Toast.makeText(getActivity(), "User Not Found",Toast.LENGTH_LONG).show();
+                if (user == null) {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), "User Not Found", Toast.LENGTH_LONG).show();
                     return;
                 }
                 Log.d("1", user.email);
-                checkRoom(creator, name,password);
-
+                checkRoom();
             }
 
             @Override
@@ -112,17 +107,18 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
         fireBase.checkUserInDB(creator, listener);
     }
 
-    private void checkRoom(final String creator, final String nameRoom, final String password){
+    private void checkRoom() {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 RoomList roomList = dataSnapshot.getValue(RoomList.class);
-                if (roomList == null){
-                    Toast.makeText(getActivity(), "Room Not Found",Toast.LENGTH_LONG).show();
+                if (roomList == null) {
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), "Room Not Found", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Log.d("1", roomList.name);
-                checkPassword(creator, nameRoom, password);
+                Log.d("1", roomList.ID);
+                checkPassword();
             }
 
             @Override
@@ -130,25 +126,23 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 
             }
         };
-        fireBase.checkRoomList(creator, nameRoom, listener);
+        fireBase.checkRoomList(creator, roomName, listener);
     }
 
-    private void checkPassword(String creator, final String nameRoom, final String password){
+    private void checkPassword() {
         ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Room room = dataSnapshot.getValue(Room.class);
-                if (room == null){
-                    Toast.makeText(getActivity(), "Room Not Found",Toast.LENGTH_LONG).show();
-                    return;
-                }
                 Log.d("1", room.password);
                 Log.d("1", password);
-                if (room.password.equals(password)){
-                    fireBase.createRoomList(nameRoom);
+                if (room.password.equals(password)) {
+                    fireBase.addToRoomList(creator, roomName);
+                    progressBar.setVisibility(View.GONE);
                     return;
                 }
-                Toast.makeText(getActivity(), "Password invalid",Toast.LENGTH_LONG).show();
+                progressBar.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), "Password invalid", Toast.LENGTH_LONG).show();
                 return;
             }
 
@@ -157,7 +151,6 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 
             }
         };
-        fireBase.checkPassword(creator, nameRoom,listener);
-
+        fireBase.checkPassword(creator, roomName, listener);
     }
 }

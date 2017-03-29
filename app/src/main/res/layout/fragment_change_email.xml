@@ -19,7 +19,8 @@
             android:inputType="textEmailAddress"
             android:maxLines="1"
             android:textColorHint="@color/white"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/btnSettingChangeEmail"

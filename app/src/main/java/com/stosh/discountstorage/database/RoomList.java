@@ -8,16 +8,13 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class RoomList {
-
-    public String name;
     public String ID;
 
     public RoomList(){
 
     }
 
-    public RoomList(String name, String ID) {
-        this.name = name;
+    public RoomList(String ID) {
         this.ID = ID;
     }
 }

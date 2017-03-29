@@ -29,7 +29,8 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:textColorHint="@color/common_google_signin_btn_text_dark" />
+            android:textColorHint="@color/white"
+            android:textColor="@color/white"/>
 
         <EditText
             android:id="@+id/editTextPasswordSingUp"
@@ -39,7 +40,8 @@
             android:hint="@string/password"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:textColorHint="@color/common_google_signin_btn_text_light" />
+            android:textColorHint="@color/yellow"
+            android:textColor="@color/yellow"/>
 
         <Button
             android:id="@+id/btnRegister"
