@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.drawer;
+package com.stosh.discountstorage.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,19 +14,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.journeyapps.barcodescanner.BarcodeResult;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.drawer.fragments.AddRoomFragment;
-import com.stosh.discountstorage.settings.SettingProfileActivity;
-import com.stosh.discountstorage.drawer.fragments.AddCardFragment;
-import com.stosh.discountstorage.drawer.fragments.CreateRoomFragment;
-import com.stosh.discountstorage.drawer.fragments.EnterBarCodeFragment;
+import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
+import com.stosh.discountstorage.fragments.drawer.AddRoomFragment;
+import com.stosh.discountstorage.fragments.drawer.AddCardFragment;
+import com.stosh.discountstorage.fragments.drawer.CreateRoomFragment;
+import com.stosh.discountstorage.fragments.drawer.EnterBarCodeFragment;
 
 
 public class DrawerActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener,
-        EnterBarCodeFragment.ListenerHand {
+        NavigationView.OnNavigationItemSelectedListener, DrawerFragmentListener {
 
     private String TAG = "Scan";
     private FragmentManager mFragmentManager;
@@ -147,6 +149,7 @@ public class DrawerActivity extends AppCompatActivity implements
             String format = "EAN_13";
             Bundle bundle = new Bundle();
             bundle.putString("code", code);
+
             bundle.putString("format", format);
             startAddCardFragment(bundle);
         } else {

@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.login.fragments;
+package com.stosh.discountstorage.fragments.auth;
 
 
 
@@ -25,7 +25,7 @@ import com.stosh.discountstorage.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PasswordResetFragment extends Fragment implements View.OnClickListener {
+public class PasswordResetFragment extends Fragment implements View.OnClickListener, OnCompleteListener{
 
     private EditText editTextEmail;
     private FireBaseSingleton fireBase;
@@ -71,39 +71,34 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
                     editTextEmail.setError(getString(R.string.email_is_empty));
                     break;
                 }
+                fireBase.resetPassword(email, this);
                 progressBar.setVisibility(View.VISIBLE);
                 buttonReset.setClickable(false);
                 buttonBack.setClickable(false);
-                createPasswordResetListener(email);
                 break;
         }
     }
 
-    private void createPasswordResetListener(String email) {
-        OnCompleteListener<Void> listenerReset = new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(
-                            getActivity(),
-                            getString(R.string.send_reset),
-                            Toast.LENGTH_SHORT
-                    )
-                            .show();
+    @Override
+    public void onComplete(@NonNull Task task) {
+        if (task.isSuccessful()) {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(
+                    getActivity(),
+                    getString(R.string.send_reset),
+                    Toast.LENGTH_SHORT
+            )
+                    .show();
 
-                    progressBar.setVisibility(View.GONE);
-                    buttonReset.setClickable(true);
-                    buttonBack.setClickable(true);
-                } else {
-                    Toast.makeText(getActivity(), getString(R.string.failed_reset), Toast.LENGTH_SHORT)
-                            .show();
-                    progressBar.setVisibility(View.GONE);
-                    buttonReset.setClickable(true);
-                    buttonBack.setClickable(true);
-                }
-            }
-        };
-        fireBase.resetPassword(email, listenerReset);
+            progressBar.setVisibility(View.GONE);
+            buttonReset.setClickable(true);
+            buttonBack.setClickable(true);
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.failed_reset), Toast.LENGTH_SHORT)
+                    .show();
+            progressBar.setVisibility(View.GONE);
+            buttonReset.setClickable(true);
+            buttonBack.setClickable(true);
+        }
     }
 }

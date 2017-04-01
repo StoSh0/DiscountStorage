@@ -1,7 +1,7 @@
-package com.stosh.discountstorage.drawer.fragments;
+package com.stosh.discountstorage.fragments.drawer;
 
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -14,28 +14,26 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EnterBarCodeFragment extends Fragment {
+public class EnterBarCodeFragment extends Fragment implements View.OnClickListener {
 
 
     private EditText editTextEnterHand;
     private Button buttonEnter;
-    private View.OnClickListener onClickListener;
     private View view;
-    private ListenerHand listener;
+    private DrawerFragmentListener listener;
 
-    public interface ListenerHand {
-        void send(String code);
-    }
+
 
     @Override
-    public void onAttach(Activity context) {
+    public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            listener = (ListenerHand) context;
+            listener = (DrawerFragmentListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "Must implement ListenerHand");
         }
@@ -51,26 +49,20 @@ public class EnterBarCodeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_enter_bar_code, container, false);
-        final Activity activity = getActivity();
-        onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String code = editTextEnterHand.getText().toString();
-                if (TextUtils.isEmpty(code)) {
-                    Toast.makeText(activity, getString(R.string.enter_barcode), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                listener.send(code);
-            }
-        };
-        init();
+        editTextEnterHand = (EditText) view.findViewById(R.id.editTextEnter);
+        buttonEnter = (Button) view.findViewById(R.id.btnEnter);
+        buttonEnter.setOnClickListener(this);
         return view;
     }
 
-    private void init() {
-        editTextEnterHand = (EditText) view.findViewById(R.id.editTextEnter);
-        buttonEnter = (Button) view.findViewById(R.id.btnEnter);
-        buttonEnter.setOnClickListener(onClickListener);
+    @Override
+    public void onClick(View v) {
+        String code = editTextEnterHand.getText().toString();
+        if (TextUtils.isEmpty(code)) {
+            Toast.makeText(getActivity(), getString(R.string.enter_barcode), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        listener.send(code);
     }
 }

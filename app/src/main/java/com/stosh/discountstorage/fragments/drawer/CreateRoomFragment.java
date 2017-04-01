@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.drawer.fragments;
+package com.stosh.discountstorage.fragments.drawer;
 
 
 import android.os.Bundle;
@@ -66,7 +66,6 @@ public class CreateRoomFragment extends Fragment implements View.OnClickListener
             fireBase.createRoomList(name);
             fireBase.createRoom(name, password);
             Toast.makeText(getActivity(), getString(R.string.room_was_create), Toast.LENGTH_LONG).show();
-            getActivity().onBackPressed();
         }
     }
 }

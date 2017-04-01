@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.settings;
+package com.stosh.discountstorage.activities;
 
 
 import android.content.Intent;
@@ -12,9 +12,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.login.MainActivity;
-import com.stosh.discountstorage.settings.fragments.ChangeEmailFragment;
-import com.stosh.discountstorage.settings.fragments.ChangePasswordFragment;
+import com.stosh.discountstorage.fragments.settings.ChangeEmailFragment;
+import com.stosh.discountstorage.fragments.settings.ChangePasswordFragment;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

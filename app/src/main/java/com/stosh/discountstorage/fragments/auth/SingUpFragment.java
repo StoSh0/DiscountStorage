@@ -1,7 +1,7 @@
-package com.stosh.discountstorage.login.fragments;
+package com.stosh.discountstorage.fragments.auth;
 
 
-import android.app.Activity;
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -18,34 +18,31 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.interfaces.AuthFragmentListener;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SingUpFragment extends Fragment implements View.OnClickListener {
+public class SingUpFragment extends Fragment implements View.OnClickListener, OnCompleteListener {
 
     private String TAG = "AUTH";
-    private final int LOGIN_ID = 1;
-    private final int RESET_ID = 3;
     private View view;
     private Button btnSingUp, btnSingUpFrag, btnResetPass;
     private EditText editTextEmail, editTextPassword;
     private ProgressBar progressBar;
     private FireBaseSingleton fireBase;
-    private ListenerFragment listenerFragment;
+    private AuthFragmentListener listener;
+    String email, password;
 
-    public interface ListenerFragment {
-        void onClickBtnSingUp(int response);
-    }
 
     @Override
-    public void onAttach(Activity context) {
+    public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            listenerFragment = (ListenerFragment) context;
+            listener = (AuthFragmentListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implements ListenerSingUp");
         }
@@ -82,8 +79,8 @@ public class SingUpFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnRegister:
-                String email = editTextEmail.getText().toString();
-                String password = editTextPassword.getText().toString();
+                email = editTextEmail.getText().toString();
+                password = editTextPassword.getText().toString();
                 if (TextUtils.isEmpty(email)) {
                     editTextEmail.setError(getString(R.string.email_is_empty));
                     break;
@@ -94,47 +91,40 @@ public class SingUpFragment extends Fragment implements View.OnClickListener {
                     editTextPassword.setError(getString(R.string.password_to_short));
                     break;
                 }
+                fireBase.singUp(email, password, this);
                 progressBar.setVisibility(View.VISIBLE);
                 btnSingUp.setClickable(false);
                 btnResetPass.setClickable(false);
                 btnSingUpFrag.setClickable(false);
-                createListenerSingUp(email, password);
                 break;
             case R.id.btnResetPassFrag:
-                listenerFragment.onClickBtnSingUp(RESET_ID);
+                listener.clickBtn(Const.RESET_ID);
                 break;
             case R.id.btnSingInFrag:
-                listenerFragment.onClickBtnSingUp(LOGIN_ID);
+                listener.clickBtn(Const.LOGIN_ID);
                 break;
         }
     }
 
-    private void createListenerSingUp(final String email, final String password) {
-        OnCompleteListener<AuthResult> listenerSingUp = new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
-                    progressBar.setVisibility(View.GONE);
-                    fireBase.addUserToDB(email, password);
-                    btnSingUp.setClickable(true);
-                    btnResetPass.setClickable(true);
-                    btnSingUpFrag.setClickable(true);
-                } else {
-                    Toast.makeText(
-                            getActivity(),
-                            R.string.auth_failed,
-                            Toast.LENGTH_SHORT)
-                            .show();
-                    progressBar.setVisibility(View.GONE);
-                    btnSingUp.setClickable(true);
-                    btnResetPass.setClickable(true);
-                    btnSingUpFrag.setClickable(true);
-                }
-            }
-        };
-        fireBase.singUp(email, password, listenerSingUp);
+    @Override
+    public void onComplete(@NonNull Task task) {
+        if (task.isSuccessful()) {
+            Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+            progressBar.setVisibility(View.GONE);
+            fireBase.addUserToDB(email, password);
+            btnSingUp.setClickable(true);
+            btnResetPass.setClickable(true);
+            btnSingUpFrag.setClickable(true);
+        } else {
+            Toast.makeText(
+                    getActivity(),
+                    R.string.auth_failed,
+                    Toast.LENGTH_SHORT)
+                    .show();
+            progressBar.setVisibility(View.GONE);
+            btnSingUp.setClickable(true);
+            btnResetPass.setClickable(true);
+            btnSingUpFrag.setClickable(true);
+        }
     }
-
-
 }

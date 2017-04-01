@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.drawer.fragments;
+package com.stosh.discountstorage.fragments.drawer;
 
 
 import android.support.annotation.Nullable;
@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -33,23 +33,11 @@ import com.stosh.discountstorage.database.RoomList;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.google.zxing.BarcodeFormat.CODE_128;
-import static com.google.zxing.BarcodeFormat.CODE_39;
-import static com.google.zxing.BarcodeFormat.CODE_93;
-import static com.google.zxing.BarcodeFormat.EAN_13;
-import static com.google.zxing.BarcodeFormat.EAN_8;
-import static com.google.zxing.BarcodeFormat.ITF;
-import static com.google.zxing.BarcodeFormat.RSS_14;
-import static com.google.zxing.BarcodeFormat.RSS_EXPANDED;
-import static com.google.zxing.BarcodeFormat.UPC_A;
-import static com.google.zxing.BarcodeFormat.UPC_E;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddCardFragment extends Fragment implements View.OnClickListener {
-
+public class AddCardFragment extends Fragment implements View.OnClickListener, ValueEventListener {
 
     private ImageView imageView;
     private TextView textViewCode;
@@ -61,7 +49,7 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
     private View view;
     private String format;
     private String code;
-    private List roomList;
+    private ArrayAdapter<String> adapter;
     private int spinnerPosition;
     private FireBaseSingleton fireBase;
 
@@ -80,7 +68,7 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
         code = bundle.getString("code");
         format = bundle.getString("format");
         init();
-        getRoomList();
+        fireBase.getRooms(this);
         generateBitmap();
         return view;
     }
@@ -109,12 +97,11 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
                 } else if (TextUtils.isEmpty(category)) {
                     editTextCategory.setError(getString(R.string.enter_category));
                     break;
-                }
-                else if (roomList.isEmpty()) {
+                } else if (adapter.isEmpty()) {
                     Toast.makeText(getActivity(), getString(R.string.first_room), Toast.LENGTH_LONG).show();
                     break;
                 } else {
-                    String roomName = roomList.get(spinnerPosition).toString();
+                    String roomName = adapter.getItem(spinnerPosition).toString();
                     fireBase.createCardList(roomName, nameCard);
                     fireBase.createCard(roomName, nameCard, category, code, format);
                     Toast.makeText(getActivity(), getString(R.string.card_add), Toast.LENGTH_LONG).show();
@@ -128,43 +115,10 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
     }
 
     private void generateBitmap() {
-        BitMatrix bitMatrix = null;
         Bitmap bitmap;
         BarcodeEncoder barcodeEncoder;
         try {
-            switch (format) {
-                case "UPC_A":
-                    bitMatrix = new MultiFormatWriter().encode(code, UPC_A, 400, 200);
-                    break;
-                case "UPC_E":
-                    bitMatrix = new MultiFormatWriter().encode(code, UPC_E, 400, 200);
-                    break;
-                case "EAN_8":
-                    bitMatrix = new MultiFormatWriter().encode(code, EAN_8, 400, 200);
-                    break;
-                case "EAN_13":
-                    bitMatrix = new MultiFormatWriter().encode(code, EAN_13, 400, 200);
-                    break;
-                case "CODE_39":
-                    bitMatrix = new MultiFormatWriter().encode(code, CODE_39, 400, 200);
-                    break;
-                case "CODE_93":
-                    bitMatrix = new MultiFormatWriter().encode(code, CODE_93, 400, 200);
-                    break;
-                case "CODE_128":
-                    bitMatrix = new MultiFormatWriter().encode(code, CODE_128, 400, 200);
-                    break;
-                case "ITF":
-                    bitMatrix = new MultiFormatWriter().encode(code, ITF, 400, 200);
-                    break;
-                case "RSS_14":
-                    bitMatrix = new MultiFormatWriter().encode(code, RSS_14, 400, 200);
-                    break;
-                case "RSS_EXPANDED":
-                    bitMatrix = new MultiFormatWriter().encode(code, RSS_EXPANDED, 400, 200);
-                    break;
-            }
-
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(code, BarcodeFormat.valueOf(format), 600, 300);
             barcodeEncoder = new BarcodeEncoder();
             bitmap = barcodeEncoder.createBitmap(bitMatrix);
             imageView.setImageBitmap(bitmap);
@@ -174,8 +128,14 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void setSpinnerAdapter() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        List roomList = new ArrayList();
+        for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
+            RoomList room = roomsDataSnapshot.getValue(RoomList.class);
+            roomList.add(room.ID);
+        }
+        adapter = new ArrayAdapter<>(
                 getActivity(),
                 android.R.layout.simple_spinner_item,
                 roomList);
@@ -195,24 +155,7 @@ public class AddCardFragment extends Fragment implements View.OnClickListener {
         });
     }
 
-    private void getRoomList() {
-        roomList = new ArrayList();
-        ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
-                    RoomList room = roomsDataSnapshot.getValue(RoomList.class);
-                    roomList.add(room.ID);
-                }
-                setSpinnerAdapter();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        fireBase.getRooms(listener);
-
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
     }
 }

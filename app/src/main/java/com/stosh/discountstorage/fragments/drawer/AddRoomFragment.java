@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.drawer.fragments;
+package com.stosh.discountstorage.fragments.drawer;
 
 
 import android.os.Bundle;
@@ -26,7 +26,7 @@ import com.stosh.discountstorage.database.User;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddRoomFragment extends Fragment implements View.OnClickListener {
+public class AddRoomFragment extends Fragment implements View.OnClickListener, ValueEventListener {
 
     private View view;
     private EditText editTextCreatorEmail, editTextNameRoom, editTextPasswordRoom;
@@ -80,77 +80,38 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
         }
         progressBar.setVisibility(View.VISIBLE);
         creator = creator.replace(".", "").toLowerCase();
-        checkInData();
+        fireBase.checkUserInDB(creator,roomName, this);
     }
 
 
-    private void checkInData() {
-        final ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                User user = dataSnapshot.getValue(User.class);
-                if (user == null) {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "User Not Found", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Log.d("1", user.email);
-                checkRoom();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("1", "Cancel");
-            }
-        };
-        fireBase.checkUserInDB(creator, listener);
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        User user = dataSnapshot.getValue(User.class);
+        if (user == null) {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), "User Not Found", Toast.LENGTH_LONG).show();
+            return;
+        }
+        RoomList roomList = dataSnapshot.getValue(RoomList.class);
+        if (roomList == null) {
+            progressBar.setVisibility(View.GONE);
+            Toast.makeText(getActivity(), "Room Not Found", Toast.LENGTH_LONG).show();
+            return;
+        }
+        Room room = dataSnapshot.getValue(Room.class);
+        if (room.password.equals(password)) {
+            fireBase.addToRoomList(creator, roomName);
+            progressBar.setVisibility(View.GONE);
+            return;
+        }
+        progressBar.setVisibility(View.GONE);
+        Toast.makeText(getActivity(), "Password invalid", Toast.LENGTH_LONG).show();
+        return;
     }
 
-    private void checkRoom() {
-        ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                RoomList roomList = dataSnapshot.getValue(RoomList.class);
-                if (roomList == null) {
-                    progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Room Not Found", Toast.LENGTH_LONG).show();
-                    return;
-                }
-                Log.d("1", roomList.ID);
-                checkPassword();
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
 
-            }
-        };
-        fireBase.checkRoomList(creator, roomName, listener);
-    }
-
-    private void checkPassword() {
-        ValueEventListener listener = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Room room = dataSnapshot.getValue(Room.class);
-                Log.d("1", room.password);
-                Log.d("1", password);
-                if (room.password.equals(password)) {
-                    fireBase.addToRoomList(creator, roomName);
-                    progressBar.setVisibility(View.GONE);
-                    return;
-                }
-                progressBar.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), "Password invalid", Toast.LENGTH_LONG).show();
-                return;
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };
-        fireBase.checkPassword(creator, roomName, listener);
     }
 }

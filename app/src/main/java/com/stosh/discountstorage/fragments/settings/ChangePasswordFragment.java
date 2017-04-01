@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.settings.fragments;
+package com.stosh.discountstorage.fragments.settings;
 
 
 import android.content.Intent;
@@ -19,24 +19,23 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.login.MainActivity;
-import com.stosh.discountstorage.settings.SettingProfileActivity;
+import com.stosh.discountstorage.activities.MainActivity;
 
 import static android.widget.Toast.makeText;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChangeEmailFragment extends Fragment implements View.OnClickListener {
+public class ChangePasswordFragment extends Fragment implements View.OnClickListener {
 
     private View view;
-    private EditText editTextEmail;
+    private EditText editTextPassword;
     private Button buttonChange;
     private ProgressBar progressBar;
     private FireBaseSingleton fireBase;
 
-    public static ChangeEmailFragment getInstance(@Nullable Bundle data) {
-        ChangeEmailFragment fragment = new ChangeEmailFragment();
+    public static ChangePasswordFragment getInstance(@Nullable Bundle data) {
+        ChangePasswordFragment fragment = new ChangePasswordFragment();
         fragment.setArguments(data == null ? new Bundle() : data);
         return fragment;
     }
@@ -45,25 +44,28 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_change_email, container, false);
+        view = inflater.inflate(R.layout.fragment_change_password, container, false);
         init();
         fireBase = FireBaseSingleton.getInstance();
         return view;
     }
 
     private void init() {
-        editTextEmail = (EditText) view.findViewById(R.id.editTextSettingChangeEmail);
-        buttonChange = (Button) view.findViewById(R.id.btnSettingChangeEmail);
+        editTextPassword = (EditText) view.findViewById(R.id.editTextSettingChangePassword);
+        buttonChange = (Button) view.findViewById(R.id.btnSettingChangePassword);
         buttonChange.setOnClickListener(this);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarSettingEmail);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBarSettingPassword);
     }
 
     @Override
     public void onClick(View v) {
-        String email;
-        email = editTextEmail.getText().toString();
-        if (TextUtils.isEmpty(email)) {
-            editTextEmail.setError(getString(R.string.email_is_empty));
+        String password = editTextPassword.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            editTextPassword.setError(getString(R.string.password_is_empty));
+            return;
+        }
+        if (password.length() < 6) {
+            editTextPassword.setError(getString(R.string.password_to_short));
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
@@ -77,19 +79,20 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
                             Toast.LENGTH_LONG
                     ).show();
                     fireBase.singOut();
-                    progressBar.setVisibility(View.GONE);
                     getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
                     getActivity().finish();
+                    progressBar.setVisibility(View.GONE);
                 } else {
                     makeText(
                             getActivity(),
                             getString(R.string.failed_update_email),
-                            Toast.LENGTH_LONG
-                    ).show();
+                            Toast.LENGTH_LONG)
+                            .show();
                     progressBar.setVisibility(View.GONE);
                 }
             }
         };
-        fireBase.changeEmail(email, listener);
+        fireBase.changePassword(password, listener);
     }
 }
+

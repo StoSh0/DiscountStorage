@@ -1,4 +1,4 @@
-package com.stosh.discountstorage.login;
+package com.stosh.discountstorage.activities;
 
 
 import android.support.v4.app.FragmentManager;
@@ -10,23 +10,19 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.drawer.DrawerActivity;
-import com.stosh.discountstorage.login.fragments.LoginFragment;
-import com.stosh.discountstorage.login.fragments.PasswordResetFragment;
-import com.stosh.discountstorage.login.fragments.SingUpFragment;
+import com.stosh.discountstorage.interfaces.AuthFragmentListener;
+import com.stosh.discountstorage.fragments.auth.LoginFragment;
+import com.stosh.discountstorage.fragments.auth.PasswordResetFragment;
+import com.stosh.discountstorage.fragments.auth.SingUpFragment;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.ListenerFragment,
-        SingUpFragment.ListenerFragment {
+public class MainActivity extends AppCompatActivity implements AuthFragmentListener, FirebaseAuth.AuthStateListener {
 
-    private final int LOGIN_ID = 1;
-    private final int SING_UP_ID = 2;
-    private final int RESET_ID = 3;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private String TAG = "MainActivity";
     private Unbinder unbinder;
     private FireBaseSingleton fireBase;
@@ -39,49 +35,19 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
         setContentView(R.layout.activity_main);
         fireBase = FireBaseSingleton.getInstance();
         unbinder = ButterKnife.bind(this);
-
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
-                    startActivity(new Intent(MainActivity.this, DrawerActivity.class));
-                    MainActivity.this.finish();
-                } else {
-                    Log.d(TAG, "onAuthStateChanged:signed_out");
-                    mFragmentManager = getSupportFragmentManager();
-                    startLoginFragment();
-                }
-            }
-        };
-        fireBase.check(mAuthListener);
+        fireBase.check(this);
     }
 
     @Override
-    public void onClickBtnLogin(int code) {
+    public void clickBtn(int code) {
         switch (code) {
-            case SING_UP_ID:
-                mFragmentManager.beginTransaction()
-                        .setCustomAnimations(
-                                R.anim.fragment_fade_in,
-                                R.anim.fragment_fade_out)
-                        .replace(R.id.containerLogin, SingUpFragment.getInstance(null))
-                        .commit();
-                break;
-            case RESET_ID:
-                startResetFragment();
-                break;
-        }
-    }
-
-    @Override
-    public void onClickBtnSingUp(int response) {
-        switch (response) {
-            case LOGIN_ID:
+            case Const.LOGIN_ID:
                 startLoginFragment();
                 break;
-            case RESET_ID:
+            case Const.SING_UP_ID:
+                startSingUpFragment();
+                break;
+            case Const.RESET_ID:
                 startResetFragment();
                 break;
         }
@@ -94,7 +60,15 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
                         R.anim.fragment_fade_out)
                 .replace(R.id.containerLogin, LoginFragment.getInstance(null))
                 .commit();
+    }
 
+    private void startSingUpFragment() {
+        mFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                        R.anim.fragment_fade_in,
+                        R.anim.fragment_fade_out)
+                .replace(R.id.containerLogin, SingUpFragment.getInstance(null))
+                .commit();
     }
 
     private void startResetFragment() {
@@ -107,6 +81,20 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
                 .replace(R.id.containerLogin, PasswordResetFragment.getInstance(null))
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+            startActivity(new Intent(MainActivity.this, DrawerActivity.class));
+            MainActivity.this.finish();
+        } else {
+            Log.d(TAG, "onAuthStateChanged:signed_out");
+            mFragmentManager = getSupportFragmentManager();
+            startLoginFragment();
+        }
     }
 
     @Override
@@ -127,4 +115,5 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Lis
         super.onDestroy();
         unbinder.unbind();
     }
+
 }

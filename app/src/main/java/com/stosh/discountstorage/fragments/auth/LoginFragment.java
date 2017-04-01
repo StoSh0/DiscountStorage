@@ -1,8 +1,7 @@
-package com.stosh.discountstorage.login.fragments;
+package com.stosh.discountstorage.fragments.auth;
 
 
-import android.app.Activity;
-
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,37 +18,32 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.interfaces.AuthFragmentListener;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class LoginFragment extends Fragment implements View.OnClickListener, OnCompleteListener {
 
     private String TAG = "AUTH";
-    private final int SING_UP_ID = 2;
-    private final int RESET_ID = 3;
+
 
     private FireBaseSingleton fireBase;
     private View view;
     private Button btnLogin, btnSingUpFrag, btnResetPass;
     private EditText editTextEmail, editTextPassword;
     private ProgressBar progressBar;
-    private ListenerFragment listenerFragment;
+    private AuthFragmentListener listener;
 
-    public interface ListenerFragment {
-        void onClickBtnLogin(int response);
-
-
-    }
 
     @Override
-    public void onAttach(Activity context) {
+    public void onAttach(Context context) {
         super.onAttach(context);
         try {
-            listenerFragment = (ListenerFragment) context;
+            listener = (AuthFragmentListener) context;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString() + "must implements ListenerLogin");
         }
@@ -99,45 +93,39 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     editTextPassword.setError(getString(R.string.password_to_short));
                     break;
                 }
+                fireBase.login(getActivity(), email, password, this);
                 progressBar.setVisibility(View.VISIBLE);
                 btnLogin.setClickable(false);
                 btnSingUpFrag.setClickable(false);
                 btnResetPass.setClickable(false);
-                createListenerLogin(email, password);
                 break;
 
             case R.id.btnSingUpFrag:
-                listenerFragment.onClickBtnLogin(SING_UP_ID);
+                listener.clickBtn(Const.SING_UP_ID);
                 break;
 
             case R.id.btnResetFrag:
-                listenerFragment.onClickBtnLogin(RESET_ID);
+                listener.clickBtn(Const.RESET_ID);
                 onDestroy();
                 break;
         }
     }
 
-    private void createListenerLogin(String email, String password) {
-        OnCompleteListener<AuthResult> listenerLogin = new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
-                    progressBar.setVisibility(View.GONE);
-                    btnLogin.setClickable(true);
-                    btnSingUpFrag.setClickable(true);
-                    btnResetPass.setClickable(true);
-                } else {
-                    Log.w(TAG, "signInWithEmail:failed", task.getException());
-                    Toast.makeText(getActivity(), R.string.auth_failed, Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                    btnLogin.setClickable(true);
-                    btnSingUpFrag.setClickable(true);
-                    btnResetPass.setClickable(true);
-                }
-            }
-        };
-        fireBase.login(getActivity(), email, password, listenerLogin);
-
+    @Override
+    public void onComplete(@NonNull Task task) {
+        if (task.isSuccessful()) {
+            Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
+            progressBar.setVisibility(View.GONE);
+            btnLogin.setClickable(true);
+            btnSingUpFrag.setClickable(true);
+            btnResetPass.setClickable(true);
+        } else {
+            Log.w(TAG, "signInWithEmail:failed", task.getException());
+            Toast.makeText(getActivity(), R.string.auth_failed, Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
+            btnLogin.setClickable(true);
+            btnSingUpFrag.setClickable(true);
+            btnResetPass.setClickable(true);
+        }
     }
 }
