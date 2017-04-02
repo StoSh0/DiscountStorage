@@ -18,14 +18,16 @@
 
     <item android:title="@string/title_group">
         <menu>
-            <item
-                android:id="@+id/nav_create"
-                android:icon="@drawable/ic_menu_gallery"
-                android:title="@string/create_room" />
-            <item
-                android:id="@+id/nav_connect"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/title_connectRoom" />
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_create"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/create_room" />
+                <item
+                    android:id="@+id/nav_connect"
+                    android:icon="@drawable/ic_menu_share"
+                    android:title="@string/title_connectRoom" />
+            </group>
         </menu>
     </item>
 

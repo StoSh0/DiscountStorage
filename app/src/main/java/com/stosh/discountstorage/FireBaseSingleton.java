@@ -145,19 +145,26 @@ public class FireBaseSingleton {
         mAuth.signOut();
     }
 
-    public void checkUserInDB(String creator, String nameRoom, ValueEventListener listener){
+    public void checkUserInDB(String creator, ValueEventListener listener) {
         init();
+        myRef = database.getReference(Const.DB_USERS);
+        myRef.child(creator).addListenerForSingleValueEvent(listener);
+    }
 
+    public void checkRoomList(String creator, String nameRoom, ValueEventListener listener) {
+        init();
         myRef = database.getReference(Const.DB_USERS);
-        myRef.child(creator).addValueEventListener(listener);
-        myRef = database.getReference(Const.DB_USERS);
-        myRef.child(creator).child(Const.DB_ROOMS_LIST).child(nameRoom + "_" + creator).addValueEventListener(listener);
-        myRef = database.getReference(Const.DB_ROOMS);
-        myRef.child(nameRoom + "_" + creator).addValueEventListener(listener);
+        myRef.child(creator).child(Const.DB_ROOMS_LIST).child(nameRoom + "_" + creator).addListenerForSingleValueEvent(listener);
 
     }
 
-    public void addToRoomList(String creator, String nameRoom){
+    public void checkPassword(String creator, String nameRoom, ValueEventListener listener) {
+        init();
+        myRef = database.getReference(Const.DB_ROOMS);
+        myRef.child(nameRoom + "_" + creator).addListenerForSingleValueEvent(listener);
+    }
+
+    public void addToRoomList(String creator, String nameRoom) {
         init();
         myRef = database.getReference(Const.DB_USERS);
         RoomList roomList = new RoomList(nameRoom + "_" + creator);
