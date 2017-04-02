@@ -103,6 +103,16 @@ public class DrawerActivity extends AppCompatActivity implements
                         .commit();
                 break;
             case R.id.nav_show:
+
+
+
+
+
+
+
+
+
+
                 break;
             case R.id.nav_create:
                 mFragmentManager.beginTransaction()
