@@ -20,6 +20,7 @@ import com.google.zxing.integration.android.IntentResult;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.journeyapps.barcodescanner.BarcodeResult;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.fragments.drawer.ShowCardFragment;
 import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
 import com.stosh.discountstorage.fragments.drawer.AddRoomFragment;
 import com.stosh.discountstorage.fragments.drawer.AddCardFragment;
@@ -104,15 +105,10 @@ public class DrawerActivity extends AppCompatActivity implements
                 break;
             case R.id.nav_show:
 
-
-
-
-
-
-
-
-
-
+                mFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.fragment_drawer_fade_in, R.anim.fragment_drawer_fade_out)
+                        .replace(R.id.containerDrawer, ShowCardFragment.getInstance(null))
+                        .commit();
                 break;
             case R.id.nav_create:
                 mFragmentManager.beginTransaction()
