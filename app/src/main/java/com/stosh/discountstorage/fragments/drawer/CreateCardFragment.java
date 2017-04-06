@@ -29,6 +29,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.database.RoomList;
+import com.stosh.discountstorage.interfaces.Const;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddCardFragment extends Fragment implements View.OnClickListener, ValueEventListener {
+public class CreateCardFragment extends Fragment implements View.OnClickListener,
+        ValueEventListener,
+        AdapterView.OnItemSelectedListener {
 
     private ImageView imageView;
     private TextView textViewCode;
@@ -47,14 +50,14 @@ public class AddCardFragment extends Fragment implements View.OnClickListener, V
     private EditText editTextNameCard;
     private EditText editTextCategory;
     private View view;
-    private String format;
-    private String code;
+
+
     private ArrayAdapter<String> adapter;
-    private int spinnerPosition;
+    private String roomName, format, code;
     private FireBaseSingleton fireBase;
 
-    public static AddCardFragment getInstance(@Nullable Bundle data) {
-        AddCardFragment fragment = new AddCardFragment();
+    public static CreateCardFragment getInstance(@Nullable Bundle data) {
+        CreateCardFragment fragment = new CreateCardFragment();
         fragment.setArguments(data == null ? new Bundle() : data);
         return fragment;
     }
@@ -62,7 +65,7 @@ public class AddCardFragment extends Fragment implements View.OnClickListener, V
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_add_card, container, false);
+        view = inflater.inflate(R.layout.fragment_create_card, container, false);
         fireBase = FireBaseSingleton.getInstance();
         Bundle bundle = getArguments();
         code = bundle.getString("code");
@@ -97,12 +100,11 @@ public class AddCardFragment extends Fragment implements View.OnClickListener, V
                 } else if (TextUtils.isEmpty(category)) {
                     editTextCategory.setError(getString(R.string.enter_category));
                     break;
-                } else if (adapter.isEmpty()) {
+                } else if (adapter.getItem(0).equals(Const.ROOM_LIST_IS_EMPTY)) {
                     Toast.makeText(getActivity(), getString(R.string.first_room), Toast.LENGTH_LONG).show();
                     break;
                 } else {
-                    String roomName = adapter.getItem(spinnerPosition).toString();
-                    fireBase.createCardList(roomName, nameCard);
+                    fireBase.createCardList(roomName, nameCard, category);
                     fireBase.createCard(roomName, nameCard, category, code, format);
                     Toast.makeText(getActivity(), getString(R.string.card_add), Toast.LENGTH_LONG).show();
                     getActivity().onBackPressed();
@@ -135,27 +137,29 @@ public class AddCardFragment extends Fragment implements View.OnClickListener, V
             RoomList room = roomsDataSnapshot.getValue(RoomList.class);
             roomList.add(room.ID);
         }
+        if (roomList.isEmpty()) roomList.add(0, Const.ROOM_LIST_IS_EMPTY);
+
         adapter = new ArrayAdapter<>(
                 getActivity(),
                 android.R.layout.simple_spinner_item,
                 roomList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-        spinner.setPrompt("Title");
         spinner.setSelection(0);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spinnerPosition = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+        spinner.setOnItemSelectedListener(this);
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        roomName = adapter.getItem(position).toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }

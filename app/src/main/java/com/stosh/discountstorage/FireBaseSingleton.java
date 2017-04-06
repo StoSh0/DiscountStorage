@@ -40,7 +40,6 @@ public class FireBaseSingleton {
     private FireBaseSingleton() {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
-
     }
 
     private void init() {
@@ -64,11 +63,10 @@ public class FireBaseSingleton {
         }
     }
 
-    public void login(
-            Activity activity,
-            String email,
-            String password,
-            OnCompleteListener<AuthResult> listener) {
+    public void login(Activity activity,
+                      String email,
+                      String password,
+                      OnCompleteListener<AuthResult> listener) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(activity, listener);
     }
@@ -81,47 +79,6 @@ public class FireBaseSingleton {
     public void resetPassword(String email, OnCompleteListener<Void> listener) {
         mAuth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(listener);
-    }
-
-    public void addUserToDB(String email, String password) {
-        init();
-        myRef = database.getReference(Const.DB_USERS);
-        User user = new User(userId, email, password);
-        myRef.child(userIdDB).setValue(user);
-    }
-
-    public void createRoomList(String name) {
-        init();
-        myRef = database.getReference(Const.DB_USERS);
-        RoomList roomList = new RoomList(name + "_" + userIdDB);
-        myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(name + "_" + userIdDB).setValue(roomList);
-    }
-
-    public void createRoom(String name, String password) {
-        init();
-        myRef = database.getReference(Const.DB_ROOMS);
-        Room room = new Room(name, password, userIdDB);
-        myRef.child(name + "_" + userIdDB).setValue(room);
-    }
-
-    public void createCardList(String roomName, String cardName) {
-        init();
-        myRef = database.getReference(Const.DB_ROOMS);
-        CardList cardList = new CardList(cardName, cardName + "_" + roomName);
-        myRef.child(roomName).child(Const.DB_CARD_LIST).child(cardName + "_" + roomName).setValue(cardList);
-    }
-
-    public void createCard(String roomName, String cardName, String category, String code, String format) {
-        init();
-        myRef = database.getReference(Const.DB_CARDS);
-        Card card = new Card(roomName, cardName, category, code, format);
-        myRef.child(cardName + "_" + roomName + "_" + userIdDB).setValue(card);
-    }
-
-    public void getRooms(ValueEventListener listener) {
-        init();
-        myRef = database.getReference(Const.DB_USERS);
-        myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).addListenerForSingleValueEvent(listener);
     }
 
     public void changeEmail(String email, OnCompleteListener listener) {
@@ -145,6 +102,53 @@ public class FireBaseSingleton {
         mAuth.signOut();
     }
 
+    public void createUserInDB(String email, String password) {
+        init();
+        myRef = database.getReference(Const.DB_USERS);
+        User user = new User(userId, email, password);
+        myRef.child(userIdDB).setValue(user);
+    }
+
+    public void createRoomList(String name) {
+        init();
+        myRef = database.getReference(Const.DB_USERS);
+        RoomList roomList = new RoomList(name + "_" + userIdDB, name);
+        myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(name + "_" + userIdDB).setValue(roomList);
+    }
+
+    public void createRoom(String name, String password) {
+        init();
+        myRef = database.getReference(Const.DB_ROOMS);
+        Room room = new Room(name, password, userIdDB);
+        myRef.child(name + "_" + userIdDB).setValue(room);
+    }
+
+    public void createCardList(String roomName, String cardName, String category) {
+        init();
+        myRef = database.getReference(Const.DB_ROOMS);
+        CardList cardList = new CardList(cardName, cardName + "_" + roomName,category);
+        myRef.child(roomName).child(Const.DB_CARD_LIST)
+                .child(cardName + "_" + roomName)
+                .setValue(cardList);
+    }
+
+    public void createCard(String roomName,
+                           String cardName,
+                           String category,
+                           String code,
+                           String format) {
+        init();
+        myRef = database.getReference(Const.DB_CARDS);
+        Card card = new Card(roomName, cardName, category, code, format);
+        myRef.child(cardName + "_" + roomName + "_" + userIdDB).setValue(card);
+    }
+
+    public void getRooms(ValueEventListener listener) {
+        init();
+        myRef = database.getReference(Const.DB_USERS);
+        myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).addListenerForSingleValueEvent(listener);
+    }
+
     public void checkUserInDB(String creator, ValueEventListener listener) {
         init();
         myRef = database.getReference(Const.DB_USERS);
@@ -154,7 +158,11 @@ public class FireBaseSingleton {
     public void checkRoomList(String creator, String nameRoom, ValueEventListener listener) {
         init();
         myRef = database.getReference(Const.DB_USERS);
-        myRef.child(creator).child(Const.DB_ROOMS_LIST).child(nameRoom + "_" + creator).addListenerForSingleValueEvent(listener);
+        myRef.child(creator)
+                .child(Const.DB_ROOMS_LIST)
+                .child(nameRoom + "_" + creator)
+                .addListenerForSingleValueEvent(listener)
+        ;
 
     }
 
@@ -167,7 +175,17 @@ public class FireBaseSingleton {
     public void addToRoomList(String creator, String nameRoom) {
         init();
         myRef = database.getReference(Const.DB_USERS);
-        RoomList roomList = new RoomList(nameRoom + "_" + creator);
-        myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(nameRoom + "_" + creator).setValue(roomList);
+        RoomList roomList = new RoomList(nameRoom + "_" + creator, nameRoom);
+        myRef.child(userIdDB)
+                .child(Const.DB_ROOMS_LIST)
+                .child(nameRoom + "_" + creator)
+                .setValue(roomList)
+        ;
+    }
+
+    public void getCards(String roomName, ValueEventListener listener) {
+        init();
+        myRef = database.getReference(Const.DB_ROOMS);
+        myRef.child(roomName).child(Const.DB_CARD_LIST).addListenerForSingleValueEvent(listener);
     }
 }

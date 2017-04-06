@@ -26,7 +26,7 @@ import static android.widget.Toast.makeText;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChangePasswordFragment extends Fragment implements View.OnClickListener {
+public class ChangePasswordFragment extends Fragment implements View.OnClickListener, OnCompleteListener {
 
     private View view;
     private EditText editTextPassword;
@@ -43,7 +43,6 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_change_password, container, false);
         init();
         fireBase = FireBaseSingleton.getInstance();
@@ -69,30 +68,29 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
-        OnCompleteListener listener = new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                if (task.isSuccessful()) {
-                    makeText(
-                            getActivity(),
-                            getString(R.string.email_update),
-                            Toast.LENGTH_LONG
-                    ).show();
-                    fireBase.singOut();
-                    getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
-                    getActivity().finish();
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    makeText(
-                            getActivity(),
-                            getString(R.string.failed_update_email),
-                            Toast.LENGTH_LONG)
-                            .show();
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-        };
-        fireBase.changePassword(password, listener);
+        fireBase.changePassword(password, this);
+    }
+
+    @Override
+    public void onComplete(@NonNull Task task) {
+        if (task.isSuccessful()) {
+            makeText(
+                    getActivity(),
+                    getString(R.string.email_update),
+                    Toast.LENGTH_LONG
+            ).show();
+            fireBase.singOut();
+            getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
+            getActivity().finish();
+            progressBar.setVisibility(View.GONE);
+        } else {
+            makeText(
+                    getActivity(),
+                    getString(R.string.failed_update_email),
+                    Toast.LENGTH_LONG)
+                    .show();
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }
 

@@ -14,4 +14,5 @@ public interface Const {
     String DB_ROOMS = "Rooms";
     String DB_CARD_LIST = "CardList";
     String DB_CARDS = "Card";
+    String ROOM_LIST_IS_EMPTY = "First Create Room";
 }

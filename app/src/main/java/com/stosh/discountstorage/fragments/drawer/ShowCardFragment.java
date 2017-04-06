@@ -8,27 +8,35 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.activities.DrawerActivity;
+import com.stosh.discountstorage.database.Card;
+import com.stosh.discountstorage.database.CardList;
 import com.stosh.discountstorage.database.RoomList;
+import com.stosh.discountstorage.interfaces.Const;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShowCardFragment extends Fragment implements ValueEventListener  {
+public class ShowCardFragment extends Fragment implements ValueEventListener {
 
     private View view;
     private ListView listView;
+    private ArrayList<HashMap<String, Object>> cardList;
+    private static final String NAME = "CardName";
+    private static final String CAT = "Category";
 
     public static ShowCardFragment getInstance(@Nullable Bundle data) {
         ShowCardFragment fragment = new ShowCardFragment();
@@ -41,39 +49,50 @@ public class ShowCardFragment extends Fragment implements ValueEventListener  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         FireBaseSingleton fireBase = FireBaseSingleton.getInstance();
-        fireBase.getRooms(this);
+        Bundle bundle = getArguments();
+        String roomName = bundle.getString("roomName");
+        fireBase.getCards(roomName, this);
         view = inflater.inflate(R.layout.fragment_show_card, container, false);
-        listView = (ListView) view.findViewById(R.id.listViewRooms);
+        listView = (ListView) view.findViewById(R.id.listViewCard);
         return view;
     }
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-
-        List roomList = new ArrayList();
-
+        Log.d("1", "1");
+        cardList = new ArrayList<>();
+        HashMap<String, Object> hm;
+        Log.d("1", "2" + dataSnapshot.getChildren());
         for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
-
-            RoomList room = roomsDataSnapshot.getValue(RoomList.class);
-            roomList.add(room.ID);
-
-            Log.d("1", "20");
+            CardList card = roomsDataSnapshot.getValue(CardList.class);
+            hm = new HashMap<>();
+            hm.put(NAME, "Name: " + card.name);
+            hm.put(CAT, "Category: " + card.category);
+            cardList.add(hm);
+            Log.d("1", "3");
         }
+        Log.d("1", "4");
+        SimpleAdapter adapter = new SimpleAdapter(
+                getActivity(), cardList,
+                R.layout.my_list_item,
+                new String[]{NAME,CAT},
+                new int[]{R.id.text1, R.id.text2}
+        );
 
-        ArrayAdapter adapter = new ArrayAdapter<>(
-                getActivity(), R.layout.my_list_item,
-                roomList);
         listView.setAdapter(adapter);
-        listView.setOnClickListener(new View.OnClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HashMap<String, Object> itemHashMap = (HashMap<String, Object>) parent.getItemAtPosition(position);
+                String titleItem = itemHashMap.get(NAME).toString();
+                String IDItem = itemHashMap.get(CAT).toString();
             }
         });
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-
+Log.d("1", "sdsaad");
     }
+
 }

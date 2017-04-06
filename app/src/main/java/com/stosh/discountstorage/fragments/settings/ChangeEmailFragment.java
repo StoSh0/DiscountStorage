@@ -26,7 +26,7 @@ import static android.widget.Toast.makeText;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ChangeEmailFragment extends Fragment implements View.OnClickListener {
+public class ChangeEmailFragment extends Fragment implements View.OnClickListener, OnCompleteListener {
 
     private View view;
     private EditText editTextEmail;
@@ -66,29 +66,28 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
-        OnCompleteListener listener = new OnCompleteListener() {
-            @Override
-            public void onComplete(@NonNull Task task) {
-                if (task.isSuccessful()) {
-                    makeText(
-                            getActivity(),
-                            getString(R.string.email_update),
-                            Toast.LENGTH_LONG
-                    ).show();
-                    fireBase.singOut();
-                    progressBar.setVisibility(View.GONE);
-                    getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
-                    getActivity().finish();
-                } else {
-                    makeText(
-                            getActivity(),
-                            getString(R.string.failed_update_email),
-                            Toast.LENGTH_LONG
-                    ).show();
-                    progressBar.setVisibility(View.GONE);
-                }
-            }
-        };
-        fireBase.changeEmail(email, listener);
+        fireBase.changeEmail(email, this);
+    }
+
+    @Override
+    public void onComplete(@NonNull Task task) {
+        if (task.isSuccessful()) {
+            makeText(
+                    getActivity(),
+                    getString(R.string.email_update),
+                    Toast.LENGTH_LONG
+            ).show();
+            fireBase.singOut();
+            progressBar.setVisibility(View.GONE);
+            getActivity().startActivity(new Intent(getActivity(), MainActivity.class));
+            getActivity().finish();
+        } else {
+            makeText(
+                    getActivity(),
+                    getString(R.string.failed_update_email),
+                    Toast.LENGTH_LONG
+            ).show();
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

@@ -10,9 +10,15 @@ public class CardList {
 
     public String name;
     public String ID;
+    public String category;
 
-    public CardList(String name, String ID) {
+    public CardList(){
+
+    }
+
+    public CardList(String name, String ID, String category) {
         this.name = name;
         this.ID = ID;
+        this.category = category;
     }
 }

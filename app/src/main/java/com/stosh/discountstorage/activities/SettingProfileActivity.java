@@ -20,7 +20,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 
-public class SettingProfileActivity extends AppCompatActivity {
+public class SettingProfileActivity extends AppCompatActivity implements OnCompleteListener {
 
     private FragmentManager mFragmentManager;
     private FireBaseSingleton fireBase;
@@ -55,16 +55,7 @@ public class SettingProfileActivity extends AppCompatActivity {
                         .commit();
                 break;
             case R.id.btnDeleteUser:
-                OnCompleteListener listener = new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if (task.isSuccessful()) {
-                            startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
-                            finish();
-                        }
-                    }
-                };
-                fireBase.deleteUser(listener);
+                fireBase.deleteUser(this);
                 break;
             case R.id.btnSingOut:
                 fireBase.singOut();
@@ -78,5 +69,11 @@ public class SettingProfileActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onComplete(@NonNull Task task) {
+        startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
+        finish();
     }
 }

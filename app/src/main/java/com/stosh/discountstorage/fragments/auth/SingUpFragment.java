@@ -111,7 +111,7 @@ public class SingUpFragment extends Fragment implements View.OnClickListener, On
         if (task.isSuccessful()) {
             Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
             progressBar.setVisibility(View.GONE);
-            fireBase.addUserToDB(email, password);
+            fireBase.createUserInDB(email, password);
             btnSingUp.setClickable(true);
             btnResetPass.setClickable(true);
             btnSingUpFrag.setClickable(true);

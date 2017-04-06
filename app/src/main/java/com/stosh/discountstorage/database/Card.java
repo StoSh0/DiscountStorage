@@ -15,6 +15,7 @@ public class Card {
     public String category;
     public String code;
     public String format;
+
     public Card(){
 
     }
