@@ -18,14 +18,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="visible"
-            app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+            app:srcCompat="@drawable/common_google_signin_btn_icon_dark"
+            android:contentDescription="@string/add" />
 
         <TextView
             android:id="@+id/textViewCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="TextView"
+            android:text="@string/text_view"
             android:textSize="30dp" />
 
         <LinearLayout
@@ -37,7 +38,7 @@
                 android:id="@+id/textView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Choose Room"
+                android:text="@string/choose_room"
                 android:textColor="@color/yellow"/>
 
             <Spinner
@@ -52,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="NameCard"
+            android:hint="@string/name_card"
             android:inputType="textPersonName"
             android:textColor="@color/white"
             android:textColorHint="@color/white" />
@@ -62,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Category"
+            android:hint="@string/category"
             android:inputType="textPersonName"
             android:textColor="@color/yellow"
             android:textColorHint="@color/yellow" />

@@ -9,7 +9,7 @@
     <string name="password">Password</string>
     <string name="forgot_pass">Forgot your password?</string>
     <string name="not_reg">Not registered? SingUp Now!</string>
-    <string name="sing_up">Sing Up</string>
+    <string name="sing_up">Register Form</string>
     <string name="already_reg">Already registered? Login Me!</string>
     <string name="reset">Reset Password</string>
     <string name="Back">Back</string>
@@ -55,9 +55,24 @@
     <string name="card_add">"Card Was Add"</string>
     <string name="enter_name">Enter Name</string>
     <string name="add_room">Add Room</string>
+    <string name="user_not">"User Not Found"</string>
+    <string name="room_not">Room not found</string>
+    <string name="password_incorrect">"Password invalid"</string>
+    <string name="add_room_first">"First add room" </string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="choose_room">Choose Room</string>
+    <string name="choose_card">Choose Card</string>
+    <string name="this_is_title">This is Title</string>
+    <string name="this_is_description">This is Description</string>
+    <string name="android_studio">Android Studio</string>
+    <string name="android_studio_android_com">android.studio@android.com</string>
+    <string name="text_view">TextView</string>
+    <string name="name_card">NameCard</string>
+    <string name="category">Category</string>
+    <string name="email_of_creator">Email of Creator</string>
+    <string name="name_room">Name Room</string>
+    <string name="password_for_room">Password for Room</string>
 
 
 </resources>

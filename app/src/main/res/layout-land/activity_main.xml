@@ -21,7 +21,8 @@
             android:layout_width="@dimen/image_logoWH"
             android:layout_height="@dimen/image_logoWH"
             android:layout_gravity="center"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:contentDescription="@string/add" />
 
         <LinearLayout
             android:id="@+id/containerLogin"
@@ -29,6 +30,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp"></LinearLayout>
+            tools:layout_editor_absoluteY="8dp" />
     </LinearLayout>
 </LinearLayout>

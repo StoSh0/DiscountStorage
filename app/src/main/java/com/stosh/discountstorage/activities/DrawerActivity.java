@@ -2,6 +2,7 @@ package com.stosh.discountstorage.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -29,9 +30,7 @@ import com.stosh.discountstorage.fragments.drawer.EnterBarCodeFragment;
 public class DrawerActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener, DrawerFragmentListener {
 
-    private String TAG = "Scan";
     private FragmentManager mFragmentManager;
-    private Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,7 @@ public class DrawerActivity extends AppCompatActivity implements
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.open_navigation, R.string.close_navigation);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -89,7 +88,7 @@ public class DrawerActivity extends AppCompatActivity implements
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.nav_camera:
                 IntentIntegrator integrator = new IntentIntegrator(this);
@@ -140,13 +139,14 @@ public class DrawerActivity extends AppCompatActivity implements
         super.onActivityResult(requestCode, resultCode, data);
         result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
+            String TAG = "Scan";
             if (result.getContents() == null) {
                 Log.d(TAG, "Cancelled scan");
             } else {
                 Log.d(TAG, "Scanned");
                 String code = result.getContents();
                 String format = result.getFormatName();
-                bundle = new Bundle();
+                Bundle bundle = new Bundle();
                 bundle.putString("code", code);
                 bundle.putString("format", format);
                 startAddCardFragment(bundle);

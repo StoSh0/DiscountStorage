@@ -21,7 +21,8 @@ import com.stosh.discountstorage.fragments.auth.SingUpFragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity implements AuthFragmentListener, FirebaseAuth.AuthStateListener {
+public class MainActivity extends AppCompatActivity implements AuthFragmentListener,
+        FirebaseAuth.AuthStateListener {
 
     private String TAG = "MainActivity";
     private Unbinder unbinder;

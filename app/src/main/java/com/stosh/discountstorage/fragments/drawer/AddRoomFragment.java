@@ -31,7 +31,6 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private EditText editTextCreatorEmail, editTextNameRoom, editTextPasswordRoom;
-    private Button buttonAdd;
     private FireBaseSingleton fireBase;
     private String creator, roomName,password;
     private ProgressBar progressBar;
@@ -57,7 +56,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
         editTextPasswordRoom = (EditText) view.findViewById(R.id.editTextPasswordRoom);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarAddRoom);
 
-        buttonAdd = (Button) view.findViewById(R.id.btnAddRoom);
+        Button buttonAdd = (Button) view.findViewById(R.id.btnAddRoom);
         buttonAdd.setOnClickListener(this);
         fireBase = FireBaseSingleton.getInstance();
     }
@@ -104,7 +103,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("1", "Cancel");
+
             }
         };
         fireBase.checkUserInDB(creator, listener);
@@ -139,20 +138,19 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
                 Room room = dataSnapshot.getValue(Room.class);
                 if (room == null) {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Room Not Found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.user_not), Toast.LENGTH_LONG).show();
                     return;
                 }
                 Log.d("1", room.password);
                 Log.d("1", password);
                 if (room.password.equals(password)) {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Room was added", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.room_not), Toast.LENGTH_LONG).show();
                     fireBase.addToRoomList(creator, roomName);
                     return;
                 }
                 progressBar.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), "Password invalid", Toast.LENGTH_LONG).show();
-                return;
+                Toast.makeText(getActivity(), getString(R.string.password_incorrect), Toast.LENGTH_LONG).show();
             }
 
             @Override

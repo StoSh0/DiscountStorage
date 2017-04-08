@@ -10,10 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,22 +20,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.database.RoomList;
-import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ShowRoomFragment extends Fragment implements ValueEventListener {
 
-    private View view;
     private ListView listView;
+    private ProgressBar progressBar;
     private DrawerFragmentListener listener;
-    private ArrayList<HashMap<String, Object>> roomList;
     private static final String NAME = "RoomName";
     private static final String ID = "ID";
 
@@ -62,39 +58,42 @@ public class ShowRoomFragment extends Fragment implements ValueEventListener {
                              Bundle savedInstanceState) {
         FireBaseSingleton fireBase = FireBaseSingleton.getInstance();
         fireBase.getRooms(this);
-        view = inflater.inflate(R.layout.fragment_show_room, container, false);
+        View view = inflater.inflate(R.layout.fragment_show_room, container, false);
         listView = (ListView) view.findViewById(R.id.listViewRooms);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBarShowRoom);
+        progressBar.setVisibility(View.VISIBLE);
         return view;
     }
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        Log.d("1", "1");
-        roomList = new ArrayList<>();
+        ArrayList<HashMap<String, Object>> roomList = new ArrayList<>();
         HashMap<String, Object> hm;
-        Log.d("1", "2");
         for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
             RoomList room = roomsDataSnapshot.getValue(RoomList.class);
             hm = new HashMap<>();
             hm.put(NAME, "Name: " + room.name);
             hm.put(ID, room.ID);
             roomList.add(hm);
-            Log.d("1", "3");
         }
-        /*if (roomList.isEmpty()) {
+        boolean isEmpty = false;
+        if(roomList.isEmpty()){
             hm = new HashMap<>();
-            hm.put(NAME, "FirstCreateRoom");
-            hm.put(ID, "NO ID");
-        }*/
-        Log.d("1", "4");
+            hm.put(NAME, getString(R.string.add_room_first));
+            roomList.add(hm);
+            isEmpty = true;
+        }
         SimpleAdapter adapter = new SimpleAdapter(
                 getActivity(), roomList,
                 R.layout.my_list_item,
                 new String[]{NAME, ID},
                 new int[]{R.id.text1, R.id.text2}
         );
-
+        progressBar.setVisibility(View.GONE);
         listView.setAdapter(adapter);
+        if (isEmpty){
+            return;
+        }
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

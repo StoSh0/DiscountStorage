@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Email of Creator"
+            android:hint="@string/email_of_creator"
             android:inputType="textEmailAddress"
             android:textColorHint="@color/yellow"
             android:textColor="@color/yellow"/>
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Name Room"
+            android:hint="@string/name_room"
             android:inputType="textPersonName"
             android:textColorHint="@color/white"
             android:textColor="@color/white"/>
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Password for Room"
+            android:hint="@string/password_for_room"
             android:inputType="textPassword"
             android:textColorHint="@color/white"
             android:textColor="@color/white"/>

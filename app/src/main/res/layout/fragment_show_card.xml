@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.stosh.discountstorage.fragments.drawer.ShowRoomFragment"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.stosh.discountstorage.fragments.drawer.ShowRoomFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,15 +14,22 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choose Card"
+            android:gravity="center"
+            android:text="@string/choose_card"
             android:textColor="@color/white"
-            android:textSize="20dp"
-            android:gravity="center"/>
+            android:textSize="20sp" />
+
+        <ProgressBar
+            android:id="@+id/progressBarShowCard"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
 
         <ListView
+            android:id="@+id/listViewCard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/listViewCard"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
 
 </FrameLayout>

@@ -32,7 +32,6 @@ import com.stosh.discountstorage.database.RoomList;
 import com.stosh.discountstorage.interfaces.Const;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -44,8 +43,6 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
 
     private ImageView imageView;
     private TextView textViewCode;
-    private Button buttonCancel;
-    private Button buttonAdd;
     private Spinner spinner;
     private EditText editTextNameCard;
     private EditText editTextCategory;
@@ -77,8 +74,8 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
     }
 
     private void init() {
-        buttonCancel = (Button) view.findViewById(R.id.btnCancel);
-        buttonAdd = (Button) view.findViewById(R.id.btnAdd);
+        Button buttonCancel = (Button) view.findViewById(R.id.btnCancel);
+        Button buttonAdd = (Button) view.findViewById(R.id.btnAdd);
         imageView = (ImageView) view.findViewById(R.id.imageViewBarcode);
         textViewCode = (TextView) view.findViewById(R.id.textViewCode);
         spinner = (Spinner) view.findViewById(R.id.spinnerNameRoom);
@@ -132,7 +129,7 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        List roomList = new ArrayList();
+        ArrayList<String> roomList = new ArrayList<>();
         for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
             RoomList room = roomsDataSnapshot.getValue(RoomList.class);
             roomList.add(room.ID);
@@ -155,7 +152,7 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        roomName = adapter.getItem(position).toString();
+        roomName = adapter.getItem(position);
     }
 
     @Override
