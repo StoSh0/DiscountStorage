@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -35,7 +36,8 @@ public class SingUpFragment extends Fragment implements View.OnClickListener, On
     private ProgressBar progressBar;
     private FireBaseSingleton fireBase;
     private AuthFragmentListener listener;
-    String email, password;
+    private String email, password;
+    private InputMethodManager inputMethodManager;
 
 
     @Override
@@ -60,6 +62,8 @@ public class SingUpFragment extends Fragment implements View.OnClickListener, On
         view = inflater.inflate(R.layout.fragment_sing_up, container, false);
         fireBase = FireBaseSingleton.getInstance();
         init();
+        inputMethodManager = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
         return view;
     }
 
@@ -96,12 +100,19 @@ public class SingUpFragment extends Fragment implements View.OnClickListener, On
                 btnSingUp.setClickable(false);
                 btnResetPass.setClickable(false);
                 btnSingUpFrag.setClickable(false);
+
+                inputMethodManager.hideSoftInputFromWindow(btnSingUp.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 break;
             case R.id.btnResetPassFrag:
                 listener.clickBtn(Const.RESET_ID);
+                inputMethodManager.hideSoftInputFromWindow(btnResetPass.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 break;
             case R.id.btnSingInFrag:
                 listener.clickBtn(Const.LOGIN_ID);
+                inputMethodManager.hideSoftInputFromWindow(btnSingUpFrag.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 break;
         }
     }

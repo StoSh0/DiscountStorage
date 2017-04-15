@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    tools:background="@color/colorPrimaryDark"
     tools:context="com.stosh.discountstorage.fragments.drawer.CreateCardFragment">
 
 
@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/text_view"
+            android:textColor="@color/yellow"
             android:textSize="30dp" />
 
         <LinearLayout
@@ -39,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/choose_room"
-                android:textColor="@color/yellow"/>
+                android:textColor="@color/white"/>
 
             <Spinner
                 android:id="@+id/spinnerNameRoom"

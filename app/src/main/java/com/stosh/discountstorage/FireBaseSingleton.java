@@ -1,6 +1,7 @@
 package com.stosh.discountstorage;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
@@ -18,7 +19,7 @@ import com.stosh.discountstorage.interfaces.Const;
 
 /**
  * Created by StoSh on 21-Mar-17.
- */
+ **/
 
 public class FireBaseSingleton {
 
@@ -45,7 +46,7 @@ public class FireBaseSingleton {
     private void init() {
         mUser = mAuth.getCurrentUser();
         userId = mUser.getUid();
-        userIdDB = mUser.getEmail().replace(".", "").toLowerCase();
+        userIdDB = mUser.getEmail().toLowerCase().replace(".", "");
     }
 
     public void check(FirebaseAuth.AuthStateListener mAuthListener) {
@@ -123,24 +124,24 @@ public class FireBaseSingleton {
         myRef.child(name + "_" + userIdDB).setValue(room);
     }
 
-    public void createCardList(String roomName, String cardName, String category) {
+    public void createCardList(String ID, String cardName, String category) {
         init();
         myRef = database.getReference(Const.DB_ROOMS);
-        CardList cardList = new CardList(cardName, cardName + "_" + roomName,category);
-        myRef.child(roomName).child(Const.DB_CARD_LIST)
-                .child(cardName + "_" + roomName)
+        CardList cardList = new CardList(cardName, cardName + "_" + ID, category);
+        myRef.child(ID).child(Const.DB_CARD_LIST)
+                .child(cardName + "_" + ID)
                 .setValue(cardList);
     }
 
-    public void createCard(String roomName,
+    public void createCard(String ID,
                            String cardName,
                            String category,
                            String code,
                            String format) {
         init();
         myRef = database.getReference(Const.DB_CARDS);
-        Card card = new Card(roomName, cardName, category, code, format);
-        myRef.child(cardName + "_" + roomName + "_" + userIdDB).setValue(card);
+        Card card = new Card(ID, cardName, category, code, format);
+        myRef.child(cardName + "_" + ID).setValue(card);
     }
 
     public void getRooms(ValueEventListener listener) {
@@ -183,9 +184,18 @@ public class FireBaseSingleton {
         ;
     }
 
-    public void getCards(String roomName, ValueEventListener listener) {
+    public void getCardList(String roomName, ValueEventListener listener) {
         init();
         myRef = database.getReference(Const.DB_ROOMS);
         myRef.child(roomName).child(Const.DB_CARD_LIST).addListenerForSingleValueEvent(listener);
     }
+
+    public void getCard(String id, ValueEventListener listener) {
+        init();
+        myRef = database.getReference(Const.DB_CARDS);
+        Log.d("1", id);
+        myRef.child(id).addListenerForSingleValueEvent(listener);
+
+    }
+
 }

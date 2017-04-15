@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -26,8 +27,7 @@ public class EnterBarCodeFragment extends Fragment implements View.OnClickListen
     private Button buttonEnter;
     private View view;
     private DrawerFragmentListener listener;
-
-
+    private InputMethodManager inputMethodManager;
 
     @Override
     public void onAttach(Context context) {
@@ -52,6 +52,8 @@ public class EnterBarCodeFragment extends Fragment implements View.OnClickListen
         editTextEnterHand = (EditText) view.findViewById(R.id.editTextEnter);
         buttonEnter = (Button) view.findViewById(R.id.btnEnter);
         buttonEnter.setOnClickListener(this);
+        inputMethodManager = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
         return view;
     }
 
@@ -62,7 +64,8 @@ public class EnterBarCodeFragment extends Fragment implements View.OnClickListen
             Toast.makeText(getActivity(), getString(R.string.enter_barcode), Toast.LENGTH_SHORT).show();
             return;
         }
-
+        inputMethodManager.hideSoftInputFromWindow(buttonEnter.getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
         listener.send(code);
     }
 }

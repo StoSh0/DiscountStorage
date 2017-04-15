@@ -1,37 +1,40 @@
 package com.stosh.discountstorage.fragments.drawer;
 
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.database.CardList;
-
-import java.util.ArrayList;
-import java.util.HashMap;
+import com.stosh.discountstorage.database.Card;
+import com.stosh.discountstorage.interfaces.Const;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShowCardFragment extends Fragment implements ValueEventListener {
+public class ShowCardFragment extends Fragment implements ValueEventListener{
 
-    private ListView listView;
+    private ImageView imageView;
+    private TextView textViewName, textViewCode;
     private ProgressBar progressBar;
-    private static final String NAME = "CardName";
-    private static final String CAT = "Category";
+    private FireBaseSingleton fireBase;
+    private String id;
 
     public static ShowCardFragment getInstance(@Nullable Bundle data) {
         ShowCardFragment fragment = new ShowCardFragment();
@@ -43,61 +46,44 @@ public class ShowCardFragment extends Fragment implements ValueEventListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        FireBaseSingleton fireBase = FireBaseSingleton.getInstance();
-        Bundle bundle = getArguments();
-        String roomName = bundle.getString("roomName");
-        fireBase.getCards(roomName, this);
+        fireBase = FireBaseSingleton.getInstance();
         View view = inflater.inflate(R.layout.fragment_show_card, container, false);
-        listView = (ListView) view.findViewById(R.id.listViewCard);
+        imageView = (ImageView) view.findViewById(R.id.imageViewShowCard);
+        textViewName = (TextView) view.findViewById(R.id.textViewShowCardName);
+        textViewCode = (TextView) view.findViewById(R.id.textViewShowCardCode);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarShowCard);
-        progressBar.setVisibility(View.VISIBLE);
+        Bundle bundle = getArguments();
+        id = bundle.getString(Const.ID);
+        fireBase.getCard(id, this);
         return view;
     }
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        ArrayList<HashMap<String, Object>> cardList = new ArrayList<>();
-        HashMap<String, Object> hm;
-        Log.d("1", "2" + dataSnapshot.getChildren());
-        for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
-            CardList card = roomsDataSnapshot.getValue(CardList.class);
-            hm = new HashMap<>();
-            hm.put(NAME, "Name: " + card.name);
-            hm.put(CAT, "Category: " + card.category);
-            cardList.add(hm);
-        }
-
-        boolean isEmpty = false;
-        if(cardList.isEmpty()){
-            hm = new HashMap<>();
-            hm.put(NAME, getString(R.string.add_room_first));
-            cardList.add(hm);
-            isEmpty = true;
-        }
-        SimpleAdapter adapter = new SimpleAdapter(
-                getActivity(), cardList,
-                R.layout.my_list_item,
-                new String[]{NAME,CAT},
-                new int[]{R.id.text1, R.id.text2}
-        );
+        Card card = dataSnapshot.getValue(Card.class);
+        String code = card.code;
+        String format = card.format;
+        String name = card.name;
         progressBar.setVisibility(View.GONE);
-        listView.setAdapter(adapter);
-        if (isEmpty){
-            return;
+        textViewName.setVisibility(View.VISIBLE);
+        textViewCode.setVisibility(View.VISIBLE);
+        imageView.setVisibility(View.VISIBLE);
+        textViewName.setText(name);
+        textViewCode.setText(code);
+        Bitmap bitmap;
+        BarcodeEncoder barcodeEncoder;
+        try {
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(code, BarcodeFormat.valueOf(format), 1000, 500);
+            barcodeEncoder = new BarcodeEncoder();
+            bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            imageView.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
         }
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String, Object> itemHashMap = (HashMap<String, Object>) parent.getItemAtPosition(position);
-                String titleItem = itemHashMap.get(NAME).toString();
-                String IDItem = itemHashMap.get(CAT).toString();
-            }
-        });
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
 
     }
-
 }

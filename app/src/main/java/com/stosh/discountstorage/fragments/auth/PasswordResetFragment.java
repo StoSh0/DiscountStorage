@@ -3,6 +3,7 @@ package com.stosh.discountstorage.fragments.auth;
 
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -32,6 +34,7 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
     private View view;
     private Button buttonReset, buttonBack;
     private ProgressBar progressBar;
+    private InputMethodManager inputMethodManager;
 
     public static PasswordResetFragment getInstance(@Nullable Bundle data) {
         PasswordResetFragment fragment = new PasswordResetFragment();
@@ -45,6 +48,9 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
         view = inflater.inflate(R.layout.fragment_password_reset, container, false);
         fireBase = FireBaseSingleton.getInstance();
         init();
+        inputMethodManager = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+
         return view;
     }
 
@@ -64,6 +70,8 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.btnResetBack:
                 getActivity().onBackPressed();
+                inputMethodManager.hideSoftInputFromWindow(buttonBack.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 break;
             case R.id.btnReset:
                 String email = editTextEmail.getText().toString();
@@ -73,6 +81,8 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
                 }
                 fireBase.resetPassword(email, this);
                 progressBar.setVisibility(View.VISIBLE);
+                inputMethodManager.hideSoftInputFromWindow(buttonReset.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 buttonReset.setClickable(false);
                 buttonBack.setClickable(false);
                 break;

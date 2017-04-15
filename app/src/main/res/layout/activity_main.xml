@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,14 +17,13 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
-
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="@dimen/image_logoWH"
             android:layout_height="@dimen/image_logoWH"
             android:layout_gravity="center"
-            app:srcCompat="@mipmap/icon"
-            android:contentDescription="@string/add" />
+            android:contentDescription="@string/add"
+            app:srcCompat="@mipmap/icon" />
 
         <LinearLayout
             android:id="@+id/containerLogin"
@@ -38,4 +37,4 @@
     </LinearLayout>
 
 
-</LinearLayout>
+</FrameLayout>

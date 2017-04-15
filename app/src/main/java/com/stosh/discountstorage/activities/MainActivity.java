@@ -1,6 +1,7 @@
 package com.stosh.discountstorage.activities;
 
 
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements AuthFragmentListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         fireBase = FireBaseSingleton.getInstance();
         unbinder = ButterKnife.bind(this);
         fireBase.check(this);
@@ -90,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements AuthFragmentListe
         if (user != null) {
             Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
             startActivity(new Intent(MainActivity.this, DrawerActivity.class));
-            MainActivity.this.finish();
+            finish();
         } else {
             Log.d(TAG, "onAuthStateChanged:signed_out");
             mFragmentManager = getSupportFragmentManager();

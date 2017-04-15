@@ -1,6 +1,7 @@
 package com.stosh.discountstorage.fragments.drawer;
 
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,12 +49,11 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
     private EditText editTextNameCard;
     private EditText editTextCategory;
     private View view;
-
-
+    private InputMethodManager inputMethodManager;
     private ArrayAdapter<String> adapter;
-    private String roomName, format, code;
+    private String ID, format, code;
     private FireBaseSingleton fireBase;
-
+    private Button buttonAdd,buttonCancel;
     public static CreateCardFragment getInstance(@Nullable Bundle data) {
         CreateCardFragment fragment = new CreateCardFragment();
         fragment.setArguments(data == null ? new Bundle() : data);
@@ -70,12 +71,14 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
         init();
         fireBase.getRooms(this);
         generateBitmap();
+        inputMethodManager = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
         return view;
     }
 
     private void init() {
-        Button buttonCancel = (Button) view.findViewById(R.id.btnCancel);
-        Button buttonAdd = (Button) view.findViewById(R.id.btnAdd);
+        buttonCancel = (Button) view.findViewById(R.id.btnCancel);
+        buttonAdd = (Button) view.findViewById(R.id.btnAdd);
         imageView = (ImageView) view.findViewById(R.id.imageViewBarcode);
         textViewCode = (TextView) view.findViewById(R.id.textViewCode);
         spinner = (Spinner) view.findViewById(R.id.spinnerNameRoom);
@@ -101,14 +104,20 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
                     Toast.makeText(getActivity(), getString(R.string.first_room), Toast.LENGTH_LONG).show();
                     break;
                 } else {
-                    fireBase.createCardList(roomName, nameCard, category);
-                    fireBase.createCard(roomName, nameCard, category, code, format);
+
+
+                    inputMethodManager.hideSoftInputFromWindow(buttonAdd.getWindowToken(),
+                            InputMethodManager.HIDE_NOT_ALWAYS);
+                    fireBase.createCardList(ID, nameCard, category);
+                    fireBase.createCard(ID, nameCard, category, code, format);
                     Toast.makeText(getActivity(), getString(R.string.card_add), Toast.LENGTH_LONG).show();
                     getActivity().onBackPressed();
                     break;
                 }
             case R.id.btnCancel:
                 getActivity().onBackPressed();
+                inputMethodManager.hideSoftInputFromWindow(buttonCancel.getWindowToken(),
+                    InputMethodManager.HIDE_NOT_ALWAYS);
                 break;
         }
     }
@@ -117,7 +126,7 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
         Bitmap bitmap;
         BarcodeEncoder barcodeEncoder;
         try {
-            BitMatrix bitMatrix = new MultiFormatWriter().encode(code, BarcodeFormat.valueOf(format), 600, 300);
+            BitMatrix bitMatrix = new MultiFormatWriter().encode(code, BarcodeFormat.valueOf(format), 1000, 500);
             barcodeEncoder = new BarcodeEncoder();
             bitmap = barcodeEncoder.createBitmap(bitMatrix);
             imageView.setImageBitmap(bitmap);
@@ -138,9 +147,9 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
 
         adapter = new ArrayAdapter<>(
                 getActivity(),
-                android.R.layout.simple_spinner_item,
+                R.layout.my_spiner_item,
                 roomList);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.my_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
         spinner.setOnItemSelectedListener(this);
@@ -152,7 +161,7 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        roomName = adapter.getItem(position);
+        ID = adapter.getItem(position);
     }
 
     @Override

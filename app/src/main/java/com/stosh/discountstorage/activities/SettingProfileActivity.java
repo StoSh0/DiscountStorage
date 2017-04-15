@@ -2,10 +2,12 @@ package com.stosh.discountstorage.activities;
 
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +32,7 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings_profile);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         unbinder = ButterKnife.bind(this);
         fireBase = FireBaseSingleton.getInstance();
         mFragmentManager = getSupportFragmentManager();
@@ -73,7 +76,12 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
 
     @Override
     public void onComplete(@NonNull Task task) {
-        startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
-        finish();
+        if (task.isSuccessful()) {
+            startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
+            finish();
+            return;
+        }else {
+            Log.d("1", "1121211212");
+        }
     }
 }

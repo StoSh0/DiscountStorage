@@ -1,9 +1,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context="com.stosh.discountstorage.fragments.drawer.ShowRoomFragment">
+    tools:background="@color/colorPrimaryDark"
+    tools:context="com.stosh.discountstorage.fragments.drawer.ShowCardFragment">
+
+    <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,25 +14,36 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/textViewShowCardName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/choose_card"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:text="@string/text_view"
+            android:textSize="30dp"
+            android:visibility="gone" />
 
         <ProgressBar
             android:id="@+id/progressBarShowCard"
             style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/imageViewShowCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
 
-        <ListView
-            android:id="@+id/listViewCard"
+        <TextView
+            android:id="@+id/textViewShowCardCode"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/text_view"
+            android:textSize="30dp"
+            android:visibility="gone" />
     </LinearLayout>
 
 </FrameLayout>

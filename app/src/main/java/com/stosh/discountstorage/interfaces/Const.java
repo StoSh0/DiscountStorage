@@ -13,6 +13,11 @@ public interface Const {
     String DB_ROOMS_LIST = "RoomList";
     String DB_ROOMS = "Rooms";
     String DB_CARD_LIST = "CardList";
-    String DB_CARDS = "Card";
+    String DB_CARDS = "Cards";
     String ROOM_LIST_IS_EMPTY = "First Create Room";
+
+
+    String NAME = "NAME";
+    String CAT = "Category";
+    String ID = "ID";
 }

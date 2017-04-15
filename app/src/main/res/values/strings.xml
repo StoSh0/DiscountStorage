@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DiscountStorage</string>
+    <string name="app_name">Discount Storage</string>
 
     <string name="login">Login</string>
     <string name="register">Register</string>
@@ -58,6 +58,7 @@
     <string name="user_not">"User Not Found"</string>
     <string name="room_not">Room not found</string>
     <string name="password_incorrect">"Password invalid"</string>
+    <string name="room_added">Room was added</string>
     <string name="add_room_first">"First add room" </string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -73,6 +74,9 @@
     <string name="email_of_creator">Email of Creator</string>
     <string name="name_room">Name Room</string>
     <string name="password_for_room">Password for Room</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

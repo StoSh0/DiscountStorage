@@ -1,8 +1,11 @@
 package com.stosh.discountstorage.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -10,16 +13,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.fragments.drawer.ShowCardFragment;
-import com.stosh.discountstorage.fragments.drawer.ShowRoomFragment;
+import com.stosh.discountstorage.fragments.drawer.ShowCardListFragment;
+import com.stosh.discountstorage.fragments.drawer.ShowRoomListFragment;
+import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
 import com.stosh.discountstorage.fragments.drawer.AddRoomFragment;
 import com.stosh.discountstorage.fragments.drawer.CreateCardFragment;
@@ -36,6 +44,7 @@ public class DrawerActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawer);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -47,13 +56,19 @@ public class DrawerActivity extends AppCompatActivity implements
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        TextView textViewProfile = (TextView) navigationView
+                .getHeaderView(0)
+                .findViewById(R.id.textViewProfile);
+        Log.d("1", textViewProfile + "");
+        textViewProfile.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.beginTransaction()
                 .setCustomAnimations
                         (R.anim.fragment_drawer_fade_in, R.anim.fragment_drawer_fade_out)
-                .replace(R.id.containerDrawer, ShowRoomFragment.getInstance(null))
+                .replace(R.id.containerDrawer, ShowRoomListFragment.getInstance(null))
                 .commit();
+        setTitle("Show all roms");
     }
 
 
@@ -79,7 +94,6 @@ public class DrawerActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingProfileActivity.class));
-                DrawerActivity.this.finish();
                 break;
         }
 
@@ -110,7 +124,7 @@ public class DrawerActivity extends AppCompatActivity implements
                 mFragmentManager.beginTransaction()
                         .setCustomAnimations
                                 (R.anim.fragment_drawer_fade_in, R.anim.fragment_drawer_fade_out)
-                        .replace(R.id.containerDrawer, ShowRoomFragment.getInstance(null))
+                        .replace(R.id.containerDrawer, ShowRoomListFragment.getInstance(null))
                         .commit();
                 break;
             case R.id.nav_create:
@@ -128,9 +142,10 @@ public class DrawerActivity extends AppCompatActivity implements
                         .commit();
                 break;
         }
-
+        setTitle(item.getTitle());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
@@ -156,7 +171,7 @@ public class DrawerActivity extends AppCompatActivity implements
 
     @Override
     public void send(String code) {
-        Log.d("1", code);
+
         if (code.length() == 13) {
             String format = "EAN_13";
             Bundle bundle = new Bundle();
@@ -171,7 +186,14 @@ public class DrawerActivity extends AppCompatActivity implements
     @Override
     public void sendList(String roomName) {
         Bundle bundle = new Bundle();
-        bundle.putString("roomName", roomName);
+        bundle.putString(Const.NAME, roomName);
+        startShowCardListFragment(bundle);
+    }
+
+    @Override
+    public void sendCard(String ID) {
+        Bundle bundle = new Bundle();
+        bundle.putString(Const.ID, ID);
         startShowCardFragment(bundle);
     }
 
@@ -182,7 +204,15 @@ public class DrawerActivity extends AppCompatActivity implements
                 .commit();
     }
 
-    private void startShowCardFragment(Bundle bundle){
+    private void startShowCardListFragment(Bundle bundle) {
+        mFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.fragment_drawer_list_fade_in, R.anim.fragment_drawer_fade_out)
+                .replace(R.id.containerDrawer, ShowCardListFragment.getInstance(bundle))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void startShowCardFragment(Bundle bundle) {
         mFragmentManager.beginTransaction()
                 .replace(R.id.containerDrawer, ShowCardFragment.getInstance(bundle))
                 .addToBackStack(null)

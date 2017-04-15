@@ -1,6 +1,7 @@
 package com.stosh.discountstorage.fragments.drawer;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -32,8 +34,10 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
     private View view;
     private EditText editTextCreatorEmail, editTextNameRoom, editTextPasswordRoom;
     private FireBaseSingleton fireBase;
-    private String creator, roomName,password;
+    private String creator, roomName, password;
     private ProgressBar progressBar;
+    private Button buttonAdd;
+    private InputMethodManager inputMethodManager;
 
     public static AddRoomFragment getInstance(@Nullable Bundle data) {
         AddRoomFragment fragment = new AddRoomFragment();
@@ -47,6 +51,8 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_add_room, container, false);
         init();
+        inputMethodManager = (InputMethodManager) getActivity()
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
         return view;
     }
 
@@ -56,7 +62,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
         editTextPasswordRoom = (EditText) view.findViewById(R.id.editTextPasswordRoom);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarAddRoom);
 
-        Button buttonAdd = (Button) view.findViewById(R.id.btnAddRoom);
+        buttonAdd = (Button) view.findViewById(R.id.btnAddRoom);
         buttonAdd.setOnClickListener(this);
         fireBase = FireBaseSingleton.getInstance();
     }
@@ -80,12 +86,15 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
             return;
         }
         progressBar.setVisibility(View.VISIBLE);
-        creator = creator.replace(".", "").toLowerCase();
+
+
+        inputMethodManager.hideSoftInputFromWindow(buttonAdd.getWindowToken(),
+                InputMethodManager.HIDE_NOT_ALWAYS);
+        creator = creator.toLowerCase().replace(".", "");
         checkInData();
     }
 
     private void checkInData() {
-        Log.d("1", ":dsaada");
         final ValueEventListener listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -96,7 +105,6 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(), "User Not Found", Toast.LENGTH_LONG).show();
                     return;
                 }
-                Log.d("1", user.email);
                 checkRoom();
 
             }
@@ -116,10 +124,9 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
                 RoomList roomList = dataSnapshot.getValue(RoomList.class);
                 if (roomList == null) {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), "Room Not Found", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.room_not), Toast.LENGTH_LONG).show();
                     return;
                 }
-                Log.d("1", roomList.ID);
                 checkPassword();
             }
 
@@ -141,11 +148,10 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(), getString(R.string.user_not), Toast.LENGTH_LONG).show();
                     return;
                 }
-                Log.d("1", room.password);
-                Log.d("1", password);
+
                 if (room.password.equals(password)) {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), getString(R.string.room_not), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getString(R.string.room_added), Toast.LENGTH_LONG).show();
                     fireBase.addToRoomList(creator, roomName);
                     return;
                 }
