@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements AuthFragmentListe
     private void startLoginFragment() {
         mFragmentManager.beginTransaction()
                 .setCustomAnimations(
-                        R.anim.fragment_fade_in,
-                        R.anim.fragment_fade_out)
+                        R.anim.fragment_login_fade_in,
+                        R.anim.fragment_login_fade_out)
                 .replace(R.id.containerLogin, LoginFragment.getInstance(null))
                 .commit();
     }
@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity implements AuthFragmentListe
     private void startSingUpFragment() {
         mFragmentManager.beginTransaction()
                 .setCustomAnimations(
-                        R.anim.fragment_fade_in,
-                        R.anim.fragment_fade_out)
+                        R.anim.fragment_login_fade_in,
+                        R.anim.fragment_login_fade_out)
                 .replace(R.id.containerLogin, SingUpFragment.getInstance(null))
                 .commit();
     }
@@ -77,10 +77,10 @@ public class MainActivity extends AppCompatActivity implements AuthFragmentListe
     private void startResetFragment() {
         mFragmentManager.beginTransaction()
                 .setCustomAnimations(
-                        R.anim.fragment_fade_in,
-                        R.anim.fragment_fade_out,
-                        R.anim.fragment_fade_pop_in,
-                        R.anim.fragment_fade_pop_out)
+                        R.anim.fragment_login_fade_in,
+                        R.anim.fragment_login_fade_out,
+                        R.anim.fragment_login_fade_pop_in,
+                        R.anim.fragment_login_fade_pop_out)
                 .replace(R.id.containerLogin, PasswordResetFragment.getInstance(null))
                 .addToBackStack(null)
                 .commit();

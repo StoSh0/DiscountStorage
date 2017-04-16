@@ -99,7 +99,6 @@ public class FireBaseSingleton {
     }
 
     public void singOut() {
-        init();
         mAuth.signOut();
     }
 

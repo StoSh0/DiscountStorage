@@ -77,6 +77,7 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
     @Override
     public void onComplete(@NonNull Task task) {
         if (task.isSuccessful()) {
+            fireBase.singOut();
             startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
             finish();
             return;

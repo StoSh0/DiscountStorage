@@ -206,7 +206,12 @@ public class DrawerActivity extends AppCompatActivity implements
 
     private void startShowCardListFragment(Bundle bundle) {
         mFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.fragment_drawer_list_fade_in, R.anim.fragment_drawer_fade_out)
+                .setCustomAnimations(
+                        R.anim.fragment_drawer_list_fade_in,
+                        R.anim.fragment_drawer_list_fade_out,
+                        R.anim.fragment_drawer_list_fade_pop_in,
+                        R.anim.fragment_drawer_list_fade_pop_out
+                )
                 .replace(R.id.containerDrawer, ShowCardListFragment.getInstance(bundle))
                 .addToBackStack(null)
                 .commit();
