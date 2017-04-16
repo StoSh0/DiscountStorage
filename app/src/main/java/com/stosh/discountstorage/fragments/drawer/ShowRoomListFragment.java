@@ -5,20 +5,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.adapters.ShowRoomListAdapter;
 import com.stosh.discountstorage.database.RoomList;
 import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
@@ -75,24 +74,8 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
             hm.put(Const.ID, room.ID);
             roomList.add(hm);
         }
-        boolean isEmpty = false;
-        if(roomList.isEmpty()){
-            hm = new HashMap<>();
-            hm.put(Const.NAME, getString(R.string.add_room_first));
-            roomList.add(hm);
-            isEmpty = true;
-        }
-        SimpleAdapter adapter = new SimpleAdapter(
-                getActivity(), roomList,
-                R.layout.my_list_item,
-                new String[]{Const.NAME, Const.ID},
-                new int[]{R.id.text1, R.id.text2}
-        );
         progressBar.setVisibility(View.GONE);
-        listView.setAdapter(adapter);
-        if (isEmpty){
-            return;
-        }
+        listView.setAdapter(new ShowRoomListAdapter(getActivity(), R.layout.list_item_show_rooms, roomList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

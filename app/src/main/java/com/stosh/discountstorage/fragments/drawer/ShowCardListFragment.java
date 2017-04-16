@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.adapters.ShowCardListAdapter;
 import com.stosh.discountstorage.database.CardList;
 import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
@@ -78,32 +78,12 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
             hm.put(Const.ID, card.ID);
             cardList.add(hm);
         }
-
-        boolean isEmpty = false;
-        if (cardList.isEmpty()) {
-            hm = new HashMap<>();
-            hm.put(Const.NAME, getString(R.string.add_room_first));
-            cardList.add(hm);
-            isEmpty = true;
-        }
-        SimpleAdapter adapter = new SimpleAdapter(
-                getActivity(), cardList,
-                R.layout.my_list_item,
-                new String[]{Const.NAME, Const.CAT},
-                new int[]{R.id.text1, R.id.text2}
-        );
         progressBar.setVisibility(View.GONE);
-        listView.setAdapter(adapter);
-        if (isEmpty) {
-            return;
-        }
+        listView.setAdapter(new ShowCardListAdapter(getActivity(), R.layout.list_item_show_cards, cardList));
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, Object> itemHashMap = cardList.get(position);
-                // (HashMap<String, Object>) parent.getItemAtPosition(position);
-                String name = itemHashMap.get(Const.NAME).toString();
-                String category = itemHashMap.get(Const.CAT).toString();
                 String xid = itemHashMap.get(Const.ID).toString();
                 listener.sendCard(xid);
             }

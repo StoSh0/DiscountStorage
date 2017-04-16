@@ -106,12 +106,11 @@ public class DrawerActivity extends AppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.nav_camera:
                 IntentIntegrator integrator = new IntentIntegrator(this);
-                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
-                integrator.setPrompt("Scan");
-                integrator.setCameraId(0);
-                integrator.setBeepEnabled(false);
-                integrator.setBarcodeImageEnabled(false);
-                integrator.initiateScan();
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES)
+                        .setPrompt("Scan")
+                        .setBeepEnabled(true)
+                        .setBarcodeImageEnabled(true)
+                        .initiateScan();
                 break;
             case R.id.nav_hand:
                 mFragmentManager.beginTransaction()
