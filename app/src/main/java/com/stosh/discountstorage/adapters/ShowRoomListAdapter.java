@@ -51,13 +51,13 @@ public class ShowRoomListAdapter extends ArrayAdapter {
         public void init(View convertView, final int position){
             HashMap<String, Object> itemHashMap = data.get(position);
             String name = itemHashMap.get(Const.NAME).toString();
-            String id = itemHashMap.get(Const.ID).toString();
+            String creator = itemHashMap.get(Const.CREATOR).toString();
 
             textViewName = (TextView) convertView.findViewById(R.id.textViewNameShowRooms);
             textViewSub = (TextView) convertView.findViewById(R.id.textViewSubShowRooms);
             buttonEdit = (Button) convertView.findViewById(R.id.btnEditShowRooms);
             textViewName.setText(name);
-            textViewSub.setText(id);
+            textViewSub.setText(creator);
             buttonEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

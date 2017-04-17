@@ -82,7 +82,6 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
             finish();
             return;
         }else {
-            Log.d("1", "1121211212");
         }
     }
 }

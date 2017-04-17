@@ -34,7 +34,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
     private View view;
     private EditText editTextCreatorEmail, editTextNameRoom, editTextPasswordRoom;
     private FireBaseSingleton fireBase;
-    private String creator, roomName, password;
+    private String creator, roomName, password, creatorId;
     private ProgressBar progressBar;
     private Button buttonAdd;
     private InputMethodManager inputMethodManager;
@@ -90,7 +90,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 
         inputMethodManager.hideSoftInputFromWindow(buttonAdd.getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
-        creator = creator.toLowerCase().replace(".", "");
+        creatorId = creator.toLowerCase().replace(".", "");
         checkInData();
     }
 
@@ -114,7 +114,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 
             }
         };
-        fireBase.checkUserInDB(creator, listener);
+        fireBase.checkUserInDB(creatorId, listener);
     }
 
     private void checkRoom() {
@@ -135,7 +135,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 
             }
         };
-        fireBase.checkRoomList(creator, roomName, listener);
+        fireBase.checkRoomList(creatorId, roomName, listener);
     }
 
     private void checkPassword() {
@@ -152,7 +152,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
                 if (room.password.equals(password)) {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), getString(R.string.room_added), Toast.LENGTH_LONG).show();
-                    fireBase.addToRoomList(creator, roomName);
+                    fireBase.addToRoomList(creator, roomName, creatorId);
                     return;
                 }
                 progressBar.setVisibility(View.GONE);
@@ -164,6 +164,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 
             }
         };
-        fireBase.checkPassword(creator, roomName, listener);
+        fireBase.checkPassword(creatorId, roomName, listener);
     }
+
 }

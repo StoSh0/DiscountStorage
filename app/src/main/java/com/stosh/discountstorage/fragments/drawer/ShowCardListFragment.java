@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +32,7 @@ import java.util.HashMap;
  */
 public class ShowCardListFragment extends Fragment implements ValueEventListener {
 
+    private TextView textView;
     private ListView listView;
     private ProgressBar progressBar;
     private DrawerFragmentListener listener;
@@ -62,6 +64,7 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
         View view = inflater.inflate(R.layout.fragment_show_card_list, container, false);
         listView = (ListView) view.findViewById(R.id.listViewCard);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarShowCardList);
+        textView = (TextView) view.findViewById(R.id.textView_Show_Card_List);
         progressBar.setVisibility(View.VISIBLE);
         return view;
     }
@@ -88,6 +91,11 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
                 listener.sendCard(xid);
             }
         });
+
+        if(cardList.isEmpty()){
+            textView.setText(getString(R.string.add_card_first));
+        }
+
     }
 
     @Override

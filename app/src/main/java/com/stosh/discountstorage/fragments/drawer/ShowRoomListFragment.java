@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,6 +31,7 @@ import java.util.HashMap;
  */
 public class ShowRoomListFragment extends Fragment implements ValueEventListener {
 
+    private TextView textView;
     private ListView listView;
     private ProgressBar progressBar;
     private DrawerFragmentListener listener;
@@ -59,6 +61,7 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
         View view = inflater.inflate(R.layout.fragment_show_room_list, container, false);
         listView = (ListView) view.findViewById(R.id.listViewRooms);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarShowRoom);
+        textView = (TextView) view.findViewById(R.id.textView_Show_Room_List);
         progressBar.setVisibility(View.VISIBLE);
         return view;
     }
@@ -70,7 +73,8 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
         for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
             RoomList room = roomsDataSnapshot.getValue(RoomList.class);
             hm = new HashMap<>();
-            hm.put(Const.NAME, "Name: " + room.name);
+            hm.put(Const.NAME, room.name);
+            hm.put(Const.CREATOR, room.creator);
             hm.put(Const.ID, room.ID);
             roomList.add(hm);
         }
@@ -84,6 +88,9 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
                 listener.sendList(IDItem);
             }
         });
+        if(roomList.isEmpty()){
+            textView.setText(getString(R.string.add_room_first));
+        }
     }
 
     @Override

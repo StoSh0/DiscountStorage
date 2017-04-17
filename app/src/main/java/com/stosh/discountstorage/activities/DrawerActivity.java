@@ -59,7 +59,6 @@ public class DrawerActivity extends AppCompatActivity implements
         TextView textViewProfile = (TextView) navigationView
                 .getHeaderView(0)
                 .findViewById(R.id.textViewProfile);
-        Log.d("1", textViewProfile + "");
         textViewProfile.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
         mFragmentManager = getSupportFragmentManager();

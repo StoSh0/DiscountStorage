@@ -112,7 +112,7 @@ public class FireBaseSingleton {
     public void createRoomList(String name) {
         init();
         myRef = database.getReference(Const.DB_USERS);
-        RoomList roomList = new RoomList(name + "_" + userIdDB, name);
+        RoomList roomList = new RoomList(name + "_" + userIdDB, name, mUser.getEmail());
         myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(name + "_" + userIdDB).setValue(roomList);
     }
 
@@ -172,10 +172,10 @@ public class FireBaseSingleton {
         myRef.child(nameRoom + "_" + creator).addListenerForSingleValueEvent(listener);
     }
 
-    public void addToRoomList(String creator, String nameRoom) {
+    public void addToRoomList(String creator, String nameRoom, String creatorId) {
         init();
         myRef = database.getReference(Const.DB_USERS);
-        RoomList roomList = new RoomList(nameRoom + "_" + creator, nameRoom);
+        RoomList roomList = new RoomList(nameRoom + "_" + creatorId, nameRoom, creator);
         myRef.child(userIdDB)
                 .child(Const.DB_ROOMS_LIST)
                 .child(nameRoom + "_" + creator)
@@ -192,7 +192,6 @@ public class FireBaseSingleton {
     public void getCard(String id, ValueEventListener listener) {
         init();
         myRef = database.getReference(Const.DB_CARDS);
-        Log.d("1", id);
         myRef.child(id).addListenerForSingleValueEvent(listener);
 
     }

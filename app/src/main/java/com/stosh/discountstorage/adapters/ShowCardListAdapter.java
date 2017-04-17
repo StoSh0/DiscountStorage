@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,14 +57,19 @@ public class ShowCardListAdapter extends ArrayAdapter {
             textViewName = (TextView) convertView.findViewById(R.id.textViewNameShowCards);
             textViewCategory = (TextView) convertView.findViewById(R.id.textViewCategoryShowCards);
             buttonEdit = (Button) convertView.findViewById(R.id.btnEditShowCards);
-            textViewName.setText(name);
-            textViewCategory.setText(category);
             buttonEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getContext(), "sdsd" + position, Toast.LENGTH_LONG).show();
                 }
             });
+            if (name == null){
+                textViewName.setText("First Add Card");
+                return;
+            }
+
+            textViewCategory.setText(category);
+
         }
     }
 }

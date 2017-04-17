@@ -59,6 +59,7 @@
     <string name="password_incorrect">"Password invalid"</string>
     <string name="room_added">Room was added</string>
     <string name="add_room_first">"First add room" </string>
+    <string name="add_card_first">"First add card" </string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="choose_room">Choose Room</string>

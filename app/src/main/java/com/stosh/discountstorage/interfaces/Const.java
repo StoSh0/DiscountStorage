@@ -20,4 +20,5 @@ public interface Const {
     String NAME = "NAME";
     String CAT = "Category";
     String ID = "ID";
+    String CREATOR = "Creator";
 }
