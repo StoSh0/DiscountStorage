@@ -1,16 +1,21 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/colorPrimaryDark"
-    tools:context="com.stosh.discountstorage.fragments.drawer.CreateCardFragment">
+    android:background="@color/colorPrimaryDark">
 
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@mipmap/icon" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorPrimaryDark20">
 
         <ImageView
             android:id="@+id/imageViewBarcode"
@@ -32,7 +37,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark20"
             android:orientation="horizontal">
 
             <TextView
@@ -40,7 +46,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/choose_room"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
             <Spinner
                 android:id="@+id/spinnerNameRoom"

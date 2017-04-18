@@ -1,11 +1,9 @@
 package com.stosh.discountstorage.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -13,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,13 +21,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.fragments.drawer.ShowCardFragment;
 import com.stosh.discountstorage.fragments.drawer.ShowCardListFragment;
 import com.stosh.discountstorage.fragments.drawer.ShowRoomListFragment;
 import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
 import com.stosh.discountstorage.fragments.drawer.AddRoomFragment;
-import com.stosh.discountstorage.fragments.drawer.CreateCardFragment;
 import com.stosh.discountstorage.fragments.drawer.CreateRoomFragment;
 import com.stosh.discountstorage.fragments.drawer.EnterBarCodeFragment;
 
@@ -39,6 +34,7 @@ public class DrawerActivity extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener, DrawerFragmentListener {
 
     private FragmentManager mFragmentManager;
+    private Intent createCardIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,23 +156,22 @@ public class DrawerActivity extends AppCompatActivity implements
                 Log.d(TAG, "Scanned");
                 String code = result.getContents();
                 String format = result.getFormatName();
-                Bundle bundle = new Bundle();
-                bundle.putString("code", code);
-                bundle.putString("format", format);
-                startAddCardFragment(bundle);
+                createCardIntent = new Intent(this, CreateCardActivity.class);
+                createCardIntent.putExtra(Const.CODE, code);
+                createCardIntent.putExtra(Const.FORMAT, format);
+                startActivity(createCardIntent);
             }
         }
     }
 
     @Override
     public void send(String code) {
-
         if (code.length() == 13) {
             String format = "EAN_13";
-            Bundle bundle = new Bundle();
-            bundle.putString("code", code);
-            bundle.putString("format", format);
-            startAddCardFragment(bundle);
+            createCardIntent = new Intent(this, CreateCardActivity.class);
+            createCardIntent.putExtra(Const.CODE, code);
+            createCardIntent.putExtra(Const.FORMAT, format);
+            startActivity(createCardIntent);
         } else {
             Toast.makeText(this, getString(R.string.only_ean_13), Toast.LENGTH_LONG).show();
         }
@@ -191,16 +186,9 @@ public class DrawerActivity extends AppCompatActivity implements
 
     @Override
     public void sendCard(String ID) {
-        Bundle bundle = new Bundle();
-        bundle.putString(Const.ID, ID);
-        startShowCardFragment(bundle);
-    }
-
-    private void startAddCardFragment(Bundle bundle) {
-        mFragmentManager.beginTransaction()
-                .replace(R.id.containerDrawer, CreateCardFragment.getInstance(bundle))
-                .addToBackStack(null)
-                .commit();
+        Intent intent = new Intent(this, ShowCardActivity.class);
+        intent.putExtra(Const.ID, ID);
+        startActivity(intent);
     }
 
     private void startShowCardListFragment(Bundle bundle) {
@@ -212,13 +200,6 @@ public class DrawerActivity extends AppCompatActivity implements
                         R.anim.fragment_drawer_list_fade_pop_out
                 )
                 .replace(R.id.containerDrawer, ShowCardListFragment.getInstance(bundle))
-                .addToBackStack(null)
-                .commit();
-    }
-
-    private void startShowCardFragment(Bundle bundle) {
-        mFragmentManager.beginTransaction()
-                .replace(R.id.containerDrawer, ShowCardFragment.getInstance(bundle))
                 .addToBackStack(null)
                 .commit();
     }

@@ -1,15 +1,11 @@
-package com.stosh.discountstorage.fragments.drawer;
-
+package com.stosh.discountstorage.activities;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.graphics.Bitmap;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,62 +31,49 @@ import com.stosh.discountstorage.interfaces.Const;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class CreateCardFragment extends Fragment implements View.OnClickListener,
-        ValueEventListener,
+public class CreateCardActivity extends AppCompatActivity implements ValueEventListener,
         AdapterView.OnItemSelectedListener {
 
-    private ImageView imageView;
-    private TextView textViewCode;
-    private Spinner spinner;
-    private EditText editTextNameCard;
-    private EditText editTextCategory;
-    private View view;
     private InputMethodManager inputMethodManager;
     private ArrayAdapter<String> adapter;
     private String ID, format, code;
     private FireBaseSingleton fireBase;
-    private Button buttonAdd,buttonCancel;
-    public static CreateCardFragment getInstance(@Nullable Bundle data) {
-        CreateCardFragment fragment = new CreateCardFragment();
-        fragment.setArguments(data == null ? new Bundle() : data);
-        return fragment;
-    }
+
+    @BindView(R.id.imageViewBarcode)
+    ImageView imageView;
+    @BindView(R.id.textViewCode)
+    TextView textViewCode;
+    @BindView(R.id.spinnerNameRoom)
+    Spinner spinner;
+
+    @BindView(R.id.editTextNameCard)
+    EditText editTextNameCard;
+
+    @BindView(R.id.editTextCategory)
+    EditText editTextCategory;
+
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_drawer_create_card, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_create_card);
+
         fireBase = FireBaseSingleton.getInstance();
-        Bundle bundle = getArguments();
-        code = bundle.getString("code");
-        format = bundle.getString("format");
-        init();
+        code = getIntent().getStringExtra(Const.CODE);
+        format = getIntent().getStringExtra(Const.FORMAT);
         fireBase.getRooms(this);
         generateBitmap();
-        inputMethodManager = (InputMethodManager) getActivity()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        return view;
+        inputMethodManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 
-    private void init() {
-        buttonCancel = (Button) view.findViewById(R.id.btnCancel);
-        buttonAdd = (Button) view.findViewById(R.id.btnAdd);
-        imageView = (ImageView) view.findViewById(R.id.imageViewBarcode);
-        textViewCode = (TextView) view.findViewById(R.id.textViewCode);
-        spinner = (Spinner) view.findViewById(R.id.spinnerNameRoom);
-        editTextNameCard = (EditText) view.findViewById(R.id.editTextNameCard);
-        editTextCategory = (EditText) view.findViewById(R.id.editTextCategory);
-        buttonCancel.setOnClickListener(this);
-        buttonAdd.setOnClickListener(this);
-    }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+
+    @OnClick({R.id.btnAdd, R.id.btnCancel})
+    public void onButtonClick(Button button) {
+        switch (button.getId()) {
             case R.id.btnAdd:
                 String nameCard = editTextNameCard.getText().toString();
                 String category = editTextCategory.getText().toString();
@@ -101,23 +84,21 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
                     editTextCategory.setError(getString(R.string.enter_category));
                     break;
                 } else if (adapter.getItem(0).equals(Const.ROOM_LIST_IS_EMPTY)) {
-                    Toast.makeText(getActivity(), getString(R.string.first_room), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.first_room), Toast.LENGTH_LONG).show();
                     break;
                 } else {
-
-
-                    inputMethodManager.hideSoftInputFromWindow(buttonAdd.getWindowToken(),
+                    inputMethodManager.hideSoftInputFromWindow(button.getWindowToken(),
                             InputMethodManager.HIDE_NOT_ALWAYS);
                     fireBase.createCardList(ID, nameCard, category);
                     fireBase.createCard(ID, nameCard, category, code, format);
-                    Toast.makeText(getActivity(), getString(R.string.card_add), Toast.LENGTH_LONG).show();
-                    getActivity().onBackPressed();
+                    Toast.makeText(this, getString(R.string.card_add), Toast.LENGTH_LONG).show();
+                    finish();
                     break;
                 }
             case R.id.btnCancel:
-                getActivity().onBackPressed();
-                inputMethodManager.hideSoftInputFromWindow(buttonCancel.getWindowToken(),
-                    InputMethodManager.HIDE_NOT_ALWAYS);
+                finish();
+                inputMethodManager.hideSoftInputFromWindow(button.getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
                 break;
         }
     }
@@ -145,10 +126,7 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
         }
         if (roomList.isEmpty()) roomList.add(0, Const.ROOM_LIST_IS_EMPTY);
 
-        adapter = new ArrayAdapter<>(
-                getActivity(),
-                R.layout.my_spiner_item,
-                roomList);
+        adapter = new ArrayAdapter<>(this, R.layout.my_spiner_item, roomList);
         adapter.setDropDownViewResource(R.layout.my_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(0);

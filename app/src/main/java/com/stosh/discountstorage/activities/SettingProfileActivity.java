@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,6 +18,7 @@ import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.fragments.settings.ChangeEmailFragment;
 import com.stosh.discountstorage.fragments.settings.ChangePasswordFragment;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
@@ -27,6 +29,9 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
     private FragmentManager mFragmentManager;
     private FireBaseSingleton fireBase;
     private Unbinder unbinder;
+
+    @BindView(R.id.progressBarSetting)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +86,7 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
             startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
             finish();
             return;
-        }else {
+        } else {
         }
     }
 }

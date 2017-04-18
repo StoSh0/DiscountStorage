@@ -21,4 +21,7 @@ public interface Const {
     String CAT = "Category";
     String ID = "ID";
     String CREATOR = "Creator";
+
+    String CODE = "Code";
+    String FORMAT = "Fromat";
 }

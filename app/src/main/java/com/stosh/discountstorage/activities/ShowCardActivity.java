@@ -1,13 +1,9 @@
-package com.stosh.discountstorage.fragments.drawer;
-
+package com.stosh.discountstorage.activities;
 
 import android.graphics.Bitmap;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,10 +21,7 @@ import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.database.Card;
 import com.stosh.discountstorage.interfaces.Const;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class ShowCardFragment extends Fragment implements ValueEventListener{
+public class ShowCardActivity extends AppCompatActivity implements ValueEventListener {
 
     private ImageView imageView;
     private TextView textViewName, textViewCode;
@@ -36,26 +29,19 @@ public class ShowCardFragment extends Fragment implements ValueEventListener{
     private FireBaseSingleton fireBase;
     private String id;
 
-    public static ShowCardFragment getInstance(@Nullable Bundle data) {
-        ShowCardFragment fragment = new ShowCardFragment();
-        fragment.setArguments(data == null ? new Bundle() : data);
-        return fragment;
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_show_card);
+
         fireBase = FireBaseSingleton.getInstance();
-        View view = inflater.inflate(R.layout.fragment_drawer_show_card, container, false);
-        imageView = (ImageView) view.findViewById(R.id.imageViewShowCard);
-        textViewName = (TextView) view.findViewById(R.id.textViewShowCardName);
-        textViewCode = (TextView) view.findViewById(R.id.textViewShowCardCode);
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBarShowCard);
-        Bundle bundle = getArguments();
-        id = bundle.getString(Const.ID);
+        imageView = (ImageView) findViewById(R.id.imageViewShowCard);
+        textViewName = (TextView) findViewById(R.id.textViewShowCardName);
+        textViewCode = (TextView) findViewById(R.id.textViewShowCardCode);
+        progressBar = (ProgressBar) findViewById(R.id.progressBarShowCard);
+
+        id = getIntent().getStringExtra(Const.ID);
         fireBase.getCard(id, this);
-        return view;
     }
 
     @Override

@@ -24,6 +24,8 @@
             android:label="@string/title_activity_drawer"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.SettingProfileActivity" />
+        <activity android:name=".activities.CreateCardActivity" />
+        <activity android:name=".activities.ShowCardActivity"></activity>
     </application>
 
 </manifest>
