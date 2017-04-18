@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
@@ -64,6 +64,7 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
                 break;
             case R.id.btnDeleteUser:
                 fireBase.deleteUser(this);
+                progressBar.setVisibility(View.VISIBLE);
                 break;
             case R.id.btnSingOut:
                 fireBase.singOut();
@@ -82,11 +83,10 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
     @Override
     public void onComplete(@NonNull Task task) {
         if (task.isSuccessful()) {
+            progressBar.setVisibility(View.GONE);
             fireBase.singOut();
             startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
             finish();
-            return;
-        } else {
         }
     }
 }

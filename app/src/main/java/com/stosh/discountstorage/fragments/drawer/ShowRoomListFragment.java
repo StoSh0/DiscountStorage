@@ -29,7 +29,7 @@ import java.util.HashMap;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShowRoomListFragment extends Fragment implements ValueEventListener {
+public class ShowRoomListFragment extends Fragment implements ValueEventListener{
 
     private TextView textView;
     private ListView listView;
@@ -97,5 +97,4 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
     public void onCancelled(DatabaseError databaseError) {
 
     }
-
 }

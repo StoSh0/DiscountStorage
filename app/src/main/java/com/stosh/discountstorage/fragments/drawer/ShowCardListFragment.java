@@ -94,7 +94,6 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
         if(cardList.isEmpty()){
             textView.setText(getString(R.string.add_card_first));
         }
-
     }
 
     @Override

@@ -29,9 +29,9 @@ public class ShowCardListAdapter extends ArrayAdapter {
     private int layout;
     private List<HashMap<String, Object>> data;
 
-    public ShowCardListAdapter(@NonNull Context context, @LayoutRes int resurse, @NonNull List<HashMap<String, Object>> data) {
-        super(context, resurse, data);
-        layout = resurse;
+    public ShowCardListAdapter(@NonNull Context context, @LayoutRes int recourse, @NonNull List<HashMap<String, Object>> data) {
+        super(context, recourse, data);
+        layout = recourse;
         this.data = data;
     }
 
@@ -56,6 +56,8 @@ public class ShowCardListAdapter extends ArrayAdapter {
             String category = hashMap.get(Const.CAT).toString();
             textViewName = (TextView) convertView.findViewById(R.id.textViewNameShowCards);
             textViewCategory = (TextView) convertView.findViewById(R.id.textViewCategoryShowCards);
+            textViewName.setText(name);
+            textViewCategory.setText(category);
             buttonEdit = (Button) convertView.findViewById(R.id.btnEditShowCards);
             buttonEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,12 +65,6 @@ public class ShowCardListAdapter extends ArrayAdapter {
                     Toast.makeText(getContext(), "sdsd" + position, Toast.LENGTH_LONG).show();
                 }
             });
-            if (name == null){
-                textViewName.setText("First Add Card");
-                return;
-            }
-
-            textViewCategory.setText(category);
 
         }
     }

@@ -1,9 +1,11 @@
 package com.stosh.discountstorage.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.activities.EditActivity;
 import com.stosh.discountstorage.interfaces.Const;
 
 import java.util.HashMap;
@@ -26,9 +29,11 @@ public class ShowRoomListAdapter extends ArrayAdapter {
 
     private int layout;
     private List<HashMap<String, Object>> data;
+    private Context context;
 
     public ShowRoomListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<HashMap<String, Object>> data) {
         super(context, resource, data);
+        this.context = context;
         layout = resource;
         this.data = data;
     }
@@ -39,17 +44,17 @@ public class ShowRoomListAdapter extends ArrayAdapter {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         convertView = inflater.inflate(layout, parent, false);
         ViewHolder viewHolder = new ViewHolder();
-        viewHolder.init(convertView, position);
+        viewHolder.init(context, convertView, position);
         return convertView;
     }
 
-    private class ViewHolder {
+    private class ViewHolder extends AppCompatActivity {
         private TextView textViewName;
         private TextView textViewSub;
         private Button buttonEdit;
 
-        public void init(View convertView, final int position){
-            HashMap<String, Object> itemHashMap = data.get(position);
+        public void init(final Context context, View convertView, final int position){
+            final HashMap<String, Object> itemHashMap = data.get(position);
             String name = itemHashMap.get(Const.NAME).toString();
             String creator = itemHashMap.get(Const.CREATOR).toString();
 
@@ -62,6 +67,7 @@ public class ShowRoomListAdapter extends ArrayAdapter {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(getContext(), "sddsd" + position, Toast.LENGTH_LONG).show();
+                    String id = itemHashMap.get(Const.ID).toString();
                 }
             });
         }

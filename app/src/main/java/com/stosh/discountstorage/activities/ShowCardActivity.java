@@ -21,26 +21,31 @@ import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.database.Card;
 import com.stosh.discountstorage.interfaces.Const;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 public class ShowCardActivity extends AppCompatActivity implements ValueEventListener {
 
-    private ImageView imageView;
-    private TextView textViewName, textViewCode;
-    private ProgressBar progressBar;
-    private FireBaseSingleton fireBase;
-    private String id;
+    private Unbinder unbinder;
+
+    @BindView(R.id.imageViewShowCard)
+    ImageView imageView;
+    @BindView(R.id.textViewShowCardName)
+    TextView textViewName;
+    @BindView(R.id.textViewShowCardCode)
+    TextView textViewCode;
+    @BindView(R.id.progressBarShowCard)
+    ProgressBar progressBar;
+;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_card);
-
-        fireBase = FireBaseSingleton.getInstance();
-        imageView = (ImageView) findViewById(R.id.imageViewShowCard);
-        textViewName = (TextView) findViewById(R.id.textViewShowCardName);
-        textViewCode = (TextView) findViewById(R.id.textViewShowCardCode);
-        progressBar = (ProgressBar) findViewById(R.id.progressBarShowCard);
-
-        id = getIntent().getStringExtra(Const.ID);
+        unbinder = ButterKnife.bind(this);
+        FireBaseSingleton fireBase = FireBaseSingleton.getInstance();
+        String id = getIntent().getStringExtra(Const.ID);
         fireBase.getCard(id, this);
     }
 

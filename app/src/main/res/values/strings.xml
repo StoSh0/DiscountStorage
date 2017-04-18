@@ -74,4 +74,7 @@
     <string name="email_of_creator">Email of Creator</string>
     <string name="name_room">Name Room</string>
     <string name="password_for_room">Password for Room</string>
+    <string name="new_name">New name</string>
+    <string name="rename">Rename</string>
+    <string name="delete">Delete</string>
 </resources>

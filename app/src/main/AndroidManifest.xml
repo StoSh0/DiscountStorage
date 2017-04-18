@@ -25,7 +25,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.SettingProfileActivity" />
         <activity android:name=".activities.CreateCardActivity" />
-        <activity android:name=".activities.ShowCardActivity"></activity>
+        <activity android:name=".activities.ShowCardActivity" />
+        <activity android:name=".activities.EditActivity"></activity>
     </application>
 
 </manifest>

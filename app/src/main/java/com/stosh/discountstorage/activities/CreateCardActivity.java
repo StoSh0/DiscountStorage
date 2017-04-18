@@ -32,7 +32,9 @@ import com.stosh.discountstorage.interfaces.Const;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class CreateCardActivity extends AppCompatActivity implements ValueEventListener,
         AdapterView.OnItemSelectedListener {
@@ -41,26 +43,25 @@ public class CreateCardActivity extends AppCompatActivity implements ValueEventL
     private ArrayAdapter<String> adapter;
     private String ID, format, code;
     private FireBaseSingleton fireBase;
+    private Unbinder unbinder;
 
-    @BindView(R.id.imageViewBarcode)
+    @BindView(R.id.imageViewCreateCard)
     ImageView imageView;
-    @BindView(R.id.textViewCode)
-    TextView textViewCode;
-    @BindView(R.id.spinnerNameRoom)
-    Spinner spinner;
-
-    @BindView(R.id.editTextNameCard)
+    @BindView(R.id.editTextCreateCardName)
     EditText editTextNameCard;
-
-    @BindView(R.id.editTextCategory)
+    @BindView(R.id.editTextCreateCardCategory)
     EditText editTextCategory;
+    @BindView(R.id.textViewCreateCard)
+    TextView textViewCode;
+    @BindView(R.id.spinnerCreateCard)
+    Spinner spinner;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_card);
-
+        unbinder = ButterKnife.bind(this);
         fireBase = FireBaseSingleton.getInstance();
         code = getIntent().getStringExtra(Const.CODE);
         format = getIntent().getStringExtra(Const.FORMAT);
@@ -70,11 +71,10 @@ public class CreateCardActivity extends AppCompatActivity implements ValueEventL
     }
 
 
-
-    @OnClick({R.id.btnAdd, R.id.btnCancel})
+    @OnClick({R.id.btnCreateCardAdd, R.id.btnCreateCardCancel})
     public void onButtonClick(Button button) {
         switch (button.getId()) {
-            case R.id.btnAdd:
+            case R.id.btnCreateCardAdd:
                 String nameCard = editTextNameCard.getText().toString();
                 String category = editTextCategory.getText().toString();
                 if (TextUtils.isEmpty(nameCard)) {
@@ -95,7 +95,7 @@ public class CreateCardActivity extends AppCompatActivity implements ValueEventL
                     finish();
                     break;
                 }
-            case R.id.btnCancel:
+            case R.id.btnCreateCardCancel:
                 finish();
                 inputMethodManager.hideSoftInputFromWindow(button.getWindowToken(),
                         InputMethodManager.HIDE_NOT_ALWAYS);
