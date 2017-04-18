@@ -45,7 +45,7 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_password_reset, container, false);
+        view = inflater.inflate(R.layout.fragment_auth_password_reset, container, false);
         fireBase = FireBaseSingleton.getInstance();
         init();
         inputMethodManager = (InputMethodManager) getActivity()

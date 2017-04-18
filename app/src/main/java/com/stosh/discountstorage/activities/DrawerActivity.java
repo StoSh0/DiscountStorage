@@ -56,6 +56,7 @@ public class DrawerActivity extends AppCompatActivity implements
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         TextView textViewProfile = (TextView) navigationView
                 .getHeaderView(0)
                 .findViewById(R.id.textViewProfile);

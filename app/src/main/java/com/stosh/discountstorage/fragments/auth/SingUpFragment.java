@@ -59,7 +59,7 @@ public class SingUpFragment extends Fragment implements View.OnClickListener, On
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_sing_up, container, false);
+        view = inflater.inflate(R.layout.fragment_auth_sing_up, container, false);
         fireBase = FireBaseSingleton.getInstance();
         init();
         inputMethodManager = (InputMethodManager) getActivity()

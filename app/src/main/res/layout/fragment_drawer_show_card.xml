@@ -20,6 +20,7 @@
             android:gravity="center"
             android:text="@string/text_view"
             android:textSize="30dp"
+            android:textColor="@color/colorAccent"
             android:visibility="gone" />
 
         <ProgressBar
@@ -42,7 +43,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/text_view"
-            android:textSize="30dp"
+            android:textSize="40dp"
             android:textColor="@color/yellow"
             android:visibility="gone" />
     </LinearLayout>

@@ -60,7 +60,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_login, container, false);
+        view = inflater.inflate(R.layout.fragment_auth_login, container, false);
         fireBase = FireBaseSingleton.getInstance();
         init();
         inputMethodManager = (InputMethodManager) getActivity()

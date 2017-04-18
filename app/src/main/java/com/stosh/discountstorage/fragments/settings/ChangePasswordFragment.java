@@ -43,7 +43,7 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_change_password, container, false);
+        view = inflater.inflate(R.layout.fragment_settings_change_password, container, false);
         init();
         fireBase = FireBaseSingleton.getInstance();
         return view;

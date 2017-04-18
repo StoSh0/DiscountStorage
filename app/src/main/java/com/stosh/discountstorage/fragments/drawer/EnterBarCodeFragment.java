@@ -48,7 +48,7 @@ public class EnterBarCodeFragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_enter_bar_code, container, false);
+        view = inflater.inflate(R.layout.fragment_drawer_enter_bar_code, container, false);
         editTextEnterHand = (EditText) view.findViewById(R.id.editTextEnter);
         buttonEnter = (Button) view.findViewById(R.id.btnEnter);
         buttonEnter.setOnClickListener(this);

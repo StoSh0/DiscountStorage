@@ -44,7 +44,7 @@ public class ChangeEmailFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_change_email, container, false);
+        view = inflater.inflate(R.layout.fragment_settings_change_email, container, false);
         init();
         fireBase = FireBaseSingleton.getInstance();
         return view;

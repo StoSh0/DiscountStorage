@@ -63,7 +63,7 @@ public class CreateCardFragment extends Fragment implements View.OnClickListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_create_card, container, false);
+        view = inflater.inflate(R.layout.fragment_drawer_create_card, container, false);
         fireBase = FireBaseSingleton.getInstance();
         Bundle bundle = getArguments();
         code = bundle.getString("code");

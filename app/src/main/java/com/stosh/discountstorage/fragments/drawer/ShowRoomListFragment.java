@@ -58,7 +58,7 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
                              Bundle savedInstanceState) {
         FireBaseSingleton fireBase = FireBaseSingleton.getInstance();
         fireBase.getRooms(this);
-        View view = inflater.inflate(R.layout.fragment_show_room_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_drawer_show_room_list, container, false);
         listView = (ListView) view.findViewById(R.id.listViewRooms);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarShowRoom);
         textView = (TextView) view.findViewById(R.id.textView_Show_Room_List);

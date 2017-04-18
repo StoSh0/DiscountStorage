@@ -47,7 +47,7 @@ public class ShowCardFragment extends Fragment implements ValueEventListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fireBase = FireBaseSingleton.getInstance();
-        View view = inflater.inflate(R.layout.fragment_show_card, container, false);
+        View view = inflater.inflate(R.layout.fragment_drawer_show_card, container, false);
         imageView = (ImageView) view.findViewById(R.id.imageViewShowCard);
         textViewName = (TextView) view.findViewById(R.id.textViewShowCardName);
         textViewCode = (TextView) view.findViewById(R.id.textViewShowCardCode);

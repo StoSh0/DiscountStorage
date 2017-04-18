@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -61,7 +60,7 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
         Bundle bundle = getArguments();
         String roomName = bundle.getString(Const.NAME);
         fireBase.getCardList(roomName, this);
-        View view = inflater.inflate(R.layout.fragment_show_card_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_drawer_show_card_list, container, false);
         listView = (ListView) view.findViewById(R.id.listViewCard);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarShowCardList);
         textView = (TextView) view.findViewById(R.id.textView_Show_Card_List);
