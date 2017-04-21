@@ -84,8 +84,8 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, Object> itemHashMap = (HashMap<String, Object>) parent.getItemAtPosition(position);
-                String IDItem = itemHashMap.get(Const.ID).toString();
-                listener.sendList(IDItem);
+                String idItem = itemHashMap.get(Const.ID).toString();
+                listener.send(Const.ID_CARD_LIST, idItem);
             }
         });
         if(roomList.isEmpty()){

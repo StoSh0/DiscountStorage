@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
 
 /**
@@ -66,6 +67,6 @@ public class EnterBarCodeFragment extends Fragment implements View.OnClickListen
         }
         inputMethodManager.hideSoftInputFromWindow(buttonEnter.getWindowToken(),
                 InputMethodManager.HIDE_NOT_ALWAYS);
-        listener.send(code);
+        listener.send(Const.ID_ENTER, code);
     }
 }

@@ -86,8 +86,8 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 HashMap<String, Object> itemHashMap = cardList.get(position);
-                String xid = itemHashMap.get(Const.ID).toString();
-                listener.sendCard(xid);
+                String idItem = itemHashMap.get(Const.ID).toString();
+                listener.send(Const.ID_ROOM_LIST, idItem);
             }
         });
 

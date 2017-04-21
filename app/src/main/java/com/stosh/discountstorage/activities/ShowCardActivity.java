@@ -37,7 +37,7 @@ public class ShowCardActivity extends AppCompatActivity implements ValueEventLis
     TextView textViewCode;
     @BindView(R.id.progressBarShowCard)
     ProgressBar progressBar;
-;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,7 @@ import com.stosh.discountstorage.fragments.drawer.EnterBarCodeFragment;
 
 
 public class DrawerActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener, DrawerFragmentListener {
+        NavigationView.OnNavigationItemSelectedListener, DrawerFragmentListener, View.OnClickListener {
 
     private FragmentManager mFragmentManager;
     private Intent createCardIntent;
@@ -164,33 +165,6 @@ public class DrawerActivity extends AppCompatActivity implements
         }
     }
 
-    @Override
-    public void send(String code) {
-        if (code.length() == 13) {
-            String format = "EAN_13";
-            createCardIntent = new Intent(this, CreateCardActivity.class);
-            createCardIntent.putExtra(Const.CODE, code);
-            createCardIntent.putExtra(Const.FORMAT, format);
-            startActivity(createCardIntent);
-        } else {
-            Toast.makeText(this, getString(R.string.only_ean_13), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void sendList(String roomName) {
-        Bundle bundle = new Bundle();
-        bundle.putString(Const.NAME, roomName);
-        startShowCardListFragment(bundle);
-    }
-
-    @Override
-    public void sendCard(String ID) {
-        Intent intent = new Intent(this, ShowCardActivity.class);
-        intent.putExtra(Const.ID, ID);
-        startActivity(intent);
-    }
-
     private void startShowCardListFragment(Bundle bundle) {
         mFragmentManager.beginTransaction()
                 .setCustomAnimations(
@@ -202,5 +176,37 @@ public class DrawerActivity extends AppCompatActivity implements
                 .replace(R.id.containerDrawer, ShowCardListFragment.getInstance(bundle))
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void send(String id, String code) {
+        switch (id) {
+            case Const.ID_ENTER:
+                if (code.length() == 13) {
+                    String format = "EAN_13";
+                    createCardIntent = new Intent(this, CreateCardActivity.class);
+                    createCardIntent.putExtra(Const.CODE, code);
+                    createCardIntent.putExtra(Const.FORMAT, format);
+                    startActivity(createCardIntent);
+                } else {
+                    Toast.makeText(this, getString(R.string.only_ean_13), Toast.LENGTH_LONG).show();
+                }
+                break;
+            case Const.ID_CARD_LIST:
+                Bundle bundle = new Bundle();
+                bundle.putString(Const.NAME, code);
+                startShowCardListFragment(bundle);
+                break;
+            case Const.ID_ROOM_LIST:
+                Intent intent = new Intent(this, ShowCardActivity.class);
+                intent.putExtra(Const.ID, code);
+                startActivity(intent);
+                break;
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
