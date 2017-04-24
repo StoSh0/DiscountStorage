@@ -20,7 +20,9 @@
             android:maxLines="1"
             android:textColorHint="@color/white"
             android:visibility="visible"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
         <Button
             android:id="@+id/btnSettingChangeEmail"
@@ -28,7 +30,10 @@
             android:layout_height="wrap_content"
             android:background="@color/yellow"
             android:text="@string/change_email"
-            android:visibility="visible" />
+            android:visibility="visible"
+            android:textAllCaps="false"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
         <ProgressBar
             android:id="@+id/progressBarSettingEmail"

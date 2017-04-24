@@ -178,7 +178,7 @@ public class FireBaseSingleton {
         RoomList roomList = new RoomList(nameRoom + "_" + creatorId, nameRoom, creator);
         myRef.child(userIdDB)
                 .child(Const.DB_ROOMS_LIST)
-                .child(nameRoom + "_" + creator)
+                .child(nameRoom + "_" + creatorId)
                 .setValue(roomList)
         ;
     }

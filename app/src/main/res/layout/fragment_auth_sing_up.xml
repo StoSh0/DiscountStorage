@@ -24,24 +24,27 @@
             android:id="@+id/editTextEmailSingUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:maxLines="1"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
         <EditText
             android:id="@+id/editTextPasswordSingUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:maxLines="1"
-            android:textColorHint="@color/yellow"
             android:textColor="@color/yellow"
-            />
+            android:textColorHint="@color/yellow" />
 
         <Button
             android:id="@+id/btnRegister"
@@ -49,29 +52,36 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/marginTop"
-            android:background="@color/yellow"
+            android:background="@drawable/selector_yellow"
             android:gravity="center"
-            android:text="@string/register" />
+            android:text="@string/register"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
         <Button
             android:id="@+id/btnResetPassFrag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginTop"
-            android:background="@null"
+            android:background="@drawable/selector_white"
             android:text="@string/forgot_pass"
             android:textAllCaps="false"
-            android:textColor="@color/yellow" />
+            android:textColor="@color/yellow"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
 
         <Button
             android:id="@+id/btnSingInFrag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/marginTop"
-            android:background="@null"
+            android:background="@drawable/selector_white"
             android:text="@string/already_reg"
             android:textAllCaps="false"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
+
         <ProgressBar
             android:id="@+id/progressBarSingUp"
             style="?android:attr/progressBarStyle"

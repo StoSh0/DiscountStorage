@@ -16,7 +16,8 @@
             android:id="@+id/containerSettings"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical" />
+            android:orientation="vertical"
+            />
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -25,7 +26,10 @@
             android:layout_marginTop="@dimen/layout_marginTop"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp">
+            tools:layout_editor_absoluteY="8dp"
+
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
 
             <Button
                 android:id="@+id/btnSettingChangeEmailVis"
@@ -34,10 +38,12 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/btn_margin"
                 android:layout_weight="1"
-                android:background="@color/yellow"
+                android:background="@drawable/selector_yellow"
                 android:text="@string/change_email"
                 android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
 
             <Button
                 android:id="@+id/btnSettingChangePasswordVis"
@@ -46,10 +52,12 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/btn_margin"
                 android:layout_weight="1"
-                android:background="@color/yellow"
+                android:background="@drawable/selector_yellow"
                 android:text="@string/change_password"
                 android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
 
             <Button
                 android:id="@+id/btnDeleteUser"
@@ -58,10 +66,12 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/btn_margin"
                 android:layout_weight="1"
-                android:background="@color/yellow"
+                android:background="@drawable/selector_yellow"
                 android:text="@string/delete_user"
                 android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"/>
 
             <Button
                 android:id="@+id/btnSingOut"
@@ -70,10 +80,12 @@
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/btn_margin"
                 android:layout_weight="1"
-                android:background="@color/yellow"
+                android:background="@drawable/selector_yellow"
                 android:text="@string/sing_out"
                 android:textAllCaps="false"
-                android:textColor="@color/colorPrimaryDark" />
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
 
             <ProgressBar
                 android:id="@+id/progressBarSetting"

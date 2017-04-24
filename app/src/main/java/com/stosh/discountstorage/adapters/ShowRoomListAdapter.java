@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.activities.EditActivity;
 import com.stosh.discountstorage.interfaces.Const;
@@ -57,19 +59,24 @@ public class ShowRoomListAdapter extends ArrayAdapter {
             final HashMap<String, Object> itemHashMap = data.get(position);
             String name = itemHashMap.get(Const.NAME).toString();
             String creator = itemHashMap.get(Const.CREATOR).toString();
-
             textViewName = (TextView) convertView.findViewById(R.id.textViewNameShowRooms);
             textViewSub = (TextView) convertView.findViewById(R.id.textViewSubShowRooms);
             buttonEdit = (Button) convertView.findViewById(R.id.btnEditShowRooms);
+            buttonEdit.setVisibility(View.GONE);
+            String currentUser = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+            if (currentUser.equals(creator)){
+                buttonEdit.setVisibility(View.VISIBLE);
+                buttonEdit.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(getContext(), "sddsd" + position, Toast.LENGTH_LONG).show();
+                        String id = itemHashMap.get(Const.ID).toString();
+                    }
+                });
+            }
             textViewName.setText(name);
             textViewSub.setText(creator);
-            buttonEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), "sddsd" + position, Toast.LENGTH_LONG).show();
-                    String id = itemHashMap.get(Const.ID).toString();
-                }
-            });
+
         }
     }
 }

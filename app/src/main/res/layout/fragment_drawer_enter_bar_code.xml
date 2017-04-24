@@ -18,13 +18,17 @@
             android:hint="@string/enter_barcode"
             android:textColorHint="@color/white"
             android:inputType="number"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
         <Button
             android:id="@+id/btnEnter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/enter"
-            android:background="@color/yellow"/>
+            android:background="@drawable/selector_yellow"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
     </LinearLayout>
 </FrameLayout>

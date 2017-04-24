@@ -37,6 +37,8 @@
             android:id="@+id/editTextEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ems="10"
             android:hint="@string/new_name"
             android:inputType="textPersonName"
@@ -48,15 +50,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
 
             <Button
                 android:id="@+id/btnEdit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_weight="1"
-                android:background="@color/yellow"
+                android:background="@drawable/selector_yellow"
                 android:text="@string/rename" />
 
             <Button
@@ -64,8 +70,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="2dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_weight="1"
-                android:background="@color/yellow"
+
+                android:background="@drawable/selector_yellow"
                 android:text="@string/delete" />
         </LinearLayout>
 
@@ -73,7 +82,10 @@
             android:id="@+id/buttonEditCancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+
+            android:background="@drawable/selector_yellow"
             android:text="@string/cancel" />
 
         <ProgressBar

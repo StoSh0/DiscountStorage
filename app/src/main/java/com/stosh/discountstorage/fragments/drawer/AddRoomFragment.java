@@ -150,6 +150,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 
                 if (room.password.equals(password)) {
                     progressBar.setVisibility(View.GONE);
+
                     Toast.makeText(getActivity(), getString(R.string.room_added), Toast.LENGTH_LONG).show();
                     fireBase.addToRoomList(creator, roomName, creatorId);
                     return;

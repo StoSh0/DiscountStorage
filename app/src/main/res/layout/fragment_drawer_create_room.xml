@@ -14,28 +14,35 @@
             android:id="@+id/editTextCreateRoomName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ems="10"
+            android:hint="@string/name"
             android:inputType="textPersonName"
-            android:hint= "@string/name"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"/>
+
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
         <EditText
             android:id="@+id/editTextCreateRoomPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="@string/password"
-            android:textColorHint="@color/yellow"
-            android:textColor="@color/yellow"/>
+            android:inputType="textPersonName"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/yellow" />
 
         <Button
             android:id="@+id/btnCreateRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Create"
-            android:background="@color/yellow"/>
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/selector_yellow"
+            android:text="Create" />
     </LinearLayout>
 </FrameLayout>

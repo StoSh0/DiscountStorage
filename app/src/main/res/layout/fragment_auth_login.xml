@@ -13,7 +13,6 @@
         tools:layout_editor_absoluteY="8dp">
 
 
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,41 +25,52 @@
             android:id="@+id/editTextEmailLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ems="10"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:textColorHint="@color/white"
             android:maxLines="1"
             android:textAllCaps="false"
-            android:textColor="@color/white"/>
+
+            android:textColor="@color/white"
+            android:textColorHint="@color/white" />
 
         <EditText
             android:id="@+id/editTextPasswordLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ems="10"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:textColorHint="@color/yellow"
             android:maxLines="1"
-            android:textColor="@color/yellow"/>
+
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/yellow" />
 
         <Button
             android:id="@+id/btnLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="@dimen/marginTop"
-            android:background="@color/yellow"
+            android:background="@drawable/selector_yellow"
             android:gravity="center"
-            android:text="@string/login" />
+            android:text="@string/login"
+            android:textSize="15dp"/>
 
         <Button
             android:id="@+id/btnResetFrag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="@dimen/marginTop"
-            android:background="@null"
+            android:background="@drawable/selector_white"
             android:text="@string/forgot_pass"
             android:textAllCaps="false"
             android:textColor="@color/yellow" />
@@ -69,11 +79,15 @@
             android:id="@+id/btnSingUpFrag"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:layout_marginTop="@dimen/marginTop"
-            android:background="@null"
+            android:background="@drawable/selector_white"
             android:text="@string/not_reg"
+
             android:textAllCaps="false"
             android:textColor="@color/white" />
+
         <ProgressBar
             android:id="@+id/progressBarLogin"
             style="?android:attr/progressBarStyle"

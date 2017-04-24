@@ -18,7 +18,9 @@
             android:hint="@string/email_of_creator"
             android:inputType="textEmailAddress"
             android:textColor="@color/yellow"
-            android:textColorHint="@color/yellow" />
+            android:textColorHint="@color/yellow"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
 
         <EditText
             android:id="@+id/editTextNameRoom"
@@ -28,7 +30,9 @@
             android:hint="@string/name_room"
             android:inputType="textPersonName"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColorHint="@color/white"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
 
         <EditText
@@ -39,7 +43,9 @@
             android:hint="@string/password_for_room"
             android:inputType="textPassword"
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColorHint="@color/white"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
 
         <Button
@@ -47,8 +53,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@color/yellow"
-            android:text="@string/add_room" />
+            android:background="@drawable/selector_yellow"
+            android:text="@string/add_room"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
 
         <ProgressBar
