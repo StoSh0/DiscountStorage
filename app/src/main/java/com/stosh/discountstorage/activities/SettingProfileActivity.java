@@ -32,7 +32,6 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
 
     @BindView(R.id.progressBarSetting)
     ProgressBar progressBar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +68,7 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
             case R.id.btnSingOut:
                 fireBase.singOut();
                 startActivity(new Intent(this, MainActivity.class));
-                SettingProfileActivity.this.finish();
+				finish();
                 break;
         }
     }
@@ -86,7 +85,10 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
             progressBar.setVisibility(View.GONE);
             fireBase.singOut();
             startActivity(new Intent(SettingProfileActivity.this, MainActivity.class));
-            finish();
+			finish();
         }
     }
+	
+	
+	
 }

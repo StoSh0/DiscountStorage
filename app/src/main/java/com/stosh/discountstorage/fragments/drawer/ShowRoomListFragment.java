@@ -68,7 +68,7 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
 
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        ArrayList<HashMap<String, Object>> roomList = new ArrayList<>();
+        final ArrayList<HashMap<String, Object>> roomList = new ArrayList<>();
         HashMap<String, Object> hm;
         for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
             RoomList room = roomsDataSnapshot.getValue(RoomList.class);
@@ -83,7 +83,7 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HashMap<String, Object> itemHashMap = (HashMap<String, Object>) parent.getItemAtPosition(position);
+                HashMap<String, Object> itemHashMap = roomList.get(position);
                 String idItem = itemHashMap.get(Const.ID).toString();
                 listener.send(Const.ID_CARD_LIST, idItem);
             }

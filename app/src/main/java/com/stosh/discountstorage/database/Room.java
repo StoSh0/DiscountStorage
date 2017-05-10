@@ -21,5 +21,4 @@ public class Room {
         this.password = password;
         this.creator = creator;
     }
-
 }

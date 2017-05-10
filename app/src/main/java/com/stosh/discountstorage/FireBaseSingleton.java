@@ -22,178 +22,190 @@ import com.stosh.discountstorage.interfaces.Const;
  **/
 
 public class FireBaseSingleton {
-
-    private static final FireBaseSingleton ourInstance = new FireBaseSingleton();
-
-    public static FireBaseSingleton getInstance() {
-        return ourInstance;
-    }
-
-
-    private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
-    private String userId;
-    private String userIdDB;
-
-    private FireBaseSingleton() {
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-    }
-
-    private void init() {
-        mUser = mAuth.getCurrentUser();
-        userId = mUser.getUid();
-        userIdDB = mUser.getEmail().toLowerCase().replace(".", "");
-    }
-
-    public void check(FirebaseAuth.AuthStateListener mAuthListener) {
-        this.mAuthListener = mAuthListener;
-    }
-
-    public void onStart() {
-
-        mAuth.addAuthStateListener(mAuthListener);
-    }
-
-    public void onStop() {
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
-    }
-
-    public void login(Activity activity,
-                      String email,
-                      String password,
-                      OnCompleteListener<AuthResult> listener) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(activity, listener);
-    }
-
-    public void singUp(String email, String password, OnCompleteListener<AuthResult> listener) {
-        mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(listener);
-    }
-
-    public void resetPassword(String email, OnCompleteListener<Void> listener) {
-        mAuth.sendPasswordResetEmail(email)
-                .addOnCompleteListener(listener);
-    }
-
-    public void changeEmail(String email, OnCompleteListener listener) {
-        init();
-        mUser.updateEmail(email).addOnCompleteListener(listener);
-    }
-
-    public void changePassword(String password, OnCompleteListener listener) {
-        init();
-        mUser.updatePassword(password)
-                .addOnCompleteListener(listener);
-    }
-
-    public void deleteUser(OnCompleteListener listener) {
-        init();
-        mUser.delete().addOnCompleteListener(listener);
-    }
-
-    public void singOut() {
-        mAuth.signOut();
-    }
-
-    public void createUserInDB(String email, String password) {
-        init();
-        myRef = database.getReference(Const.DB_USERS);
-        User user = new User(userId, email, password);
-        myRef.child(userIdDB).setValue(user);
-    }
-
-    public void createRoomList(String name) {
-        init();
-        myRef = database.getReference(Const.DB_USERS);
-        RoomList roomList = new RoomList(name + "_" + userIdDB, name, mUser.getEmail());
-        myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(name + "_" + userIdDB).setValue(roomList);
-    }
-
-    public void createRoom(String name, String password) {
-        init();
-        myRef = database.getReference(Const.DB_ROOMS);
-        Room room = new Room(name, password, userIdDB);
-        myRef.child(name + "_" + userIdDB).setValue(room);
-    }
-
-    public void createCardList(String ID, String cardName, String category) {
-        init();
-        myRef = database.getReference(Const.DB_ROOMS);
-        CardList cardList = new CardList(cardName, cardName + "_" + ID, category);
-        myRef.child(ID).child(Const.DB_CARD_LIST)
-                .child(cardName + "_" + ID)
-                .setValue(cardList);
-    }
-
-    public void createCard(String ID,
-                           String cardName,
-                           String category,
-                           String code,
-                           String format) {
-        init();
-        myRef = database.getReference(Const.DB_CARDS);
-        Card card = new Card(ID, cardName, category, code, format);
-        myRef.child(cardName + "_" + ID).setValue(card);
-    }
-
-    public void getRooms(ValueEventListener listener) {
-        init();
-        myRef = database.getReference(Const.DB_USERS);
-        myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).addListenerForSingleValueEvent(listener);
-    }
-
-    public void checkUserInDB(String creator, ValueEventListener listener) {
-        init();
-        myRef = database.getReference(Const.DB_USERS);
-        myRef.child(creator).addListenerForSingleValueEvent(listener);
-    }
-
-    public void checkRoomList(String creator, String nameRoom, ValueEventListener listener) {
-        init();
-        myRef = database.getReference(Const.DB_USERS);
-        myRef.child(creator)
-                .child(Const.DB_ROOMS_LIST)
-                .child(nameRoom + "_" + creator)
-                .addListenerForSingleValueEvent(listener)
-        ;
-
-    }
-
-    public void checkPassword(String creator, String nameRoom, ValueEventListener listener) {
-        init();
-        myRef = database.getReference(Const.DB_ROOMS);
-        myRef.child(nameRoom + "_" + creator).addListenerForSingleValueEvent(listener);
-    }
-
-    public void addToRoomList(String creator, String nameRoom, String creatorId) {
-        init();
-        myRef = database.getReference(Const.DB_USERS);
-        RoomList roomList = new RoomList(nameRoom + "_" + creatorId, nameRoom, creator);
-        myRef.child(userIdDB)
-                .child(Const.DB_ROOMS_LIST)
-                .child(nameRoom + "_" + creatorId)
-                .setValue(roomList)
-        ;
-    }
-
-    public void getCardList(String roomName, ValueEventListener listener) {
-        init();
-        myRef = database.getReference(Const.DB_ROOMS);
-        myRef.child(roomName).child(Const.DB_CARD_LIST).addListenerForSingleValueEvent(listener);
-    }
-
-    public void getCard(String id, ValueEventListener listener) {
-        init();
-        myRef = database.getReference(Const.DB_CARDS);
-        myRef.child(id).addListenerForSingleValueEvent(listener);
-
-    }
-
+	
+	private static final FireBaseSingleton ourInstance = new FireBaseSingleton();
+	
+	public static FireBaseSingleton getInstance() {
+		return ourInstance;
+	}
+	
+	
+	private FirebaseAuth.AuthStateListener mAuthListener;
+	private FirebaseAuth mAuth;
+	private FirebaseUser mUser;
+	private FirebaseDatabase database;
+	private DatabaseReference myRef;
+	private String userId;
+	private String userIdDB;
+	private String userEmail;
+	
+	private FireBaseSingleton() {
+		mAuth = FirebaseAuth.getInstance();
+		database = FirebaseDatabase.getInstance();
+	}
+	
+	private void init() {
+		mUser = mAuth.getCurrentUser();
+		assert mUser != null;
+		userId = mUser.getUid();
+		userEmail = mUser.getEmail();
+		assert userEmail != null;
+		userIdDB = userEmail.toLowerCase().replace(".", "");
+	}
+	
+	public void check(FirebaseAuth.AuthStateListener mAuthListener) {
+		this.mAuthListener = mAuthListener;
+	}
+	
+	public void onStart() {
+		mAuth.addAuthStateListener(mAuthListener);
+	}
+	
+	public void onStop() {
+		if (mAuthListener != null) {
+			mAuth.removeAuthStateListener(mAuthListener);
+		}
+	}
+	
+	public void login(Activity activity,
+					  String email,
+					  String password,
+					  OnCompleteListener<AuthResult> listener) {
+		mAuth.signInWithEmailAndPassword(email, password)
+				.addOnCompleteListener(activity, listener);
+	}
+	
+	public void singUp(String email, String password, OnCompleteListener<AuthResult> listener) {
+		mAuth.createUserWithEmailAndPassword(email, password)
+				.addOnCompleteListener(listener);
+	}
+	
+	public void resetPassword(String email, OnCompleteListener<Void> listener) {
+		mAuth.sendPasswordResetEmail(email)
+				.addOnCompleteListener(listener);
+	}
+	
+	public void changeEmail(String email, OnCompleteListener listener) {
+		init();
+		mUser.updateEmail(email).addOnCompleteListener(listener);
+	}
+	
+	public void changePassword(String password, OnCompleteListener listener) {
+		init();
+		mUser.updatePassword(password)
+				.addOnCompleteListener(listener);
+	}
+	
+	public void deleteUser(OnCompleteListener listener) {
+		init();
+		mUser.delete().addOnCompleteListener(listener);
+	}
+	
+	public void singOut() {
+		mAuth.signOut();
+	}
+	
+	public String getUserEmail() {
+		init();
+		return userEmail;
+	}
+	
+	public void createUserInDB(String email, String password) {
+		init();
+		myRef = database.getReference(Const.DB_USERS);
+		User user = new User(userId, email, password);
+		myRef.child(userIdDB).setValue(user);
+	}
+	
+	public void createRoomList(String name) {
+		init();
+		myRef = database.getReference(Const.DB_USERS);
+		RoomList roomList = new RoomList(name + "_" + userIdDB, name, userEmail);
+		myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(name + "_" + userIdDB).setValue(roomList);
+	}
+	
+	public void createRoom(String name, String password) {
+		init();
+		myRef = database.getReference(Const.DB_ROOMS);
+		Room room = new Room(name, password, userEmail);
+		myRef.child(name + "_" + userIdDB).setValue(room);
+	}
+	
+	public void addRoomToList(String id, String name, String creator) {
+		init();
+		myRef = database.getReference(Const.DB_USERS);
+		RoomList roomList = new RoomList(id, name, creator);
+		myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(id).setValue(roomList);
+	}
+	
+	public void getRooms(ValueEventListener listener) {
+		init();
+		myRef = database.getReference(Const.DB_USERS);
+		myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).addListenerForSingleValueEvent(listener);
+	}
+	
+	
+	public void checkRoom(String id, ValueEventListener listener) {
+		init();
+		myRef = database.getReference(Const.DB_ROOMS);
+		Log.d("qwerty", id);
+		myRef.child(id).addListenerForSingleValueEvent(listener);
+	}
+	
+	public void deleteFromRoomList(String id){
+		init();
+		myRef = database.getReference(Const.DB_USERS);
+		myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(id).removeValue();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void createCardList(String ID, String cardName, String category) {
+		init();
+		myRef = database.getReference(Const.DB_ROOMS);
+		CardList cardList = new CardList(cardName, cardName + "_" + ID, category);
+		myRef.child(ID).child(Const.DB_CARD_LIST)
+				.child(cardName + "_" + ID)
+				.setValue(cardList);
+	}
+	
+	public void createCard(String ID,
+						   String cardName,
+						   String category,
+						   String code,
+						   String format) {
+		init();
+		myRef = database.getReference(Const.DB_CARDS);
+		Card card = new Card(ID, cardName, category, code, format);
+		myRef.child(cardName + "_" + ID).setValue(card);
+	}
+	
+	
+	
+	
+	public void getCardList(String roomId, ValueEventListener listener) {
+		init();
+		myRef = database.getReference(Const.DB_ROOMS);
+		myRef.child(roomId).child(Const.DB_CARD_LIST).addListenerForSingleValueEvent(listener);
+	}
+	
+	public void getCard(String id, ValueEventListener listener) {
+		init();
+		myRef = database.getReference(Const.DB_CARDS);
+		myRef.child(id).addListenerForSingleValueEvent(listener);
+	}
+	
+	
+	
+	
+	
+	
 }

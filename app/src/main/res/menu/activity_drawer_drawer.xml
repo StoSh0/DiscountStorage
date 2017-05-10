@@ -5,15 +5,15 @@
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/scan_with_camera" />
+            android:title="@string/scan_with_camera"/>
         <item
             android:id="@+id/nav_hand"
             android:icon="@drawable/ic_menu_send"
-            android:title="@string/enter_barcode" />
+            android:title="@string/enter_barcode"/>
         <item
             android:id="@+id/nav_show"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/show_list_rooms" />
+            android:title="@string/show_list_rooms"/>
     </group>
 
     <item android:title="@string/title_group">
@@ -22,13 +22,16 @@
                 <item
                     android:id="@+id/nav_create"
                     android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/create_room" />
+                    android:title="@string/create_room"/>
                 <item
                     android:id="@+id/nav_connect"
                     android:icon="@drawable/ic_menu_share"
-                    android:title="@string/title_connectRoom" />
+                    android:title="@string/title_connectRoom"/>
             </group>
         </menu>
     </item>
+
+    <item android:id="@+id/exit"
+        android:title="@string/sing_out"/>
 
 </menu>

@@ -58,8 +58,8 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
                              Bundle savedInstanceState) {
         FireBaseSingleton fireBase = FireBaseSingleton.getInstance();
         Bundle bundle = getArguments();
-        String roomName = bundle.getString(Const.NAME);
-        fireBase.getCardList(roomName, this);
+        String roomId = bundle.getString(Const.NAME);
+        fireBase.getCardList(roomId, this);
         View view = inflater.inflate(R.layout.fragment_drawer_show_card_list, container, false);
         listView = (ListView) view.findViewById(R.id.listViewCard);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBarShowCardList);

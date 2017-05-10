@@ -36,8 +36,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class CreateCardActivity extends AppCompatActivity implements ValueEventListener,
-        AdapterView.OnItemSelectedListener {
+public class CreateCardActivity extends AppCompatActivity implements ValueEventListener{
 
     private InputMethodManager inputMethodManager;
     private ArrayAdapter<String> adapter;
@@ -120,9 +119,11 @@ public class CreateCardActivity extends AppCompatActivity implements ValueEventL
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
         ArrayList<String> roomList = new ArrayList<>();
+        final ArrayList<String> idList = new ArrayList<>();
         for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
             RoomList room = roomsDataSnapshot.getValue(RoomList.class);
-            roomList.add(room.ID);
+            roomList.add(room.name + " (" + room.creator+ ")");
+            idList.add(room.ID);
         }
         if (roomList.isEmpty()) roomList.add(0, Const.ROOM_LIST_IS_EMPTY);
 
@@ -130,20 +131,21 @@ public class CreateCardActivity extends AppCompatActivity implements ValueEventL
         adapter.setDropDownViewResource(R.layout.my_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setSelection(0);
-        spinner.setOnItemSelectedListener(this);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				ID = idList.get(position);
+            }
+    
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+        
+            }
+        });
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
     }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        ID = adapter.getItem(position);
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
+	
 }

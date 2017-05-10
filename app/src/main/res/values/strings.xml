@@ -54,12 +54,12 @@
     <string name="card_add">"Card Was Add"</string>
     <string name="enter_name">Enter Name</string>
     <string name="add_room">Add Room</string>
-    <string name="user_not">"User Not Found"</string>
-    <string name="room_not">Room not found</string>
+    <string name="data_incorrect">"User or room name not found"</string>
     <string name="password_incorrect">"Password invalid"</string>
     <string name="room_added">Room was added</string>
     <string name="add_room_first">"First add room" </string>
     <string name="add_card_first">"First add card" </string>
+    <string name="room_remove">Room was removed, please update list</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="choose_room">Choose Room</string>

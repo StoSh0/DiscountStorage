@@ -14,13 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.fragments.drawer.ShowCardListFragment;
 import com.stosh.discountstorage.fragments.drawer.ShowRoomListFragment;
@@ -32,8 +31,9 @@ import com.stosh.discountstorage.fragments.drawer.EnterBarCodeFragment;
 
 
 public class DrawerActivity extends AppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener, DrawerFragmentListener, View.OnClickListener {
+        NavigationView.OnNavigationItemSelectedListener, DrawerFragmentListener {
 
+    private FireBaseSingleton fireBase;
     private FragmentManager mFragmentManager;
     private Intent createCardIntent;
 
@@ -57,7 +57,8 @@ public class DrawerActivity extends AppCompatActivity implements
         TextView textViewProfile = (TextView) navigationView
                 .getHeaderView(0)
                 .findViewById(R.id.textViewProfile);
-        textViewProfile.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        fireBase = FireBaseSingleton.getInstance();
+        textViewProfile.setText(fireBase.getUserEmail());
 
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.beginTransaction()
@@ -90,6 +91,9 @@ public class DrawerActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
+                getRequestedOrientation();
+                Intent intent = new Intent(this, SettingProfileActivity.class);
+                intent.putExtra("request", getRequestedOrientation());
                 startActivity(new Intent(this, SettingProfileActivity.class));
                 break;
         }
@@ -135,8 +139,14 @@ public class DrawerActivity extends AppCompatActivity implements
                         .setCustomAnimations
                                 (R.anim.fragment_drawer_fade_in, R.anim.fragment_drawer_fade_out)
                         .replace(R.id.containerDrawer, AddRoomFragment.getInstance(null))
+                        .addToBackStack(null)
                         .commit();
                 break;
+            case R.id.exit:
+                FireBaseSingleton firebase = FireBaseSingleton.getInstance();
+                firebase.singOut();
+                startActivity(new Intent(DrawerActivity.this, MainActivity.class));
+                finish();
         }
         setTitle(item.getTitle());
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -194,7 +204,7 @@ public class DrawerActivity extends AppCompatActivity implements
                 break;
             case Const.ID_CARD_LIST:
                 Bundle bundle = new Bundle();
-                bundle.putString(Const.NAME, code);
+                bundle.putString(Const.ID, code);
                 startShowCardListFragment(bundle);
                 break;
             case Const.ID_ROOM_LIST:
@@ -203,10 +213,5 @@ public class DrawerActivity extends AppCompatActivity implements
                 startActivity(intent);
                 break;
         }
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 }
