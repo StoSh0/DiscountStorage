@@ -22,51 +22,51 @@ import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
  * A simple {@link Fragment} subclass.
  */
 public class EnterBarCodeFragment extends Fragment implements View.OnClickListener {
-
-
-    private EditText editTextEnterHand;
-    private Button buttonEnter;
-    private View view;
-    private DrawerFragmentListener listener;
-    private InputMethodManager inputMethodManager;
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            listener = (DrawerFragmentListener) context;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(context.toString() + "Must implement ListenerHand");
-        }
-    }
-
-    public static EnterBarCodeFragment getInstance(@Nullable Bundle data) {
-        EnterBarCodeFragment fragment = new EnterBarCodeFragment();
-        fragment.setArguments(data == null ? new Bundle() : data);
-        return fragment;
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_drawer_enter_bar_code, container, false);
-        editTextEnterHand = (EditText) view.findViewById(R.id.editTextEnter);
-        buttonEnter = (Button) view.findViewById(R.id.btnEnter);
-        buttonEnter.setOnClickListener(this);
-        inputMethodManager = (InputMethodManager) getActivity()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        return view;
-    }
-
-    @Override
-    public void onClick(View v) {
-        String code = editTextEnterHand.getText().toString();
-        if (TextUtils.isEmpty(code)) {
-            Toast.makeText(getActivity(), getString(R.string.enter_barcode), Toast.LENGTH_SHORT).show();
-            return;
-        }
-        inputMethodManager.hideSoftInputFromWindow(buttonEnter.getWindowToken(),
-                InputMethodManager.HIDE_NOT_ALWAYS);
-        listener.send(Const.ID_ENTER, code);
-    }
+	
+	
+	private EditText editTextEnterHand;
+	private Button buttonEnter;
+	private View view;
+	private DrawerFragmentListener listener;
+	private InputMethodManager inputMethodManager;
+	
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		try {
+			listener = (DrawerFragmentListener) context;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(context.toString() + "Must implement ListenerHand");
+		}
+	}
+	
+	public static EnterBarCodeFragment getInstance(@Nullable Bundle data) {
+		EnterBarCodeFragment fragment = new EnterBarCodeFragment();
+		fragment.setArguments(data == null ? new Bundle() : data);
+		return fragment;
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+							 Bundle savedInstanceState) {
+		view = inflater.inflate(R.layout.fragment_drawer_enter_bar_code, container, false);
+		editTextEnterHand = (EditText) view.findViewById(R.id.editTextEnter);
+		buttonEnter = (Button) view.findViewById(R.id.btnEnter);
+		buttonEnter.setOnClickListener(this);
+		inputMethodManager = (InputMethodManager) getActivity()
+				.getSystemService(Context.INPUT_METHOD_SERVICE);
+		return view;
+	}
+	
+	@Override
+	public void onClick(View v) {
+		String code = editTextEnterHand.getText().toString();
+		if (TextUtils.isEmpty(code)) {
+			Toast.makeText(getActivity(), getString(R.string.enter_barcode), Toast.LENGTH_SHORT).show();
+			return;
+		}
+		inputMethodManager.hideSoftInputFromWindow(buttonEnter.getWindowToken(),
+				InputMethodManager.HIDE_NOT_ALWAYS);
+		listener.send(Const.ID_ENTER, code);
+	}
 }

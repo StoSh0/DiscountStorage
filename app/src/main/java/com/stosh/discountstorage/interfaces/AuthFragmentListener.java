@@ -5,5 +5,5 @@ package com.stosh.discountstorage.interfaces;
  */
 
 public interface AuthFragmentListener {
-    void clickBtn(int code);
+	void clickBtn(int code);
 }

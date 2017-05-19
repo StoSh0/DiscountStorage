@@ -99,7 +99,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				
 				Room room = dataSnapshot.getValue(Room.class);
-				if (room == null){
+				if (room == null) {
 					progressBar.setVisibility(View.GONE);
 					Toast.makeText(getActivity(), getString(R.string.data_incorrect), Toast.LENGTH_LONG).show();
 					return;
@@ -110,7 +110,7 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 					return;
 				}
 				progressBar.setVisibility(View.GONE);
-				fireBase.addRoomToList(id, room.name, room.creator);
+				fireBase.addRoomToList(id);
 				Toast.makeText(getActivity(), getString(R.string.room_added), Toast.LENGTH_LONG).show();
 			}
 			

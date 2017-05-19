@@ -12,8 +12,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
@@ -26,47 +26,61 @@ import java.util.List;
  */
 
 public class ShowCardListAdapter extends ArrayAdapter {
-
-    private int layout;
-    private List<HashMap<String, Object>> data;
-
-    public ShowCardListAdapter(@NonNull Context context, @LayoutRes int recourse, @NonNull List<HashMap<String, Object>> data) {
-        super(context, recourse, data);
-        layout = recourse;
-        this.data = data;
-    }
-
-    @NonNull
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder viewHolder = new ViewHolder();
-        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-        convertView = layoutInflater.inflate(layout, parent, false);
-        viewHolder.init(convertView, position);
-        return convertView;
-    }
-
-    private class ViewHolder {
-        TextView textViewName;
-        TextView textViewCategory;
-        Button buttonEdit;
-
-        public void init(View convertView, final int position) {
-            HashMap<String, Object> hashMap = data.get(position);
-            String name = hashMap.get(Const.NAME).toString();
-            String category = hashMap.get(Const.CAT).toString();
-            textViewName = (TextView) convertView.findViewById(R.id.textViewNameShowCards);
-            textViewCategory = (TextView) convertView.findViewById(R.id.textViewCategoryShowCards);
-            textViewName.setText(name);
-            textViewCategory.setText(category);
-            buttonEdit = (Button) convertView.findViewById(R.id.btnEditShowCards);
-            buttonEdit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getContext(), "sdsd" + position, Toast.LENGTH_LONG).show();
-                }
-            });
-
-        }
-    }
+	private Context context;
+	private int recourse;
+	private List<HashMap<String, Object>> data;
+	private FireBaseSingleton fireBase;
+	private HashMap<String, Object> hashMap;
+	private DrawerFragmentListener listener;
+	
+	public ShowCardListAdapter(@NonNull Context context, @LayoutRes int recourse, @NonNull List<HashMap<String, Object>> data, DrawerFragmentListener listener) {
+		super(context, recourse, data);
+		this.recourse = recourse;
+		this.context = context;
+		this.data = data;
+		this.listener = listener;
+	}
+	
+	@NonNull
+	@Override
+	public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+		if (convertView == null)
+			convertView = View.inflate(context, recourse, null);
+		ViewHolder viewHolder = new ViewHolder();
+		viewHolder.init(convertView, position);
+		return convertView;
+	}
+	
+	private class ViewHolder {
+		TextView textViewName;
+		TextView textViewCategory;
+		Button buttonEdit;
+		
+		public void init(View convertView, final int position) {
+			fireBase = FireBaseSingleton.getInstance();
+			hashMap = data.get(position);
+			String name = hashMap.get(Const.NAME).toString();
+			String category = hashMap.get(Const.CAT).toString();
+			String creator = hashMap.get(Const.CREATOR).toString();
+			textViewName = (TextView) convertView.findViewById(R.id.textViewNameShowCards);
+			textViewCategory = (TextView) convertView.findViewById(R.id.textViewCategoryShowCards);
+			textViewName.setText(name);
+			textViewCategory.setText(category);
+			buttonEdit = (Button) convertView.findViewById(R.id.btnEditShowCards);
+			if (!creator.equals(fireBase.getUserEmail())){
+				buttonEdit.setVisibility(View.GONE);
+				
+			}
+			buttonEdit.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					//listener.send(Const.EDIT_CARD, hashMap.get(Const.ID).toString());
+					/*fireBase.deleteRoom(hashMap.get(Const.ID).toString());
+					fireBase.deleteFromRoomList(hashMap.get(Const.ID).toString());
+					textViewName.setText("Room was removed, please update list");
+					textViewName.setTextSize(20);*/
+				}
+			});
+		}
+	}
 }

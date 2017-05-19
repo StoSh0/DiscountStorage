@@ -120,7 +120,7 @@ public class FireBaseSingleton {
 	public void createRoomList(String name) {
 		init();
 		myRef = database.getReference(Const.DB_USERS);
-		RoomList roomList = new RoomList(name + "_" + userIdDB, name, userEmail);
+		RoomList roomList = new RoomList(name + "_" + userIdDB);
 		myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(name + "_" + userIdDB).setValue(roomList);
 	}
 	
@@ -131,47 +131,49 @@ public class FireBaseSingleton {
 		myRef.child(name + "_" + userIdDB).setValue(room);
 	}
 	
-	public void addRoomToList(String id, String name, String creator) {
+	public void addRoomToList(String id) {
 		init();
 		myRef = database.getReference(Const.DB_USERS);
-		RoomList roomList = new RoomList(id, name, creator);
+		RoomList roomList = new RoomList(id);
 		myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(id).setValue(roomList);
 	}
 	
-	public void getRooms(ValueEventListener listener) {
+	public void getRoomList(ValueEventListener listener) {
 		init();
 		myRef = database.getReference(Const.DB_USERS);
 		myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).addListenerForSingleValueEvent(listener);
+	}
+	
+	public void getRoom(String id, ValueEventListener listener){
+		init();
+		myRef = database.getReference(Const.DB_ROOMS);
+		myRef.child(id).addListenerForSingleValueEvent(listener);
+	}
+	
+	public void deleteRoom(String id){
+		init();
+		myRef = database.getReference(Const.DB_ROOMS);
+		myRef.child(id).removeValue();
 	}
 	
 	
 	public void checkRoom(String id, ValueEventListener listener) {
 		init();
 		myRef = database.getReference(Const.DB_ROOMS);
-		Log.d("qwerty", id);
 		myRef.child(id).addListenerForSingleValueEvent(listener);
 	}
 	
-	public void deleteFromRoomList(String id){
+	public void deleteFromRoomList(String id) {
 		init();
 		myRef = database.getReference(Const.DB_USERS);
 		myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).child(id).removeValue();
 	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public void createCardList(String ID, String cardName, String category) {
+	public void createCardList(String ID, String cardName) {
 		init();
 		myRef = database.getReference(Const.DB_ROOMS);
-		CardList cardList = new CardList(cardName, cardName + "_" + ID, category);
+		CardList cardList = new CardList(cardName + "_" + ID);
 		myRef.child(ID).child(Const.DB_CARD_LIST)
 				.child(cardName + "_" + ID)
 				.setValue(cardList);
@@ -184,11 +186,9 @@ public class FireBaseSingleton {
 						   String format) {
 		init();
 		myRef = database.getReference(Const.DB_CARDS);
-		Card card = new Card(ID, cardName, category, code, format);
+		Card card = new Card(cardName, category, code, format, userEmail);
 		myRef.child(cardName + "_" + ID).setValue(card);
 	}
-	
-	
 	
 	
 	public void getCardList(String roomId, ValueEventListener listener) {
@@ -197,15 +197,26 @@ public class FireBaseSingleton {
 		myRef.child(roomId).child(Const.DB_CARD_LIST).addListenerForSingleValueEvent(listener);
 	}
 	
+	public void deleteFromCardList(String idRoom, String idCard) {
+		init();
+		myRef = database.getReference(Const.DB_ROOMS);
+		myRef.child(idRoom).child(Const.DB_CARD_LIST).child(idCard).removeValue();
+	}
+	
 	public void getCard(String id, ValueEventListener listener) {
 		init();
 		myRef = database.getReference(Const.DB_CARDS);
 		myRef.child(id).addListenerForSingleValueEvent(listener);
 	}
 	
-	
-	
-	
-	
+	public void delCard(String id, String nameRoom){
+		init();
+		myRef = database.getReference(Const.DB_ROOMS);
+		myRef.child(nameRoom + "_" + (userEmail.toLowerCase().replace(".", ""))).child(Const.DB_CARD_LIST).child(id).removeValue();
+		
+		
+		myRef = database.getReference(Const.DB_CARDS);
+		myRef.child(id).removeValue();
+	}
 	
 }

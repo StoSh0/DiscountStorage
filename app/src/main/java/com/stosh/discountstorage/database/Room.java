@@ -7,18 +7,18 @@ import com.google.firebase.database.IgnoreExtraProperties;
  */
 @IgnoreExtraProperties
 public class Room {
-
-    public String name;
-    public String password;
-    public String creator;
-
-    public Room(){
-
-    }
-
-    public Room(String name, String password, String creator){
-        this.name = name;
-        this.password = password;
-        this.creator = creator;
-    }
+	
+	public String name;
+	public String password;
+	public String creator;
+	
+	public Room() {
+		
+	}
+	
+	public Room(String name, String password, String creator) {
+		this.name = name;
+		this.password = password;
+		this.creator = creator;
+	}
 }
