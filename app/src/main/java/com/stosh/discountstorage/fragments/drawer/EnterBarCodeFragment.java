@@ -2,9 +2,9 @@ package com.stosh.discountstorage.fragments.drawer;
 
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,6 @@ import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
  * A simple {@link Fragment} subclass.
  */
 public class EnterBarCodeFragment extends Fragment implements View.OnClickListener {
-	
 	
 	private EditText editTextEnterHand;
 	private Button buttonEnter;

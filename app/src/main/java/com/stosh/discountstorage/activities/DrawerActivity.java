@@ -21,19 +21,18 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
+import com.stosh.discountstorage.fragments.drawer.AddRoomFragment;
+import com.stosh.discountstorage.fragments.drawer.CreateRoomFragment;
+import com.stosh.discountstorage.fragments.drawer.EnterBarCodeFragment;
 import com.stosh.discountstorage.fragments.drawer.ShowCardListFragment;
 import com.stosh.discountstorage.fragments.drawer.ShowRoomListFragment;
 import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
-import com.stosh.discountstorage.fragments.drawer.AddRoomFragment;
-import com.stosh.discountstorage.fragments.drawer.CreateRoomFragment;
-import com.stosh.discountstorage.fragments.drawer.EnterBarCodeFragment;
 
 
 public class DrawerActivity extends AppCompatActivity implements
 		NavigationView.OnNavigationItemSelectedListener, DrawerFragmentListener {
 	
-	private FireBaseSingleton fireBase;
 	private FragmentManager mFragmentManager;
 	private Intent createCardIntent;
 	
@@ -44,22 +43,18 @@ public class DrawerActivity extends AppCompatActivity implements
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 		setSupportActionBar(toolbar);
-		
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 				this, drawer, toolbar, R.string.open_navigation, R.string.close_navigation);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
-		
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
-		
 		TextView textViewProfile = (TextView) navigationView
 				.getHeaderView(0)
 				.findViewById(R.id.textViewProfile);
-		fireBase = FireBaseSingleton.getInstance();
+		FireBaseSingleton fireBase = FireBaseSingleton.getInstance();
 		textViewProfile.setText(fireBase.getUserEmail());
-		
 		mFragmentManager = getSupportFragmentManager();
 		mFragmentManager.beginTransaction()
 				.setCustomAnimations
@@ -68,7 +63,6 @@ public class DrawerActivity extends AppCompatActivity implements
 				.commit();
 		setTitle("Show all roms");
 	}
-	
 	
 	@Override
 	public void onBackPressed() {
@@ -86,7 +80,6 @@ public class DrawerActivity extends AppCompatActivity implements
 		return true;
 	}
 	
-	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -97,7 +90,6 @@ public class DrawerActivity extends AppCompatActivity implements
 				startActivity(new Intent(this, SettingProfileActivity.class));
 				break;
 		}
-		
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -151,7 +143,6 @@ public class DrawerActivity extends AppCompatActivity implements
 		setTitle(item.getTitle());
 		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		drawer.closeDrawer(GravityCompat.START);
-		
 		return true;
 	}
 	
@@ -200,7 +191,11 @@ public class DrawerActivity extends AppCompatActivity implements
 					createCardIntent.putExtra(Const.FORMAT, format);
 					startActivity(createCardIntent);
 				} else {
-					Toast.makeText(this, getString(R.string.only_ean_13), Toast.LENGTH_LONG).show();
+					Toast.makeText(
+							this,
+							getString(R.string.only_ean_13),
+							Toast.LENGTH_LONG
+					).show();
 				}
 				break;
 			case Const.ID_CARD:
@@ -213,8 +208,6 @@ public class DrawerActivity extends AppCompatActivity implements
 				intent.putExtra(Const.ID, code);
 				startActivity(intent);
 				break;
-			
-				
 		}
 	}
 	

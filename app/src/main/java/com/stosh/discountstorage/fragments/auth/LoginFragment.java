@@ -19,18 +19,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.interfaces.AuthFragmentListener;
+import com.stosh.discountstorage.interfaces.Const;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class LoginFragment extends Fragment implements View.OnClickListener, OnCompleteListener {
-	
-	private String TAG = "AUTH";
-	
 	
 	private FireBaseSingleton fireBase;
 	private View view;
@@ -39,7 +36,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnC
 	private ProgressBar progressBar;
 	private AuthFragmentListener listener;
 	private InputMethodManager inputMethodManager;
-	
 	
 	@Override
 	public void onAttach(Context context) {
@@ -65,7 +61,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnC
 		init();
 		inputMethodManager = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		
 		return view;
 	}
 	
@@ -76,7 +71,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnC
 		btnSingUpFrag = (Button) view.findViewById(R.id.btnSingUpFrag);
 		btnResetPass = (Button) view.findViewById(R.id.btnResetFrag);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBarLogin);
-		
 		btnLogin.setOnClickListener(this);
 		btnSingUpFrag.setOnClickListener(this);
 		btnResetPass.setOnClickListener(this);
@@ -112,7 +106,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnC
 				inputMethodManager.hideSoftInputFromWindow(btnSingUpFrag.getWindowToken(),
 						InputMethodManager.HIDE_NOT_ALWAYS);
 				break;
-			
 			case R.id.btnResetFrag:
 				listener.clickBtn(Const.RESET_ID);
 				inputMethodManager.hideSoftInputFromWindow(btnResetPass.getWindowToken(),
@@ -124,6 +117,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnC
 	
 	@Override
 	public void onComplete(@NonNull Task task) {
+		String TAG = "AUTH";
 		if (task.isSuccessful()) {
 			Log.d(TAG, "signInWithEmail:onComplete:" + task.isSuccessful());
 			progressBar.setVisibility(View.GONE);
@@ -132,7 +126,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener, OnC
 			btnResetPass.setClickable(true);
 		} else {
 			Log.w(TAG, "signInWithEmail:failed", task.getException());
-			Toast.makeText(getActivity(), R.string.auth_failed, Toast.LENGTH_SHORT).show();
+			Toast.makeText(
+					getActivity(),
+					R.string.auth_failed,
+					Toast.LENGTH_SHORT
+			).show();
 			progressBar.setVisibility(View.GONE);
 			btnLogin.setClickable(true);
 			btnSingUpFrag.setClickable(true);

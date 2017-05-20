@@ -59,9 +59,7 @@
     <string name="room_added">Room was added</string>
     <string name="add_room_first">"First add room" </string>
     <string name="add_card_first">"First add card" </string>
-    <string name="room_remove">Room was removed</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="room_remove">Room was removed, please update list</string>
     <string name="choose_room">Choose Room</string>
     <string name="choose_card">Choose Card</string>
     <string name="this_is_title">This is Title</string>
@@ -77,5 +75,6 @@
     <string name="new_name">New name</string>
     <string name="rename">Rename</string>
     <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
     <array name="room_deleted">Room was deleted</array>
 </resources>

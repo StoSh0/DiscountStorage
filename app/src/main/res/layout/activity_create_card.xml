@@ -1,15 +1,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/colorPrimaryDark">
 
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@mipmap/icon" />
+        app:srcCompat="@mipmap/icon"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_gravity="center"
             android:contentDescription="@string/add"
             android:visibility="visible"
-            app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+            app:srcCompat="@drawable/common_google_signin_btn_icon_dark"/>
 
         <TextView
             android:id="@+id/textViewCreateCard"
@@ -33,7 +33,7 @@
             android:gravity="center"
             android:text="@string/text_view"
             android:textColor="@color/yellow"
-            android:textSize="30dp" />
+            android:textSize="30sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,13 +48,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/choose_room"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"/>
 
             <Spinner
                 android:id="@+id/spinnerCreateCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:isScrollContainer="true" />
+                android:isScrollContainer="true"/>
         </LinearLayout>
 
         <EditText
@@ -68,7 +68,7 @@
             android:inputType="textPersonName"
 
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColorHint="@color/white"/>
 
         <EditText
             android:id="@+id/editTextCreateCardCategory"
@@ -81,7 +81,7 @@
             android:inputType="textPersonName"
 
             android:textColor="@color/yellow"
-            android:textColorHint="@color/yellow" />
+            android:textColorHint="@color/yellow"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -102,7 +102,7 @@
                 android:background="@drawable/selector_yellow"
                 android:gravity="center"
                 android:text="@string/cancel"
-                android:visibility="visible" />
+                android:visibility="visible"/>
 
             <Button
                 android:id="@+id/btnCreateCardAdd"
@@ -115,7 +115,7 @@
                 android:background="@drawable/selector_yellow"
                 android:gravity="center"
                 android:text="@string/add"
-                android:visibility="visible" />
+                android:visibility="visible"/>
 
         </LinearLayout>
 

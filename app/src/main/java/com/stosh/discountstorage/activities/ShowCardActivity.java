@@ -1,8 +1,8 @@
 package com.stosh.discountstorage.activities;
 
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -37,7 +37,6 @@ public class ShowCardActivity extends AppCompatActivity implements ValueEventLis
 	TextView textViewCode;
 	@BindView(R.id.progressBarShowCard)
 	ProgressBar progressBar;
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +74,11 @@ public class ShowCardActivity extends AppCompatActivity implements ValueEventLis
 	
 	@Override
 	public void onCancelled(DatabaseError databaseError) {
-		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unbinder.unbind();
 	}
 }

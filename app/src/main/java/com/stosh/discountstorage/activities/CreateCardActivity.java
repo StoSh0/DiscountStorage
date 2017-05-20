@@ -5,8 +5,8 @@ package com.stosh.discountstorage.activities;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -113,7 +113,12 @@ public class CreateCardActivity extends AppCompatActivity implements ValueEventL
 		Bitmap bitmap;
 		BarcodeEncoder barcodeEncoder;
 		try {
-			BitMatrix bitMatrix = new MultiFormatWriter().encode(code, BarcodeFormat.valueOf(format), 1000, 500);
+			BitMatrix bitMatrix = new MultiFormatWriter().encode(
+					code,
+					BarcodeFormat.valueOf(format),
+					1000,
+					500
+			);
 			barcodeEncoder = new BarcodeEncoder();
 			bitmap = barcodeEncoder.createBitmap(bitMatrix);
 			imageView.setImageBitmap(bitmap);
@@ -129,7 +134,7 @@ public class CreateCardActivity extends AppCompatActivity implements ValueEventL
 		rooms = new ArrayList<>();
 		if (dataSnapshot.getValue() == null) {
 			rooms.add(0, Const.ROOM_LIST_IS_EMPTY);
-			Log.d("qwerty" , " null");
+			Log.d("qwerty", " null");
 			adapter = new CreateCardSpinnerAdapter(CreateCardActivity.this, R.layout.my_spiner_item, rooms);
 			adapter.setDropDownViewResource(R.layout.my_spinner_dropdown_item);
 			spinner.setAdapter(adapter);
@@ -159,12 +164,9 @@ public class CreateCardActivity extends AppCompatActivity implements ValueEventL
 			public void onCancelled(DatabaseError databaseError) {
 			}
 		};
-		
 		for (String id : roomList) {
 			fireBase.getRoom(id, listener);
 		}
-		
-		
 	}
 	
 	@Override
@@ -178,7 +180,12 @@ public class CreateCardActivity extends AppCompatActivity implements ValueEventL
 	
 	@Override
 	public void onNothingSelected(AdapterView<?> parent) {
-		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unbinder.unbind();
 	}
 }
 

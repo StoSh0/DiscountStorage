@@ -1,23 +1,23 @@
 package com.stosh.discountstorage.activities;
 
 
-import android.content.pm.ActivityInfo;
-import android.support.v4.app.FragmentManager;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.interfaces.AuthFragmentListener;
 import com.stosh.discountstorage.fragments.auth.LoginFragment;
 import com.stosh.discountstorage.fragments.auth.PasswordResetFragment;
 import com.stosh.discountstorage.fragments.auth.SingUpFragment;
+import com.stosh.discountstorage.interfaces.AuthFragmentListener;
+import com.stosh.discountstorage.interfaces.Const;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements AuthFragmentListe
 	private Unbinder unbinder;
 	private FireBaseSingleton fireBase;
 	private FragmentManager mFragmentManager;
-	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements AuthFragmentListe
 		fireBase.onStart();
 	}
 	
-	
 	@Override
 	public void onStop() {
 		super.onStop();
@@ -118,5 +116,4 @@ public class MainActivity extends AppCompatActivity implements AuthFragmentListe
 		super.onDestroy();
 		unbinder.unbind();
 	}
-	
 }

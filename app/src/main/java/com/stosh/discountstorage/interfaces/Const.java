@@ -2,7 +2,7 @@ package com.stosh.discountstorage.interfaces;
 
 /**
  * Created by StoSh on 31-Mar-17.
- */
+ **/
 
 public class Const {
 	public static final int LOGIN_ID = 1;
@@ -27,9 +27,5 @@ public class Const {
 	
 	public static final String ID_ENTER = "1212";
 	public static final String ID_CARD = "32323";
-	public static final String ID_ROOM_LIST = "wdwdwd";
-	public static final String EDIT_CARD = "173265";
-	public static final String EDIT_ROOM = "1ssds73265";
-	public static final String TYPE = "1ssdszxzxz73265";
-	
+	public static final String ID_ROOM_LIST = "111";
 }

@@ -11,19 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
-import com.stosh.discountstorage.activities.EditActivity;
-import com.stosh.discountstorage.database.Card;
 import com.stosh.discountstorage.database.RoomList;
-import com.stosh.discountstorage.fragments.drawer.ShowCardListFragment;
 import com.stosh.discountstorage.interfaces.Const;
-import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,27 +26,26 @@ import java.util.List;
 
 /**
  * Created by StoSh on 16-Apr-17.
- */
+ **/
 
 public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListener {
 	
 	private int resource;
 	private List<HashMap<String, Object>> data;
 	private Context context;
-	private HashMap<String, Object> itemHashMap;
 	private FireBaseSingleton fireBase;
-	private DrawerFragmentListener listener;
-	private String name;
 	private String creator;
 	private String id;
-	private ArrayList<String> cardList;
 	
-	public ShowRoomListAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<HashMap<String, Object>> data, DrawerFragmentListener listener) {
+	public ShowRoomListAdapter(
+			@NonNull Context context,
+			@LayoutRes int resource,
+			@NonNull List<HashMap<String, Object>> data
+	) {
 		super(context, resource, data);
 		this.context = context;
 		this.resource = resource;
 		this.data = data;
-		this.listener = listener;
 	}
 	
 	@NonNull
@@ -66,8 +60,8 @@ public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListe
 	
 	@Override
 	public void onDataChange(DataSnapshot dataSnapshot) {
-		cardList = new ArrayList<>();
-		Log.d("qwerty", "cccccc" +dataSnapshot);
+		ArrayList<String> cardList = new ArrayList<>();
+		Log.d("qwerty", "cccccc" + dataSnapshot);
 		fireBase.deleteRoom(id);
 		fireBase.deleteFromRoomList(id);
 		for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
@@ -81,7 +75,6 @@ public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListe
 	
 	@Override
 	public void onCancelled(DatabaseError databaseError) {
-		
 	}
 	
 	private class ViewHolder extends AppCompatActivity {
@@ -91,8 +84,8 @@ public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListe
 		
 		public void init(View convertView, final int position) {
 			fireBase = FireBaseSingleton.getInstance();
-			itemHashMap = data.get(position);
-			name = itemHashMap.get(Const.NAME).toString();
+			HashMap<String, Object> itemHashMap = data.get(position);
+			String name = itemHashMap.get(Const.NAME).toString();
 			creator = itemHashMap.get(Const.CREATOR).toString();
 			id = itemHashMap.get(Const.ID).toString();
 			textViewName = (TextView) convertView.findViewById(R.id.textViewNameShowRooms);
@@ -103,13 +96,11 @@ public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListe
 				public void onClick(View v) {
 					if (!creator.equals(fireBase.getUserEmail())) {
 						fireBase.deleteFromRoomList(id);
-						textViewName.setText("Room was removed, please update list");
+						textViewName.setText(getString(R.string.room_remove));
 						textViewName.setTextSize(20);
-						return;
 					} else {
 						fireBase.getCardList(id, ShowRoomListAdapter.this);
-						
-						textViewName.setText("Room was removed, please update list");
+						textViewName.setText(getString(R.string.room_remove));
 						textViewName.setTextSize(20);
 						buttonDell.setVisibility(View.GONE);
 					}
@@ -117,7 +108,6 @@ public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListe
 			});
 			textViewName.setText(name);
 			textViewSub.setText(creator);
-			
 		}
 	}
 }

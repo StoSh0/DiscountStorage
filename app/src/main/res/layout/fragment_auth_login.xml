@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.stosh.discountstorage.fragments.auth.LoginFragment">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="com.stosh.discountstorage.fragments.auth.LoginFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,14 +12,13 @@
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/sing_in"
             android:textColor="@color/white"
-            android:textSize="40dp" />
+            android:textSize="40sp"/>
 
         <EditText
             android:id="@+id/editTextEmailLogin"
@@ -34,7 +33,7 @@
             android:textAllCaps="false"
 
             android:textColor="@color/white"
-            android:textColorHint="@color/white" />
+            android:textColorHint="@color/white"/>
 
         <EditText
             android:id="@+id/editTextPasswordLogin"
@@ -48,7 +47,7 @@
             android:maxLines="1"
 
             android:textColor="@color/yellow"
-            android:textColorHint="@color/yellow" />
+            android:textColorHint="@color/yellow"/>
 
         <Button
             android:id="@+id/btnLogin"
@@ -61,7 +60,7 @@
             android:background="@drawable/selector_yellow"
             android:gravity="center"
             android:text="@string/login"
-            android:textSize="15dp"/>
+            android:textSize="15sp"/>
 
         <Button
             android:id="@+id/btnResetFrag"
@@ -73,7 +72,7 @@
             android:background="@drawable/selector_white"
             android:text="@string/forgot_pass"
             android:textAllCaps="false"
-            android:textColor="@color/yellow" />
+            android:textColor="@color/yellow"/>
 
         <Button
             android:id="@+id/btnSingUpFrag"
@@ -84,9 +83,8 @@
             android:layout_marginTop="@dimen/marginTop"
             android:background="@drawable/selector_white"
             android:text="@string/not_reg"
-
             android:textAllCaps="false"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"/>
 
         <ProgressBar
             android:id="@+id/progressBarLogin"
@@ -94,7 +92,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbarStyle="insideInset"
-            android:visibility="gone" />
+            android:visibility="gone"/>
     </LinearLayout>
-
 </FrameLayout>

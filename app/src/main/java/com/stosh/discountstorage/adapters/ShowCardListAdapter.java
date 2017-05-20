@@ -4,13 +4,10 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-
 import android.widget.TextView;
 
 import com.stosh.discountstorage.FireBaseSingleton;
@@ -23,17 +20,20 @@ import java.util.List;
 
 /**
  * Created by StoSh on 16-Apr-17.
- */
+ **/
 
 public class ShowCardListAdapter extends ArrayAdapter {
 	private Context context;
 	private int recourse;
 	private List<HashMap<String, Object>> data;
-	private FireBaseSingleton fireBase;
-	private HashMap<String, Object> hashMap;
 	private DrawerFragmentListener listener;
 	
-	public ShowCardListAdapter(@NonNull Context context, @LayoutRes int recourse, @NonNull List<HashMap<String, Object>> data, DrawerFragmentListener listener) {
+	public ShowCardListAdapter(
+			@NonNull Context context,
+			@LayoutRes int recourse,
+			@NonNull List<HashMap<String, Object>> data,
+			DrawerFragmentListener listener
+	) {
 		super(context, recourse, data);
 		this.recourse = recourse;
 		this.context = context;
@@ -57,12 +57,12 @@ public class ShowCardListAdapter extends ArrayAdapter {
 		Button buttonEdit;
 		
 		public void init(View convertView, final int position) {
-			fireBase = FireBaseSingleton.getInstance();
-			hashMap = data.get(position);
+			FireBaseSingleton fireBase = FireBaseSingleton.getInstance();
+			HashMap<String, Object> hashMap = data.get(position);
 			String name = hashMap.get(Const.NAME).toString();
 			String category = hashMap.get(Const.CAT).toString();
 			String creator = hashMap.get(Const.CREATOR).toString();
-			final String idRoom  = hashMap.get(Const.ID_ROOM_LIST).toString();
+			final String idRoom = hashMap.get(Const.ID_ROOM_LIST).toString();
 			final String id = hashMap.get(Const.ID).toString();
 			textViewName = (TextView) convertView.findViewById(R.id.textViewNameShowCards);
 			textViewCategory = (TextView) convertView.findViewById(R.id.textViewCategoryShowCards);

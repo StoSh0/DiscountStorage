@@ -2,10 +2,10 @@ package com.stosh.discountstorage.fragments.auth;
 
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,10 +19,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.interfaces.AuthFragmentListener;
+import com.stosh.discountstorage.interfaces.Const;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +38,6 @@ public class SingUpFragment extends Fragment implements View.OnClickListener, On
 	private AuthFragmentListener listener;
 	private String email, password;
 	private InputMethodManager inputMethodManager;
-	
 	
 	@Override
 	public void onAttach(Context context) {
@@ -100,7 +99,6 @@ public class SingUpFragment extends Fragment implements View.OnClickListener, On
 				btnSingUp.setClickable(false);
 				btnResetPass.setClickable(false);
 				btnSingUpFrag.setClickable(false);
-				
 				inputMethodManager.hideSoftInputFromWindow(btnSingUp.getWindowToken(),
 						InputMethodManager.HIDE_NOT_ALWAYS);
 				break;

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context="com.stosh.discountstorage.activities.MainActivity"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="25dp">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/colorPrimaryDark"
+             tools:context="com.stosh.discountstorage.activities.MainActivity"
+             tools:layout_editor_absoluteX="0dp"
+             tools:layout_editor_absoluteY="25dp">
 
 
     <LinearLayout
@@ -23,7 +23,7 @@
             android:layout_height="@dimen/image_logoWH"
             android:layout_gravity="center"
             android:contentDescription="@string/add"
-            app:srcCompat="@mipmap/icon" />
+            app:srcCompat="@mipmap/icon"/>
 
         <LinearLayout
             android:id="@+id/containerLogin"
@@ -31,7 +31,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             tools:layout_editor_absoluteX="8dp"
-            tools:layout_editor_absoluteY="8dp" />
+            tools:layout_editor_absoluteY="8dp"/>
 
 
     </LinearLayout>

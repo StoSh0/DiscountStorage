@@ -1,9 +1,7 @@
 package com.stosh.discountstorage.activities;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -40,13 +38,11 @@ public class EditActivity extends AppCompatActivity {
 		idRoom = getIntent().getStringExtra(Const.ID_ROOM_LIST);
 	}
 	
-	
 	@OnClick({R.id.btnEdit, R.id.btnEditDelete})
 	public void onButtonClick(Button button) {
 		progressBar.setVisibility(View.VISIBLE);
 		switch (button.getId()) {
 			case R.id.btnEdit:
-				
 				String name = this.name.getText().toString();
 				if (name == null) {
 					this.name.setError(getString(R.string.enter_name));
@@ -60,12 +56,17 @@ public class EditActivity extends AppCompatActivity {
 			case R.id.btnEditDelete:
 				fireBase.deleteCard(idCard);
 				Log.d("qwerty", idCard);
-				fireBase.deleteFromCardList(idRoom,idCard);
+				fireBase.deleteFromCardList(idRoom, idCard);
 				Toast.makeText(this, "Name was change", Toast.LENGTH_LONG).show();
 				progressBar.setVisibility(View.GONE);
 				finish();
 				break;
 		}
-		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		unbinder.unbind();
 	}
 }

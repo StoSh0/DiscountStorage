@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -43,7 +42,6 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 		return fragment;
 	}
 	
-	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
@@ -59,7 +57,6 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 		editTextNameRoom = (EditText) view.findViewById(R.id.editTextNameRoom);
 		editTextPasswordRoom = (EditText) view.findViewById(R.id.editTextPasswordRoom);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBarAddRoom);
-		
 		buttonAdd = (Button) view.findViewById(R.id.btnAddRoom);
 		buttonAdd.setOnClickListener(this);
 		fireBase = FireBaseSingleton.getInstance();
@@ -84,8 +81,6 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 			return;
 		}
 		progressBar.setVisibility(View.VISIBLE);
-		
-		
 		inputMethodManager.hideSoftInputFromWindow(buttonAdd.getWindowToken(),
 				InputMethodManager.HIDE_NOT_ALWAYS);
 		id = creator.toLowerCase().replace(".", "");
@@ -97,11 +92,14 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 		final ValueEventListener listener = new ValueEventListener() {
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
-				
 				Room room = dataSnapshot.getValue(Room.class);
 				if (room == null) {
 					progressBar.setVisibility(View.GONE);
-					Toast.makeText(getActivity(), getString(R.string.data_incorrect), Toast.LENGTH_LONG).show();
+					Toast.makeText(
+							getActivity(),
+							getString(R.string.data_incorrect),
+							Toast.LENGTH_LONG
+					).show();
 					return;
 				}
 				if (!password.equals(room.password)) {
@@ -111,12 +109,15 @@ public class AddRoomFragment extends Fragment implements View.OnClickListener {
 				}
 				progressBar.setVisibility(View.GONE);
 				fireBase.addRoomToList(id);
-				Toast.makeText(getActivity(), getString(R.string.room_added), Toast.LENGTH_LONG).show();
+				Toast.makeText(
+						getActivity(),
+						getString(R.string.room_added),
+						Toast.LENGTH_LONG
+				).show();
 			}
 			
 			@Override
 			public void onCancelled(DatabaseError databaseError) {
-				
 			}
 		};
 		fireBase.checkRoom(id, listener);

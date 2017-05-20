@@ -1,7 +1,6 @@
 package com.stosh.discountstorage;
 
 import android.app.Activity;
-import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
@@ -28,7 +27,6 @@ public class FireBaseSingleton {
 	public static FireBaseSingleton getInstance() {
 		return ourInstance;
 	}
-	
 	
 	private FirebaseAuth.AuthStateListener mAuthListener;
 	private FirebaseAuth mAuth;
@@ -144,13 +142,13 @@ public class FireBaseSingleton {
 		myRef.child(userIdDB).child(Const.DB_ROOMS_LIST).addListenerForSingleValueEvent(listener);
 	}
 	
-	public void getRoom(String id, ValueEventListener listener){
+	public void getRoom(String id, ValueEventListener listener) {
 		init();
 		myRef = database.getReference(Const.DB_ROOMS);
 		myRef.child(id).addListenerForSingleValueEvent(listener);
 	}
 	
-	public void deleteRoom(String id){
+	public void deleteRoom(String id) {
 		init();
 		myRef = database.getReference(Const.DB_ROOMS);
 		myRef.child(id).removeValue();
@@ -190,14 +188,13 @@ public class FireBaseSingleton {
 		myRef.child(cardName + "_" + ID).setValue(card);
 	}
 	
-	
 	public void getCardList(String roomId, ValueEventListener listener) {
 		init();
 		myRef = database.getReference(Const.DB_ROOMS);
 		myRef.child(roomId).child(Const.DB_CARD_LIST).addListenerForSingleValueEvent(listener);
 	}
 	
-	public void reNameCard(String  id, String name){
+	public void reNameCard(String id, String name) {
 		init();
 		myRef = database.getReference(Const.DB_CARDS);
 		myRef.child(id).child("name").setValue(name);
@@ -215,14 +212,11 @@ public class FireBaseSingleton {
 		myRef.child(id).addListenerForSingleValueEvent(listener);
 	}
 	
-	public void deleteCard(String id){
+	public void deleteCard(String id) {
 		init();
 		myRef = database.getReference(Const.DB_CARDS);
 		myRef.child(id).removeValue();
-		
-		
 		myRef = database.getReference(Const.DB_CARDS);
 		myRef.child(id).removeValue();
 	}
-	
 }

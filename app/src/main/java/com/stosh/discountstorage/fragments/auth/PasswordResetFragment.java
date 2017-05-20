@@ -48,7 +48,6 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
 		init();
 		inputMethodManager = (InputMethodManager) getActivity()
 				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		
 		return view;
 	}
 	
@@ -57,10 +56,8 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
 		buttonReset = (Button) view.findViewById(R.id.btnReset);
 		buttonBack = (Button) view.findViewById(R.id.btnResetBack);
 		progressBar = (ProgressBar) view.findViewById(R.id.progressBarResetPassword);
-		
 		buttonReset.setOnClickListener(this);
 		buttonBack.setOnClickListener(this);
-		
 	}
 	
 	@Override
@@ -95,9 +92,7 @@ public class PasswordResetFragment extends Fragment implements View.OnClickListe
 					getActivity(),
 					getString(R.string.send_reset),
 					Toast.LENGTH_SHORT
-			)
-					.show();
-			
+			).show();
 			progressBar.setVisibility(View.GONE);
 			buttonReset.setClickable(true);
 			buttonBack.setClickable(true);

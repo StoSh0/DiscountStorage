@@ -5,12 +5,12 @@
         android:fromXScale="0.1"
         android:fromYScale="0.1"
         android:toXScale="1"
-        android:toYScale="1" />
+        android:toYScale="1"/>
 
     <translate
         android:duration="1000"
         android:fromXDelta="-100%"
         android:fromYDelta="100%"
         android:toXDelta="0%"
-        android:toYDelta="0%" />
+        android:toYDelta="0%"/>
 </set>

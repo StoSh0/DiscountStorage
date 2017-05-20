@@ -1,9 +1,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:background="@color/colorPrimaryDark"
-    tools:context="com.stosh.discountstorage.fragments.drawer.ShowRoomListFragment">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:background="@color/colorPrimaryDark"
+             tools:context="com.stosh.discountstorage.fragments.drawer.ShowRoomListFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,21 +19,18 @@
             android:gravity="center"
             android:text="@string/choose_room"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
 
         <ProgressBar
             android:id="@+id/progressBarShowRoom"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"/>
 
         <ListView
             android:id="@+id/listViewRooms"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-
+            android:layout_height="wrap_content"/>
     </LinearLayout>
-
 </FrameLayout>

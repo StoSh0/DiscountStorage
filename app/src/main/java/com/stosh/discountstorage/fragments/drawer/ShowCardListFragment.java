@@ -38,11 +38,9 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
 	private ProgressBar progressBar;
 	private DrawerFragmentListener drawerFragmentListener;
 	private String roomId;
-	
 	private HashMap<String, Object> hm;
 	private ArrayList<HashMap<String, Object>> cards;
 	private ArrayList<String> cardList;
-	
 	private FireBaseSingleton fireBase;
 	
 	@Override
@@ -94,7 +92,7 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
 			@Override
 			public void onDataChange(DataSnapshot dataSnapshot) {
 				Card card = dataSnapshot.getValue(Card.class);
-				Log.d("qwerty" , dataSnapshot+ "");
+				Log.d("qwerty", dataSnapshot + "");
 				if (card == null) {
 					fireBase.deleteFromCardList(roomId, dataSnapshot.getKey());
 					return;
@@ -122,12 +120,10 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
 	
 	@Override
 	public void onCancelled(DatabaseError databaseError) {
-		
 	}
 	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		
 		String idItem = cardList.get(position);
 		drawerFragmentListener.send(Const.ID_ROOM_LIST, idItem);
 	}

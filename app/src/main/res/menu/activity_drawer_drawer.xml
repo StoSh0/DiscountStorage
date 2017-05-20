@@ -31,7 +31,8 @@
         </menu>
     </item>
 
-    <item android:id="@+id/exit"
+    <item
+        android:id="@+id/exit"
         android:title="@string/sing_out"/>
 
 </menu>

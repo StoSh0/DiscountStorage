@@ -4,8 +4,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 /**
  * Created by StoSh on 19-Mar-17.
- */
-
+ **/
 
 @IgnoreExtraProperties
 public class Card {

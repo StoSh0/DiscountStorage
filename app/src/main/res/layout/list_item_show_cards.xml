@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:baselineAligned="false"
-    android:orientation="horizontal"
-    tools:background="@color/colorPrimaryDark"
-    android:descendantFocusability="blocksDescendants">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:baselineAligned="false"
+              android:orientation="horizontal"
+              tools:background="@color/colorPrimaryDark"
+              android:descendantFocusability="blocksDescendants">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +36,6 @@
                 android:text="@string/this_is_description"
                 android:textColor="@color/white"
                 android:layout_gravity="right"/>
-
         </LinearLayout>
 
         <Button
@@ -45,8 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:textColor="@color/colorAccent"
-            android:text="Edit"
+            android:text="@string/edit"
             android:background="@drawable/selector_white"/>
     </LinearLayout>
-
 </LinearLayout>

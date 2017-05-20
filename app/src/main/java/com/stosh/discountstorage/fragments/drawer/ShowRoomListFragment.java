@@ -39,7 +39,6 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
 	private HashMap<String, Object> hm;
 	private ArrayList<HashMap<String, Object>> rooms;
 	private ArrayList<String> roomList;
-	
 	private FireBaseSingleton fireBase;
 	
 	@Override
@@ -57,7 +56,6 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
 		fragment.setArguments(data == null ? new Bundle() : data);
 		return fragment;
 	}
-	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,7 +97,11 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
 				hm.put(Const.ID, dataSnapshot.getKey());
 				rooms.add(hm);
 				progressBar.setVisibility(View.GONE);
-				listView.setAdapter(new ShowRoomListAdapter(getActivity(), R.layout.list_item_show_rooms, rooms, drawerFragmentListener));
+				listView.setAdapter(
+						new ShowRoomListAdapter(getActivity(),
+								R.layout.list_item_show_rooms, rooms
+						)
+				);
 				listView.setOnItemClickListener(ShowRoomListFragment.this);
 			}
 			

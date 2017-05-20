@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:background="@color/colorPrimaryDark">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:background="@color/colorPrimaryDark">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,50 +14,47 @@
             android:id="@+id/editTextCreatorEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ems="10"
             android:hint="@string/email_of_creator"
             android:inputType="textEmailAddress"
             android:textColor="@color/yellow"
-            android:textColorHint="@color/yellow"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp" />
+            android:textColorHint="@color/yellow"/>
 
         <EditText
             android:id="@+id/editTextNameRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ems="10"
             android:hint="@string/name_room"
             android:inputType="textPersonName"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
-
+            android:textColorHint="@color/white"/>
 
         <EditText
             android:id="@+id/editTextPasswordRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:ems="10"
             android:hint="@string/password_for_room"
             android:inputType="textPassword"
             android:textColor="@color/white"
-            android:textColorHint="@color/white"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
-
+            android:textColorHint="@color/white"/>
 
         <Button
             android:id="@+id/btnAddRoom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@drawable/selector_yellow"
-            android:text="@string/add_room"
             android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"/>
-
+            android:layout_marginRight="16dp"
+            android:background="@drawable/selector_yellow"
+            android:text="@string/add_room"/>
 
         <ProgressBar
             android:id="@+id/progressBarAddRoom"
@@ -65,8 +62,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone" />
-
+            android:visibility="gone"/>
     </LinearLayout>
-
 </FrameLayout>

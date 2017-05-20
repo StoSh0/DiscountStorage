@@ -89,6 +89,4 @@ public class SettingProfileActivity extends AppCompatActivity implements OnCompl
 			finish();
 		}
 	}
-	
-	
 }
