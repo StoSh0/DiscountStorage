@@ -197,6 +197,12 @@ public class FireBaseSingleton {
 		myRef.child(roomId).child(Const.DB_CARD_LIST).addListenerForSingleValueEvent(listener);
 	}
 	
+	public void reNameCard(String  id, String name){
+		init();
+		myRef = database.getReference(Const.DB_CARDS);
+		myRef.child(id).child("name").setValue(name);
+	}
+	
 	public void deleteFromCardList(String idRoom, String idCard) {
 		init();
 		myRef = database.getReference(Const.DB_ROOMS);
@@ -209,10 +215,10 @@ public class FireBaseSingleton {
 		myRef.child(id).addListenerForSingleValueEvent(listener);
 	}
 	
-	public void delCard(String id, String nameRoom){
+	public void deleteCard(String id){
 		init();
-		myRef = database.getReference(Const.DB_ROOMS);
-		myRef.child(nameRoom + "_" + (userEmail.toLowerCase().replace(".", ""))).child(Const.DB_CARD_LIST).child(id).removeValue();
+		myRef = database.getReference(Const.DB_CARDS);
+		myRef.child(id).removeValue();
 		
 		
 		myRef = database.getReference(Const.DB_CARDS);

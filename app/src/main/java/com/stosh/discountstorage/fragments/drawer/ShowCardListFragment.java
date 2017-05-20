@@ -20,10 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.stosh.discountstorage.FireBaseSingleton;
 import com.stosh.discountstorage.R;
 import com.stosh.discountstorage.adapters.ShowCardListAdapter;
-import com.stosh.discountstorage.adapters.ShowRoomListAdapter;
 import com.stosh.discountstorage.database.Card;
-import com.stosh.discountstorage.database.CardList;
-import com.stosh.discountstorage.database.Room;
 import com.stosh.discountstorage.database.RoomList;
 import com.stosh.discountstorage.interfaces.Const;
 import com.stosh.discountstorage.interfaces.DrawerFragmentListener;
@@ -39,7 +36,7 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
 	private TextView textView;
 	private ListView listView;
 	private ProgressBar progressBar;
-	private DrawerFragmentListener listenerq;
+	private DrawerFragmentListener drawerFragmentListener;
 	private String roomId;
 	
 	private HashMap<String, Object> hm;
@@ -52,7 +49,7 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		try {
-			listenerq = (DrawerFragmentListener) context;
+			drawerFragmentListener = (DrawerFragmentListener) context;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(context.toString() + "Must implement ListenerHand");
 		}
@@ -82,7 +79,13 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
 	@Override
 	public void onDataChange(DataSnapshot dataSnapshot) {
 		cardList = new ArrayList<>();
+		if (dataSnapshot.getValue() == null) {
+			progressBar.setVisibility(View.GONE);
+			textView.setText(getString(R.string.add_card_first));
+			return;
+		}
 		for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
+			
 			RoomList roomList = roomsDataSnapshot.getValue(RoomList.class);
 			cardList.add(roomList.ID);
 		}
@@ -100,17 +103,17 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
 				hm.put(Const.NAME, card.name);
 				hm.put(Const.CAT, card.category);
 				hm.put(Const.CREATOR, card.creator);
+				hm.put(Const.ID_ROOM_LIST, roomId);
+				hm.put(Const.ID, dataSnapshot.getKey());
 				cards.add(hm);
 				progressBar.setVisibility(View.GONE);
-				listView.setAdapter(new ShowCardListAdapter(getActivity(), R.layout.list_item_show_cards, cards, listenerq));
+				listView.setAdapter(new ShowCardListAdapter(getActivity(), R.layout.list_item_show_cards, cards, drawerFragmentListener));
 				listView.setOnItemClickListener(ShowCardListFragment.this);
 			}
 			
 			@Override
 			public void onCancelled(DatabaseError databaseError) {
 			}
-			
-			
 		};
 		for (String id : cardList) {
 			fireBase.getCard(id, listener);
@@ -126,6 +129,6 @@ public class ShowCardListFragment extends Fragment implements ValueEventListener
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		
 		String idItem = cardList.get(position);
-		listenerq.send(Const.ID_ROOM_LIST, idItem);
+		drawerFragmentListener.send(Const.ID_ROOM_LIST, idItem);
 	}
 }

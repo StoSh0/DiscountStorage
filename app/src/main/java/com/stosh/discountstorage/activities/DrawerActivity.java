@@ -213,18 +213,16 @@ public class DrawerActivity extends AppCompatActivity implements
 				intent.putExtra(Const.ID, code);
 				startActivity(intent);
 				break;
-			case Const.EDIT_ROOM:
-				Intent intent1 = new Intent(this, EditActivity.class);
-				intent1.putExtra(Const.ID, code);
-				intent1.putExtra(Const.TYPE, Const.EDIT_ROOM);
-				startActivity(intent1);
-				break;
-			case Const.EDIT_CARD:
-				Intent intent2 = new Intent(this, EditActivity.class);
-				intent2.putExtra(Const.ID, code);
-				intent2.putExtra(Const.TYPE, Const.EDIT_CARD);
-				startActivity(intent2);
-				break;
+			
+				
 		}
+	}
+	
+	@Override
+	public void edit(String id, String idRoom) {
+		Intent intentEdit = new Intent(this, EditActivity.class);
+		intentEdit.putExtra(Const.ID, id);
+		intentEdit.putExtra(Const.ID_ROOM_LIST, idRoom);
+		startActivity(intentEdit);
 	}
 }

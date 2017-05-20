@@ -6,4 +6,5 @@ package com.stosh.discountstorage.interfaces;
 
 public interface DrawerFragmentListener {
 	void send(String id, String code);
+	void edit(String id, String idRoom);
 }

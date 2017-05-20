@@ -62,23 +62,20 @@ public class ShowCardListAdapter extends ArrayAdapter {
 			String name = hashMap.get(Const.NAME).toString();
 			String category = hashMap.get(Const.CAT).toString();
 			String creator = hashMap.get(Const.CREATOR).toString();
+			final String idRoom  = hashMap.get(Const.ID_ROOM_LIST).toString();
+			final String id = hashMap.get(Const.ID).toString();
 			textViewName = (TextView) convertView.findViewById(R.id.textViewNameShowCards);
 			textViewCategory = (TextView) convertView.findViewById(R.id.textViewCategoryShowCards);
 			textViewName.setText(name);
 			textViewCategory.setText(category);
 			buttonEdit = (Button) convertView.findViewById(R.id.btnEditShowCards);
-			if (!creator.equals(fireBase.getUserEmail())){
+			if (!creator.equals(fireBase.getUserEmail())) {
 				buttonEdit.setVisibility(View.GONE);
-				
 			}
 			buttonEdit.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					//listener.send(Const.EDIT_CARD, hashMap.get(Const.ID).toString());
-					/*fireBase.deleteRoom(hashMap.get(Const.ID).toString());
-					fireBase.deleteFromRoomList(hashMap.get(Const.ID).toString());
-					textViewName.setText("Room was removed, please update list");
-					textViewName.setTextSize(20);*/
+					listener.edit(id, idRoom);
 				}
 			});
 		}

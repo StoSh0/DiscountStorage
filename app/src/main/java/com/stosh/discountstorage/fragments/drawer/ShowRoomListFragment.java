@@ -35,7 +35,7 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
 	private TextView textView;
 	private ListView listView;
 	private ProgressBar progressBar;
-	private DrawerFragmentListener listenerq;
+	private DrawerFragmentListener drawerFragmentListener;
 	private HashMap<String, Object> hm;
 	private ArrayList<HashMap<String, Object>> rooms;
 	private ArrayList<String> roomList;
@@ -46,7 +46,7 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		try {
-			listenerq = (DrawerFragmentListener) context;
+			drawerFragmentListener = (DrawerFragmentListener) context;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(context.toString() + "Must implement ListenerHand");
 		}
@@ -99,7 +99,7 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
 				hm.put(Const.ID, dataSnapshot.getKey());
 				rooms.add(hm);
 				progressBar.setVisibility(View.GONE);
-				listView.setAdapter(new ShowRoomListAdapter(getActivity(), R.layout.list_item_show_rooms, rooms, listenerq));
+				listView.setAdapter(new ShowRoomListAdapter(getActivity(), R.layout.list_item_show_rooms, rooms, drawerFragmentListener));
 				listView.setOnItemClickListener(ShowRoomListFragment.this);
 			}
 			
@@ -121,6 +121,6 @@ public class ShowRoomListFragment extends Fragment implements ValueEventListener
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		String idItem = roomList.get(position);
-		listenerq.send(Const.ID_CARD, idItem);
+		drawerFragmentListener.send(Const.ID_CARD, idItem);
 	}
 }
