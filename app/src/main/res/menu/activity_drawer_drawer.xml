@@ -12,7 +12,7 @@
             android:title="@string/enter_barcode"/>
         <item
             android:id="@+id/nav_show"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/show"
             android:title="@string/show_list_rooms"/>
     </group>
 
@@ -21,7 +21,7 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/nav_create"
-                    android:icon="@drawable/ic_menu_gallery"
+                    android:icon="@drawable/plus"
                     android:title="@string/create_room"/>
                 <item
                     android:id="@+id/nav_connect"
@@ -33,6 +33,7 @@
 
     <item
         android:id="@+id/exit"
+        android:icon="@drawable/exit"
         android:title="@string/sing_out"/>
 
 </menu>
