@@ -100,7 +100,7 @@ public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListe
 						textViewName.setTextSize(20);
 					} else {
 						fireBase.getCardList(id, ShowRoomListAdapter.this);
-						textViewName.setText(getString(R.string.room_remove));
+						textViewName.setText(context.getString(R.string.room_remove));
 						textViewName.setTextSize(20);
 						buttonDell.setVisibility(View.GONE);
 					}
