@@ -34,8 +34,7 @@ public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListe
 	private List<HashMap<String, Object>> data;
 	private Context context;
 	private FireBaseSingleton fireBase;
-	private String creator;
-	private String id;
+	private String id_q;
 	
 	public ShowRoomListAdapter(
 			@NonNull Context context,
@@ -62,8 +61,8 @@ public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListe
 	public void onDataChange(DataSnapshot dataSnapshot) {
 		ArrayList<String> cardList = new ArrayList<>();
 		Log.d("qwerty", "cccccc" + dataSnapshot);
-		fireBase.deleteRoom(id);
-		fireBase.deleteFromRoomList(id);
+		fireBase.deleteRoom(id_q);
+		fireBase.deleteFromRoomList(id_q);
 		for (DataSnapshot roomsDataSnapshot : dataSnapshot.getChildren()) {
 			RoomList roomList = roomsDataSnapshot.getValue(RoomList.class);
 			cardList.add(roomList.ID);
@@ -86,8 +85,8 @@ public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListe
 			fireBase = FireBaseSingleton.getInstance();
 			HashMap<String, Object> itemHashMap = data.get(position);
 			String name = itemHashMap.get(Const.NAME).toString();
-			creator = itemHashMap.get(Const.CREATOR).toString();
-			id = itemHashMap.get(Const.ID).toString();
+			final String creator = itemHashMap.get(Const.CREATOR).toString();
+			final String id = itemHashMap.get(Const.ID).toString();
 			textViewName = (TextView) convertView.findViewById(R.id.textViewNameShowRooms);
 			textViewSub = (TextView) convertView.findViewById(R.id.textViewSubShowRooms);
 			buttonDell = (Button) convertView.findViewById(R.id.btnDellShowRooms);
@@ -96,12 +95,15 @@ public class ShowRoomListAdapter extends ArrayAdapter implements ValueEventListe
 				public void onClick(View v) {
 					if (!creator.equals(fireBase.getUserEmail())) {
 						fireBase.deleteFromRoomList(id);
-						textViewName.setText(getString(R.string.room_remove));
-						textViewName.setTextSize(20);
+						textViewName.setText(context.getString(R.string.room_remove));
+						textViewName.setTextSize(15);
+						textViewSub.setVisibility(View.GONE);
 					} else {
+						id_q = id;
 						fireBase.getCardList(id, ShowRoomListAdapter.this);
 						textViewName.setText(context.getString(R.string.room_remove));
-						textViewName.setTextSize(20);
+						textViewName.setTextSize(15);
+						textViewSub.setVisibility(View.GONE);
 						buttonDell.setVisibility(View.GONE);
 					}
 				}
