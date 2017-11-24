@@ -27,7 +27,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/enter"
-            android:background="@drawable/selector_yellow"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"/>
     </LinearLayout>

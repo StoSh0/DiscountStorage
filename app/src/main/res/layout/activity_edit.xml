@@ -14,8 +14,7 @@
         <ImageView
             android:id="@+id/imageView5"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@mipmap/icon"/>
+            android:layout_height="match_parent"/>
     </FrameLayout>
 
     <LinearLayout
@@ -62,7 +61,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/selector_yellow"
+
                 android:text="@string/rename"/>
 
             <Button
@@ -73,7 +72,6 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_weight="1"
-                android:background="@drawable/selector_yellow"
                 android:text="@string/delete"/>
         </LinearLayout>
 

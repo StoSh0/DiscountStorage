@@ -3,7 +3,6 @@ package com.stosh.discountstorage.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -39,7 +38,6 @@ public class CreateCardSpinnerAdapter extends ArrayAdapter {
 		if (convertView == null)
 			convertView = View.inflate(context, recourse, null);
 		String id = objects.get(position);
-		Log.d("qwerty", id);
 		TextView name = (TextView) convertView.findViewById(R.id.textViewSpinnerCreateCard);
 		name.setText(id);
 		return convertView;

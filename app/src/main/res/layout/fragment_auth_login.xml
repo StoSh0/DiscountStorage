@@ -57,7 +57,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="@dimen/marginTop"
-            android:background="@drawable/selector_yellow"
             android:gravity="center"
             android:text="@string/login"
             android:textSize="15sp"/>
@@ -69,7 +68,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="@dimen/marginTop"
-            android:background="@drawable/selector_white"
             android:text="@string/forgot_pass"
             android:textAllCaps="false"
             android:textColor="@color/yellow"/>
@@ -81,7 +79,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginTop="@dimen/marginTop"
-            android:background="@drawable/selector_white"
             android:text="@string/not_reg"
             android:textAllCaps="false"
             android:textColor="@color/white"/>
