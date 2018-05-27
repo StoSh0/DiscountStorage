@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.stosh.discountstorage.FireBaseSingleton;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements AuthFragmentListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_auth);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		FirebaseApp.initializeApp(this);
 		fireBase = FireBaseSingleton.getInstance();
 		unbinder = ButterKnife.bind(this);
 		fireBase.check(this);

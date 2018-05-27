@@ -15,12 +15,32 @@
       },
       "oauth_client": [
         {
+          "client_id": "334062287676-i0kl154ur8e2ef0c2f2c5jebaop5pba4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stosh.discountstorage",
+            "certificate_hash": "a48b8c989cb48c672845b1ee727af62b23337e34"
+          }
+        },
+        {
+          "client_id": "334062287676-jdj0mmojsb9dd7u8kcjqrs9s9e7htvk1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stosh.discountstorage",
+            "certificate_hash": "87d1a52456abae8c8f67667fe3c174785f84833d"
+          }
+        },
+        {
           "client_id": "334062287676-j97c62gf2emunlhc8g875esneqlutv79.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.stosh.discountstorage",
             "certificate_hash": "88f967ad6595bb11e6bc2d268016ebc095ca30bf"
           }
+        },
+        {
+          "client_id": "334062287676-cminh2j6lu2gcibigltkgk1crau0m05d.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "334062287676-cminh2j6lu2gcibigltkgk1crau0m05d.apps.googleusercontent.com",

@@ -1,24 +1,85 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+
     repositories {
         jcenter()
+        mavenCentral()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
-
+        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath "io.realm:realm-gradle-plugin:5.0.0"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
-        classpath 'com.google.gms:google-services:3.0.0'
+        classpath 'com.google.gms:google-services:3.1.1'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        mavenCentral()
+        maven { url "https://maven.google.com" }
+
+        google()
     }
 }
 
+
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    compileSdkVersionValue = 26
+    buildToolsVersionValue = "26.0.2"
+
+    minSdkVersionValue = 21
+    targetSdkVersionValue = 26
+
+    versionCodeValue = 1
+    versionNameValue = "0.0.1"
+
+    multiDexEnabledValue = true
+    shrinkResourceValue = false
+    minifyEnabledValue = false
+
+    supportLibraryVersion = '27.1.0'
+    supportConstrainVersion = '1.1.0-beta3'
+    firebaseVersion = '11.8.0'
+    daggerVersion = '2.15'
+    butterKnifeVersion = '8.8.1'
+
+
+    supportDependencies = [
+            appCompat       : "com.android.support:appcompat-v7:${supportLibraryVersion}",
+            support         : "com.android.support:support-v4:${supportLibraryVersion}",
+            design          : "com.android.support:design:${supportLibraryVersion}",
+            palette         : "com.android.support:palette-v7:${supportLibraryVersion}",
+            annotations     : "com.android.support:support-annotations:${supportLibraryVersion}",
+            recyclerview    : "com.android.support:recyclerview-v7:${supportLibraryVersion}",
+            cardview        : "com.android.support:cardview-v7:${supportLibraryVersion}",
+            customTabs      : "com.android.support:customtabs:${supportLibraryVersion}",
+            constraintLayout: "com.android.support.constraint:constraint-layout:${supportConstrainVersion}"
+    ]
+
+    firebaseDependencies = [
+            database: "com.google.firebase:firebase-database:${firebaseVersion}",
+            core    : "com.google.firebase:firebase-core:${firebaseVersion}",
+            crash   : "com.google.firebase:firebase-crash:${firebaseVersion}",
+            auth    : "com.google.firebase:firebase-auth:${firebaseVersion}",
+            message : "com.google.firebase:firebase-messaging:${firebaseVersion}",
+            storage : "com.google.firebase:firebase-storage:${firebaseVersion}"
+    ]
+
+    butterknifeDependencies = [
+            butterKnife: "com.jakewharton:butterknife:${butterKnifeVersion}",
+            compiler   : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}"
+    ]
+
+    libDependencies = [
+            zxing  : "com.journeyapps:zxing-android-embedded:3.6.0",
+            embeded: "com.journeyapps:zxing-android-embedded:3.2.0@aar"
+    ]
 }
